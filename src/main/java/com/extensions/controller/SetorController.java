@@ -67,7 +67,7 @@ public class SetorController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = SetorDTO.class))
     })
     @PostMapping
-    public ResponseEntity add(@RequestBody SetorDTO setorDTO) {
+    public ResponseEntity<Optional<SetorDTO>> add(@RequestBody SetorDTO setorDTO) {
         try {
             log.info("Adicionar um novo setor");
             if (setorDTO != null) {

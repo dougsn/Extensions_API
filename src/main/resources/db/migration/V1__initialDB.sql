@@ -22,3 +22,7 @@ CREATE TABLE funcionarios (
     FOREIGN KEY (fk_id_setores)
         REFERENCES setores(id)
 );
+
+INSERT INTO setores (name) VALUE ("Geral");
+
+INSERT INTO funcionarios (name, ramal, email, fk_id_setores) VALUES ("Douglas Nascimento", "266", "douglas.nascimento@renave.ind.br", 1)

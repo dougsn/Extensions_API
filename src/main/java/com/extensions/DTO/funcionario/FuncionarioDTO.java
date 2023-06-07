@@ -7,6 +7,6 @@ public record FuncionarioDTO(
         String name,
         String ramal,
         String email,
-        SetorDTO setorDTO
+        SetorDTO setor
 ) {
 }
