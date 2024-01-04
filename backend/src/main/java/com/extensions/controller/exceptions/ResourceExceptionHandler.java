@@ -1,6 +1,6 @@
 package com.extensions.controller.exceptions;
 
-import com.estudos.services.exceptions.*;
+import com.extensions.services.exceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -154,17 +154,5 @@ public class ResourceExceptionHandler {
         StandardError error =
                 new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-    @ExceptionHandler(FileStorageException.class)
-    public ResponseEntity<StandardError> fileStorageException(FileStorageException ex, HttpServletRequest request) {
-        StandardError error =
-                new StandardError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }
-    @ExceptionHandler(MyFileNotFoundException.class)
-    public ResponseEntity<StandardError> myFileNotFoundException(MyFileNotFoundException ex, HttpServletRequest request) {
-        StandardError error =
-                new StandardError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

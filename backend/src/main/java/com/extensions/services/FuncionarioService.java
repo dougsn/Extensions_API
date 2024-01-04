@@ -47,7 +47,7 @@ public class FuncionarioService {
 
         Optional<Setor> setorToFuncionario;
 
-        setorToFuncionario = setorRepository.findById(funcionarioDTO.setor().id());
+        setorToFuncionario = setorRepository.findById(funcionarioDTO.setor().getId());
 
         if (funcionarioDTO == null || repository.findByName(funcionarioDTO.name()).isPresent()) {
             return Optional.of(null);
@@ -69,7 +69,7 @@ public class FuncionarioService {
 
         Optional<Setor> setorToFuncionario;
 
-        setorToFuncionario = setorRepository.findById(funcionarioDTO.setor().id());
+        setorToFuncionario = setorRepository.findById(funcionarioDTO.setor().getId());
 
         if (funcionarioDTO == null || setorRepository.findByName(funcionarioDTO.name()).isPresent()) {
             return Optional.of(null);
