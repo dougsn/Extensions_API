@@ -16,5 +16,5 @@ public class SetorDTO extends RepresentationModel<SetorDTO> implements Serializa
     private String id;
     @Schema(type = "string", example = "John Doe ...")
     @NotBlank(message = "O campo [nome] é obrigatório.")
-    private String name;
+    private String nome;
 }

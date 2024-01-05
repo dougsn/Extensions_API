@@ -12,5 +12,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SetorDTOSwagger implements Serializable {
     private String id;
-    private String name;
+    private String nome;
 }

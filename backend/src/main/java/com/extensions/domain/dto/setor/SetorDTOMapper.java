@@ -11,7 +11,7 @@ public class SetorDTOMapper implements Function<Setor, SetorDTO> {
     public SetorDTO apply(Setor setor) {
         return new SetorDTO(
                 setor.getId(),
-                setor.getName()
+                setor.getNome()
         );
     }
 }

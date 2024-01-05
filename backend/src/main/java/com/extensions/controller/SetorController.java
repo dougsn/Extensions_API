@@ -55,7 +55,7 @@ public class SetorController {
     ) {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "nome"));
         return ResponseEntity.ok(service.findAll(pageable));
     }
 

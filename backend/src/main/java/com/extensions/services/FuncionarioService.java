@@ -71,7 +71,7 @@ public class FuncionarioService {
 
         setorToFuncionario = setorRepository.findById(funcionarioDTO.setor().getId());
 
-        if (funcionarioDTO == null || setorRepository.findByName(funcionarioDTO.name()).isPresent()) {
+        if (funcionarioDTO == null || setorRepository.findByNome(funcionarioDTO.name()).isPresent()) {
             return Optional.of(null);
         } else {
             Funcionario funcionarioUpdate = new Funcionario(

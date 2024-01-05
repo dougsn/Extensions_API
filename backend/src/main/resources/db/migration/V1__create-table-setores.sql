@@ -15,11 +15,6 @@ create table setores (
 --    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 --);
 --
---CREATE TABLE setores (
---    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
---    name VARCHAR(30) NOT NULL
---);
---
 --CREATE TABLE funcionarios (
 --    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 --    name VARCHAR(30) NOT NULL,
@@ -30,7 +25,3 @@ create table setores (
 --    FOREIGN KEY (fk_id_setores)
 --        REFERENCES setores(id)
 --);
---
---INSERT INTO setores (name) VALUE ("Geral");
---
---INSERT INTO funcionarios (name, ramal, email, fk_id_setores) VALUES ("Douglas Nascimento", "266", "douglas.nascimento@renave.ind.br", 1)

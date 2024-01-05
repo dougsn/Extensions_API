@@ -17,5 +17,5 @@ public class Setor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String name;
+    private String nome;
 }

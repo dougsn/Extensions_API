@@ -17,7 +17,9 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -46,7 +48,6 @@ public class SetorService {
         return assembler.toModel(dtoList, link);
     }
 
-
     @Transactional(readOnly = true)
     public SetorDTO findById(String id) {
         logger.info("Buscando setor de id: " + id);
@@ -62,22 +63,22 @@ public class SetorService {
 
     public SetorDTO add(SetorDTO data) {
         logger.info("Adicionando um novo setor.");
-        checkingSectorWithTheSameName(data.getName());
+        checkingSectorWithTheSameName(data.getNome());
 
-        Setor newSetor = repository.save(new Setor(null, data.getName()));
+        Setor newSetor = repository.save(new Setor(null, data.getNome()));
 
         return mapper.apply(newSetor)
-                .add(linkTo(methodOn(SetorController.class).findById(data.getId())).withSelfRel());
+                .add(linkTo(methodOn(SetorController.class).findById(newSetor.getId())).withSelfRel());
     }
 
     @Transactional
     public SetorDTO update(SetorDTO data) {
         logger.info("Atualizando setor de id" + data.getId());
-        checkingSectorWithTheSameName(data.getName());
+        checkingSectorWithTheSameName(data.getNome());
 
         Setor updatedSetor = repository.findById(data.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Setor de id: " + data.getId() + " não encontrado."));
-        updatedSetor.setName(data.getName());
+        updatedSetor.setNome(data.getNome());
 
         return mapper.apply(repository.save(updatedSetor))
                 .add(linkTo(methodOn(SetorController.class).findById(data.getId())).withSelfRel());
@@ -96,7 +97,7 @@ public class SetorService {
 
     @Transactional(readOnly = true)
     public void checkingSectorWithTheSameName(String nome) {
-        if (repository.findByName(nome).isPresent())
+        if (repository.findByNome(nome).isPresent())
             throw new DataIntegratyViolationException("O setor com de nome: " + nome + " ja existe!");
 
     }
