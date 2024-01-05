@@ -4,64 +4,51 @@ import com.extensions.domain.dto.auth.AuthenticationRequest;
 import com.extensions.domain.dto.auth.AuthenticationResponse;
 import com.extensions.domain.dto.auth.RegisterRequest;
 import com.extensions.domain.dto.user.UserInfoDTO;
-import com.extensions.repository.IUserRepository;
 import com.extensions.services.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@CrossOrigin(origins = "*") // Liberando o controlador dos CORS
-@RequestMapping("/authentication")
+@RequestMapping("/api/auth/v1")
 @Tag(description = "Registro e Login na aplicação", name = "Autenticação")
-@RequiredArgsConstructor
 public class AuthenticationController {
-
-    private final IUserRepository repository;
     @Autowired
     private AuthenticationService service;
 
-    @Operation(summary = "Criar conta na aplicação")
-    @ApiResponse(responseCode = "201", description = "Sucesso", content = {
+    @Operation(summary = "Criar conta no aplicativo")
+    @ApiResponse(responseCode = "201", description = "Created", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterRequest.class))
     })
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) throws Exception {
-        if (repository.findByEmail(request.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } else {
-            return new ResponseEntity<>(service.register(request), HttpStatus.CREATED);
-        }
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
+        AuthenticationResponse newUser = service.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+
     }
 
-    @Operation(summary = "Entrar no sistema")
-    @ApiResponse(responseCode = "200", description = "Sucesso", content = {
+    @Operation(summary = "Faça login no sistema")
+    @ApiResponse(responseCode = "200", description = "Success", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationRequest.class))
     })
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody AuthenticationRequest request) throws Exception {
+    public ResponseEntity<AuthenticationResponse> authentication(@Valid @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @Operation(summary = "Verificar que está logado no sistema")
-    @ApiResponse(responseCode = "200", description = "Sucesso", content = {
+    @Operation(summary = "Obtenha informações do usuário logado")
+    @ApiResponse(responseCode = "200", description = "Success", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = UserInfoDTO.class))
     })
     @GetMapping
-    public ResponseEntity<Optional<UserInfoDTO>> infoUser() {
-        try {
-            return ResponseEntity.ok(service.infoUser());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<UserInfoDTO> infoUser() {
+        return ResponseEntity.ok(service.infoUser());
     }
 }

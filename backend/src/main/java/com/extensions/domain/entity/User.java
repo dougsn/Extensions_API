@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,28 +18,38 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user")
-@Table(name="user")
+@Entity
+@Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String email;
-    String password;
-    @Enumerated(EnumType.STRING)
-    Role role;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+    private String username;
+    private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_permission", joinColumns = {@JoinColumn(name = "id_user")},
+            inverseJoinColumns = {@JoinColumn(name = "id_permission")}
+    )
+    private List<Permission> permissions;
+
+    public List<String> getRoles() {
+        List<String> roles = new ArrayList<>();
+        for (Permission permission : permissions) {
+            roles.add(permission.getDescription());
+        }
+        return roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_".concat(role.name())));
+        return List.of(new SimpleGrantedAuthority(getRoles().toString()));
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

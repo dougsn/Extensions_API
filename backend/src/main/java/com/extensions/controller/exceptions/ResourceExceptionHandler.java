@@ -30,14 +30,14 @@ public class ResourceExceptionHandler {
     private MessageSource messageSource;
 
     // Generic exceptions
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<StandardError> handleUnexpectedException(HttpServletRequest request) {
-        StandardError error =
-                new StandardError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        "Erro inesperado, verifique os logs.", request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-
-    }
+//    @ExceptionHandler(Throwable.class)
+//    public ResponseEntity<StandardError> handleUnexpectedException(HttpServletRequest request) {
+//        StandardError error =
+//                new StandardError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                        "Erro inesperado, verifique os logs.", request.getRequestURI());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+//
+//    }
 
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<StandardError> handleExceptionHttpClient(HttpServletRequest request, HttpClientErrorException ex) {

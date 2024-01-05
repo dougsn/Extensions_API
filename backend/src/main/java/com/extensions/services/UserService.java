@@ -1,75 +1,98 @@
 package com.extensions.services;
 
+import com.extensions.controller.SetorController;
+import com.extensions.controller.UserController;
 import com.extensions.domain.dto.user.UserDTO;
 import com.extensions.domain.dto.user.UserDTOMapper;
 import com.extensions.domain.dto.user.UserUpdateDTO;
+import com.extensions.domain.dto.user.UserUpdateDTOMapper;
 import com.extensions.domain.entity.User;
 import com.extensions.repository.IUserRepository;
+import com.extensions.services.exceptions.DataIntegratyViolationException;
+import com.extensions.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final Logger logger = Logger.getLogger(UserService.class.getName());
 
-    private final UserDTOMapper userDTOMapper;
-    private final IUserRepository userRepository;
+    private final UserDTOMapper mapper;
+    private final UserUpdateDTOMapper updateMapper;
+    private final IUserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
 
-
-    public List<UserDTO> findAll(){
-
-        Stream<UserDTO> user;
-        user = userRepository.findAll().stream().map(userDTOMapper);
-        return user.toList();
+    @Transactional(readOnly = true)
+    public List<UserDTO> findAll() {
+        return repository.findAll().stream()
+                .map(mapper)
+                .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public UserDTO findById(String id) {
+        logger.info("Buscando setor de id: " + id);
+        var user = repository.findById(id)
+                .map(mapper)
+                .orElseThrow(() -> new ObjectNotFoundException("Usuário de id: " + id + " não encontrado"));
+        user.add(linkTo(methodOn(SetorController.class).findById(id)).withSelfRel());
 
-    public Optional<UserDTO> findById(Long id) {
+        return user;
+    }
 
-        Optional<UserDTO> user;
-        user = userRepository.findById(id).map(userDTOMapper);
-        if (user.isPresent()){
-            return user;
+    public UserDTO updateUser(UserUpdateDTO request) {
+        userAlreadyRegistered(request);
+        logger.info("Atualizando usuario");
+
+        var userExisting = repository.findById(request.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado para ser atualizado."));
+
+        var user = User.builder()
+                .id(request.getId())
+                .username(request.getName())
+                .build();
+        if (request.getPassword() == null || request.getPassword().isEmpty()) {
+            user.setPassword(userExisting.getPassword());
         } else {
-            return Optional.of(null);
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
+        if (request.getPermissions() == null || request.getPermissions().isEmpty()) {
+            user.setPermissions(userExisting.getPermissions());
+        } else {
+            user.setPermissions(request.getPermissions());
+        }
+
+
+        return mapper.apply(repository.save(user))
+                .add(linkTo(methodOn(UserController.class).findById(request.getId())).withSelfRel());
     }
 
-    public Boolean hardDeleteUser(Long id) {
-        if(userRepository.findById(id).isPresent()){
-            userRepository.deleteById(id);
+    public Boolean delete(String id) {
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
             return true;
         }
         return false;
     }
 
-    public Optional<UserDTO>updateUser(UserUpdateDTO user){
+    @Transactional(readOnly = true)
+    public void userAlreadyRegistered(UserUpdateDTO data) {
+        Optional<User> userLogin = repository.findByUsername(data.getName());
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getName();
-        String idUser = (String) principal;
-        User userEntity = userRepository.findByEmail(idUser).get();
-
-        if (user != null && userRepository.findByEmail(user.email()).isEmpty() || Objects.equals(userEntity.getEmail(), user.email())) {
-            User userToUpdate = new User(
-                    user.id(),
-                    user.name(),
-                    user.email(),
-                    user.password(),
-                    user.role()
-            );
-            userToUpdate.setPassword(passwordEncoder.encode(userToUpdate.getPassword()));
-            return Optional.of(userDTOMapper.apply(userRepository.saveAndFlush(userToUpdate)));
-        }
-        return Optional.of(null);
+        if (userLogin.isPresent() && !userLogin.get().getId().equals(data.getId()))
+            throw new DataIntegratyViolationException("User already registered.");
     }
 
 }

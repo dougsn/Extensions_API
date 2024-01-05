@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class UserInfoDTOMapper implements Function<User, UserInfoDTO> {
+public class UserUpdateDTOMapper implements Function<User, UserUpdateDTO> {
     @Override
-    public UserInfoDTO apply(User user) {
-        return new UserInfoDTO(
+    public UserUpdateDTO apply(User user) {
+        return new UserUpdateDTO(
                 user.getId(),
                 user.getUsername(),
+                user.getPassword(),
                 user.getPermissions()
         );
     }

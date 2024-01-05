@@ -1,5 +1,13 @@
+cors:
+  originPatterns: {CORS_URL}
 spring:
   profiles:
     active: ${APP_PROFILE:prod}
   jwt:
     secret: ${JWT_SECRET}
+spring-doc:
+  pathsToMatch:
+    - /auth/**
+    - /api/**/v1/**
+  swagger-ui:
+    use-root-path: true

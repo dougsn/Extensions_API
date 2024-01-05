@@ -22,8 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/setor")
+@RequestMapping("/api/setor/v1")
 @Tag(description = "Setores da aplicação", name = "Setor")
 public class SetorController {
 

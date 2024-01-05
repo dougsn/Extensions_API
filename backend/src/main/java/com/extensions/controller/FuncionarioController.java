@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/funcionario")
-@CrossOrigin("*")
+@RequestMapping("/api/funcionario/v1")
 @Tag(description = "Funcionários da aplicação", name = "Funcionário")
 public class FuncionarioController {
 
