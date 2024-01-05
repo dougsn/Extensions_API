@@ -29,7 +29,6 @@ public class UserService {
     private final Logger logger = Logger.getLogger(UserService.class.getName());
 
     private final UserDTOMapper mapper;
-    private final UserUpdateDTOMapper updateMapper;
     private final IUserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
@@ -80,6 +79,7 @@ public class UserService {
     }
 
     public Boolean delete(String id) {
+        logger.info("Deletando usuario");
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;

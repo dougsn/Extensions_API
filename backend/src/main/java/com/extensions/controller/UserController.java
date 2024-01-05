@@ -30,6 +30,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
     })
     @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
         List<UserDTO> list = service.findAll();
@@ -40,7 +41,6 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Success", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
     })
-    @PreAuthorize("hasRole('COMMON_USER')")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id) {
@@ -63,6 +63,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
     })
     @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> harDeleteUser(@PathVariable String id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
