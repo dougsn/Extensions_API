@@ -58,7 +58,6 @@ public class SetorService {
     }
 
     @Transactional
-
     public SetorDTO add(SetorDTO data) {
         logger.info("Adicionando um novo setor.");
         checkingSectorWithTheSameName(data.getNome());
