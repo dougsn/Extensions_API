@@ -1,7 +1,7 @@
-package com.extensions.config.testcontainers.swagger;
+package com.extensions.integrationtests.testcontainers.swagger;
 
 import com.extensions.config.TestConfigs;
-import com.extensions.config.testcontainers.AbstractIntegrationTest;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

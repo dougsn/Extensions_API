@@ -1,4 +1,4 @@
-package com.extensions.config.testcontainers;
+package com.extensions.integrationtests.testcontainers;
 
 
 import org.springframework.context.ApplicationContextInitializer;
