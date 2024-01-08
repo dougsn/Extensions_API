@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity(name = "setores")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Setor implements Serializable {
@@ -18,4 +16,27 @@ public class Setor implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String nome;
+
+    public Setor() {}
+
+    public Setor(String id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }

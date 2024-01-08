@@ -5,15 +5,19 @@ import com.extensions.domain.entity.Setor;
 
 public class MockSetor {
 
-    public static final String UUID_MOCK = "7bf808f8-da36-44ea-8fbd-79653a80023e";
 
-
-    public Setor mockEntity() {
-        return new Setor(UUID_MOCK, "TI");
+    public Setor mockEntity(String id) {
+        Setor setor = new Setor();
+        setor.setId(id);
+        setor.setNome("TI " + id);
+        return setor;
     }
 
-    public SetorDTO mockDTO() {
-        return new SetorDTO(UUID_MOCK, "TI");
+    public SetorDTO mockDTO(String id) {
+        SetorDTO dto = new SetorDTO();
+        dto.setId(id);
+        dto.setNome("TI " + id);
+        return dto;
     }
 
 }

@@ -5,7 +5,6 @@ import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOMapper;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.ISetorRepository;
-import com.extensions.services.exceptions.BadRequestException;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,13 +88,16 @@ public class SetorService {
             repository.deleteById(id);
             return true;
         }
-        throw new BadRequestException("Setor de id: " + id + " não encontrado.");
+        throw new ObjectNotFoundException("Setor de id: " + id + " não encontrado.");
     }
 
     @Transactional(readOnly = true)
     public void checkingSectorWithTheSameName(String nome) {
-        if (repository.findByNome(nome).isPresent())
-            throw new DataIntegratyViolationException("O setor com de nome: " + nome + " ja existe!");
+        if (repository.findByNome(nome).isPresent()) {
+            logger.info("O setor com de nome: " + nome + " já existe!");
+            throw new DataIntegratyViolationException("O setor com de nome: " + nome + " já existe!");
+        }
+
 
     }
 
