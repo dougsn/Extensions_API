@@ -1,16 +1,12 @@
 package com.extensions.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 
 @Entity
 @Table(name = "permission")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Permission implements GrantedAuthority, Serializable {
 
     @Id
@@ -19,6 +15,13 @@ public class Permission implements GrantedAuthority, Serializable {
     @Column
     private String description;
 
+    public Permission() {
+    }
+
+    public Permission(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;

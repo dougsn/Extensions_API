@@ -1,7 +1,6 @@
 package com.extensions.integrationtests.dto.user;
 
 import com.extensions.domain.entity.Permission;
-import com.extensions.integrationtests.dto.setor.SetorDTO;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -16,6 +15,12 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
     public UserDTO() {
     }
 
+    public UserDTO(String id, String name, List<Permission> permissions) {
+        this.id = id;
+        this.name = name;
+        this.permissions = permissions;
+    }
+
     public String getId() {
         return id;
     }
@@ -24,12 +29,12 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
         this.id = id;
     }
 
-    public String getUsername() {
+    public String getName() {
         return name;
     }
 
-    public void setUsername(String username) {
-        this.name = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Permission> getPermissions() {

@@ -1,4 +1,4 @@
-package com.extensions.integrationtests.wrappers;
+package com.extensions.integrationtests.wrappers.setor;
 
 import com.extensions.integrationtests.dto.setor.SetorDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;

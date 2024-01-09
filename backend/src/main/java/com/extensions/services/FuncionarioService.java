@@ -6,18 +6,20 @@ import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.IFuncionarioRepository;
 import com.extensions.repository.ISetorRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class FuncionarioService {
-    private final FuncionarioDTOMapper mapper;
-    private final IFuncionarioRepository repository;
-    private final ISetorRepository setorRepository;
+    @Autowired
+    private FuncionarioDTOMapper mapper;
+    @Autowired
+    private IFuncionarioRepository repository;
+    @Autowired
+    private ISetorRepository setorRepository;
 
 
     public List<FuncionarioDTO> findAll() {

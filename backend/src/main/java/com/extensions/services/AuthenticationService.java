@@ -11,7 +11,7 @@ import com.extensions.infra.security.jwt.JwtService;
 import com.extensions.repository.IUserRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,13 +26,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
-    private final IUserRepository repository;
-    private final UserInfoDTOMapper userInfoDTOMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private IUserRepository repository;
+    @Autowired
+    private UserInfoDTOMapper userInfoDTOMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {

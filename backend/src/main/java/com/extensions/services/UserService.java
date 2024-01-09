@@ -1,6 +1,5 @@
 package com.extensions.services;
 
-import com.extensions.controller.SetorController;
 import com.extensions.controller.UserController;
 import com.extensions.domain.dto.user.UserDTO;
 import com.extensions.domain.dto.user.UserDTOMapper;

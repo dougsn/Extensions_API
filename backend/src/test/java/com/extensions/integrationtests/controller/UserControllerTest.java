@@ -3,11 +3,10 @@ package com.extensions.integrationtests.controller;
 import com.extensions.config.TestConfigs;
 import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
-import com.extensions.integrationtests.dto.setor.SetorDTO;
 import com.extensions.integrationtests.dto.user.UserDTO;
 import com.extensions.integrationtests.dto.user.UserUpdateDTO;
-import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
-import com.extensions.integrationtests.wrappers.WrapperSetorDTO;
+import com.extensions.integrationtests.wrappers.setor.WrapperSetorDTO;
+import com.extensions.integrationtests.wrappers.user.WrapperUserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,41 +69,8 @@ public class UserControllerTest {
                 .build();
     }
 
-//    @Test
-//    @Order(1)
-//    public void testUpdate() throws JsonProcessingException {
-//        userUpdate.setId(ID);
-//        userUpdate.setName("Teste Modificado");
-//
-//        var content = given().spec(specification)
-//                .contentType(TestConfigs.CONTENT_TYPE_JSON)
-//                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
-//                .body(userUpdate)
-//                .when()
-//                .put()
-//                .then()
-//                .statusCode(200)
-//                .extract()
-//                .body()
-//                .asString();
-//
-//        UserUpdateDTO persistedUser = objectMapper.readValue(content, UserUpdateDTO.class);
-//        user.setUsername(persistedUser.getName());
-//        user.setUsername(persistedUser.getId());
-//
-//        System.out.println(persistedUser.getName());
-//        System.out.println(persistedUser.getId());
-//
-//        assertNotNull(persistedUser);
-//        assertNotNull(persistedUser.getId());
-//        assertNotNull(persistedUser.getName());
-//
-//        assertEquals(persistedUser.getId(), ID);
-//        assertEquals("Teste Modificado", persistedUser.getName());
-//    }
-
     @Test
-    @Order(2)
+    @Order(1)
     public void findById() throws JsonProcessingException {
         mockUser();
 
@@ -125,22 +91,54 @@ public class UserControllerTest {
 
         assertNotNull(persistedUser);
         assertNotNull(persistedUser.getId());
-        assertNotNull(persistedUser.getUsername());
+        assertNotNull(persistedUser.getName());
+        assertNotNull(persistedUser.getPermissions());
 
         assertEquals(persistedUser.getId(), user.getId());
-        assertEquals("Teste Modificado", persistedUser.getUsername());
+        assertEquals("Administrator", persistedUser.getName());
     }
 
     @Test
-    @Order(4)
+    @Order(2)
     public void testDelete() {
         given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .pathParam("id", ID)
+                .pathParam("id", "casd123s-5e6f-7g8h-9i0j-1k2l3m4n5o6")
                 .when()
                 .delete("{id}")
                 .then()
                 .statusCode(204);
+    }
+
+
+    @Test
+    @Order(3)
+    public void testUpdate() throws JsonProcessingException {
+        mockUserUpdate();
+        userUpdate.setId("casd123s-5e6f-7g8h-9i0j-asdas3123as");
+        userUpdate.setName("Teste Modificado");
+
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .body(userUpdate)
+                .when()
+                .put()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+        UserDTO persistedUser = objectMapper.readValue(content, UserDTO.class);
+        user = persistedUser;
+
+        assertNotNull(persistedUser);
+        assertNotNull(persistedUser.getId());
+        assertNotNull(persistedUser.getName());
+        assertNotNull(persistedUser.getPermissions());
+
+        assertEquals(persistedUser.getId(), user.getId());
+        assertEquals("Teste Modificado", persistedUser.getName());
     }
 
     @Test
@@ -156,19 +154,17 @@ public class UserControllerTest {
                 .extract()
                 .body()
                 .asString();
-        System.out.println(content);
+        WrapperUserDTO wrapper = objectMapper.readValue(content, WrapperUserDTO.class);
+        var users = wrapper.getEmbeded().getUsers();
+        var userThree = users.get(2);
 
-        WrapperSetorDTO wrapper = objectMapper.readValue(content, WrapperSetorDTO.class);
-        var setores = wrapper.getEmbeded().getSetores();
+        assertNotNull(userThree);
+        assertNotNull(userThree.getId());
+        assertNotNull(userThree.getName());
+        assertNotNull(userThree.getPermissions());
 
-        SetorDTO setorOne = setores.get(0);
-
-        assertNotNull(setorOne);
-        assertNotNull(setorOne.getId());
-        assertNotNull(setorOne.getNome());
-
-        assertEquals(setorOne.getId(), "ffas3123-da36-44ea-8fbd-79653a80023e");
-        assertEquals("ADM", setorOne.getNome());
+        assertEquals("casd123s-5e6f-7g8h-9i0j-asdas3123as", userThree.getId());
+        assertEquals("Teste Modificado", userThree.getName());
     }
 
     @Test
@@ -203,23 +199,22 @@ public class UserControllerTest {
                 .body()
                 .asString();
 
-        assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8080/api/user/v1/ffas3123-da36-44ea-8fbd-79653a80023e\"}}}"));
 
-        assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=0&size=5&sort=nome,asc\"}"));
-        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/user/v1?page=0&size=5&direction=asc\"}"));
-        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=5&sort=nome,asc\"}"));
-        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=5&sort=nome,asc\"}}"));
+        assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=0&size=2&sort=username,asc\"}"));
+        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/user/v1?page=0&size=2&direction=asc\"}"));
+        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=2&sort=username,asc\"}"));
+        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=2&sort=username,asc\"}}"));
 
-        assertTrue(content.contains("\"page\":{\"size\":5,\"totalElements\":10,\"totalPages\":2,\"number\":0}}"));
+        assertTrue(content.contains("\"page\":{\"size\":2,\"totalElements\":3,\"totalPages\":2,\"number\":0}}"));
     }
 
 
     private void mockUser() {
         user.setId(ID);
-        user.setUsername("Teste");
+        user.setName("Teste");
     }
 
-    private void mockUserUpdate(){
+    private void mockUserUpdate() {
         userUpdate.setId(ID);
         userUpdate.setName("Teste");
     }

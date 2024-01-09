@@ -5,7 +5,7 @@ import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
 import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
-import com.extensions.integrationtests.wrappers.WrapperSetorDTO;
+import com.extensions.integrationtests.wrappers.setor.WrapperSetorDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

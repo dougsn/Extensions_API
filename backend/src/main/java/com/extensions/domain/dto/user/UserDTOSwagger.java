@@ -3,7 +3,6 @@ package com.extensions.domain.dto.user;
 import com.extensions.domain.entity.Permission;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.List;
