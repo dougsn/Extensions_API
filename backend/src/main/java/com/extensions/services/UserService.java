@@ -56,11 +56,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDTO findById(String id) {
-        logger.info("Buscando setor de id: " + id);
+        logger.info("Buscando usuário de id: " + id);
         var user = repository.findById(id)
                 .map(mapper)
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário de id: " + id + " não encontrado"));
-        user.add(linkTo(methodOn(SetorController.class).findById(id)).withSelfRel());
+        user.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
 
         return user;
     }
