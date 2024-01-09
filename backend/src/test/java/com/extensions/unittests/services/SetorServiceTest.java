@@ -2,6 +2,7 @@ package com.extensions.unittests.services;
 
 import com.extensions.domain.dto.setor.SetorDTOMapper;
 import com.extensions.domain.entity.Setor;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.extensions.repository.ISetorRepository;
 import com.extensions.services.SetorService;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class SetorServiceTest {
+public class SetorServiceTest extends AbstractIntegrationTest {
     public static final String UUID_MOCK = "7bf808f8-da36-44ea-8fbd-79653a80023e";
     public static final String UUID_MOCK_CREATE = "7bf807f7-da36-55ae-0dqw-95210a80066a";
     MockSetor input;
