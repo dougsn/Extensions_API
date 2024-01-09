@@ -1,11 +1,10 @@
-package com.extensions.integrationtests.controller;
+package com.extensions.integrationtests.controller.cors;
 
 import com.extensions.config.TestConfigs;
 import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
 import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
-import com.extensions.integrationtests.wrappers.WrapperSetorDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SetorControllerTest extends AbstractIntegrationTest {
+public class SetorControllerCorsTest extends AbstractIntegrationTest {
+
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static SetorDTO setor;
@@ -36,6 +36,7 @@ public class SetorControllerTest extends AbstractIntegrationTest {
         setor = new SetorDTO();
         authenticationResponse = new AuthenticationResponse();
     }
+
 
     @Test
     @Order(0)
@@ -96,30 +97,23 @@ public class SetorControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(2)
-    public void testUpdate() throws JsonProcessingException {
-        setor.setNome("Teste Modificado");
+    public void testCreateWithWrongOrigin() {
+        mockSetor();
 
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_FAIL)
                 .body(setor)
                 .when()
-                .put()
+                .post()
                 .then()
-                .statusCode(200)
+                .statusCode(403)
                 .extract()
                 .body()
                 .asString();
 
-        SetorDTO persistedBook = objectMapper.readValue(content, SetorDTO.class);
-        setor = persistedBook;
-
-        assertNotNull(persistedBook);
-        assertNotNull(persistedBook.getId());
-        assertNotNull(persistedBook.getNome());
-
-        assertEquals(persistedBook.getId(), setor.getId());
-        assertEquals("Teste Modificado", persistedBook.getNome());
+        assertNotNull(content);
+        assertEquals("Invalid CORS request", content);
     }
 
     @Test
@@ -147,90 +141,30 @@ public class SetorControllerTest extends AbstractIntegrationTest {
         assertNotNull(persistedBook.getNome());
 
         assertEquals(persistedBook.getId(), setor.getId());
-        assertEquals("Teste Modificado", persistedBook.getNome());
+        assertEquals("Teste", persistedBook.getNome());
     }
 
     @Test
     @Order(4)
-    public void testDelete() {
-        given().spec(specification)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .pathParam("id", setor.getId())
-                .when()
-                .delete("{id}")
-                .then()
-                .statusCode(204);
-    }
+    public void findByIdWithWrongOrigin() {
+        mockSetor();
 
-    @Test
-    @Order(5)
-    public void testFindAll() throws JsonProcessingException {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .queryParams("page", 0, "size", 5, "direction", "asc")
+                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_FAIL)
+                .pathParams("id", setor.getId())
                 .when()
-                .get()
+                .get("{id}")
                 .then()
-                .statusCode(200)
+                .statusCode(403)
                 .extract()
                 .body()
                 .asString();
 
-        WrapperSetorDTO wrapper = objectMapper.readValue(content, WrapperSetorDTO.class);
-        var setores = wrapper.getEmbeded().getSetores();
 
-        SetorDTO setorOne = setores.get(0);
-
-        assertNotNull(setorOne);
-        assertNotNull(setorOne.getId());
-        assertNotNull(setorOne.getNome());
-
-        assertEquals(setorOne.getId(), "ffas3123-da36-44ea-8fbd-79653a80023e");
-        assertEquals("ADM", setorOne.getNome());
+        assertNotNull(content);
+        assertEquals("Invalid CORS request", content);
     }
-
-    @Test
-    @Order(6)
-    public void testFindAllWithoutToken() {
-        RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
-                .setBasePath("/api/setor/v1")
-                .setPort(TestConfigs.SERVER_PORT)
-                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                .build();
-
-        given().spec(specificationWithoutToken)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .when()
-                .get()
-                .then()
-                .statusCode(403);
-    }
-
-    @Test
-    @Order(7)
-    public void testHATEOAS() {
-        var content = given().spec(specification)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .queryParams("page", 0, "size", 5, "direction", "asc")
-                .when()
-                .get()
-                .then()
-                .statusCode(200)
-                .extract()
-                .body()
-                .asString();
-
-        assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8080/api/setor/v1/ffas3123-da36-44ea-8fbd-79653a80023e\"}}}"));
-
-        assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8080/api/setor/v1?direction=asc&page=0&size=5&sort=nome,asc\"}"));
-        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/setor/v1?page=0&size=5&direction=asc\"}"));
-        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/setor/v1?direction=asc&page=1&size=5&sort=nome,asc\"}"));
-        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/setor/v1?direction=asc&page=1&size=5&sort=nome,asc\"}}"));
-
-        assertTrue(content.contains("\"page\":{\"size\":5,\"totalElements\":10,\"totalPages\":2,\"number\":0}}"));
-    }
-
 
     private void mockSetor() {
         setor.setNome("Teste");
