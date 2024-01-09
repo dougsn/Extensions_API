@@ -58,7 +58,7 @@ public class SetorController {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
-    @Operation(summary = "Buscar tipo de setores pelo ", description = "Buscar tipo de setores pelo ID",
+    @Operation(summary = "Buscar tipo de setores pelo ID", description = "Buscar tipo de setores pelo ID",
             tags = {"Setor"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
@@ -74,7 +74,7 @@ public class SetorController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<SetorDTO> findById(@PathVariable String id) {
         return ResponseEntity.ok().body(service.findById(id));
     }

@@ -5,39 +5,53 @@ import com.extensions.controller.UserController;
 import com.extensions.domain.dto.user.UserDTO;
 import com.extensions.domain.dto.user.UserDTOMapper;
 import com.extensions.domain.dto.user.UserUpdateDTO;
-import com.extensions.domain.dto.user.UserUpdateDTOMapper;
 import com.extensions.domain.entity.User;
 import com.extensions.repository.IUserRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
     private final Logger logger = Logger.getLogger(UserService.class.getName());
+    @Autowired
+    private UserDTOMapper mapper;
+    @Autowired
+    private IUserRepository repository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    private final UserDTOMapper mapper;
-    private final IUserRepository repository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    PagedResourcesAssembler<UserDTO> assembler;
 
 
     @Transactional(readOnly = true)
-    public List<UserDTO> findAll() {
-        return repository.findAll().stream()
-                .map(mapper)
-                .collect(Collectors.toList());
+    public PagedModel<EntityModel<UserDTO>> findAll(Pageable pageable) {
+        logger.info("Buscando todos os usuários");
+
+        var users = repository.findAll(pageable);
+
+        var dtoList = users.map(u -> mapper.apply(u));
+        dtoList.forEach(u -> u.add(linkTo(methodOn(UserController.class).findById(u.getId())).withSelfRel()));
+
+        Link link = linkTo(methodOn(UserController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+
+        return assembler.toModel(dtoList, link);
     }
 
     @Transactional(readOnly = true)
@@ -51,17 +65,14 @@ public class UserService {
         return user;
     }
 
-    public UserDTO updateUser(UserUpdateDTO request) {
+    public UserDTO update(UserUpdateDTO request) {
         userAlreadyRegistered(request);
         logger.info("Atualizando usuario");
 
         var userExisting = repository.findById(request.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado para ser atualizado."));
 
-        var user = User.builder()
-                .id(request.getId())
-                .username(request.getName())
-                .build();
+        var user = new User(request.getId(), request.getName());
         if (request.getPassword() == null || request.getPassword().isEmpty()) {
             user.setPassword(userExisting.getPassword());
         } else {
@@ -84,7 +95,7 @@ public class UserService {
             repository.deleteById(id);
             return true;
         }
-        return false;
+        throw new ObjectNotFoundException("Usuário de id: " + id + " não encontrado.");
     }
 
     @Transactional(readOnly = true)
