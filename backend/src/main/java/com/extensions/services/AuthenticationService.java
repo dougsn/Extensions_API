@@ -38,15 +38,11 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         userAlreadyRegistered(request);
 
-        var user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
+        var user = new User(null, request.getUsername(), passwordEncoder.encode(request.getPassword()));
+
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return new AuthenticationResponse(jwtToken);
     }
 
     @Transactional
@@ -63,9 +59,7 @@ public class AuthenticationService {
 
 
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return new AuthenticationResponse(jwtToken);
 
     }
 
