@@ -1,5 +1,6 @@
 package com.extensions.integrationtests.dto.user;
 
+
 import com.extensions.domain.entity.Permission;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
 import org.springframework.hateoas.RepresentationModel;
@@ -7,13 +8,20 @@ import org.springframework.hateoas.RepresentationModel;
 import java.io.Serializable;
 import java.util.List;
 
-
-public class UserDTO extends RepresentationModel<UserDTO> implements Serializable {
+public class UserUpdateDTO extends RepresentationModel<UserUpdateDTO> implements Serializable {
     private String id;
     private String name;
+    private String password;
     private List<Permission> permissions;
 
-    public UserDTO() {
+    public UserUpdateDTO() {
+    }
+
+    public UserUpdateDTO(String id, String name, String password, List<Permission> permissions) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.permissions = permissions;
     }
 
     public String getId() {
@@ -24,12 +32,20 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
         this.id = id;
     }
 
-    public String getUsername() {
+    public String getName() {
         return name;
     }
 
-    public void setUsername(String username) {
-        this.name = username;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Permission> getPermissions() {
