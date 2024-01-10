@@ -111,7 +111,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     }
     @Test
     @Order(3)
-    public void StestDeleteUser() throws JsonProcessingException {
+    public void testDeleteUser() throws JsonProcessingException {
         AuthenticationRequest user = new AuthenticationRequest("Administrator", "admin123");
         var token = given()
                 .basePath("/api/auth/v1/login")

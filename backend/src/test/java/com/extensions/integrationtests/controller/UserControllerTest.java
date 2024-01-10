@@ -157,7 +157,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
                 .asString();
         WrapperUserDTO wrapper = objectMapper.readValue(content, WrapperUserDTO.class);
         var users = wrapper.getEmbeded().getUsers();
-        var userThree = users.get(2);
+        var userThree = users.get(1);
 
         assertNotNull(userThree);
         assertNotNull(userThree.getId());
@@ -191,7 +191,7 @@ public class UserControllerTest extends AbstractIntegrationTest {
     public void testHATEOAS() {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .queryParams("page", 0, "size", 2, "direction", "asc")
+                .queryParams("page", 0, "size", 1, "direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -201,12 +201,12 @@ public class UserControllerTest extends AbstractIntegrationTest {
                 .asString();
 
 
-        assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=0&size=2&sort=username,asc\"}"));
-        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/user/v1?page=0&size=2&direction=asc\"}"));
-        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=2&sort=username,asc\"}"));
-        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=2&sort=username,asc\"}}"));
+        assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=0&size=1&sort=username,asc\"}"));
+        assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8080/api/user/v1?page=0&size=1&direction=asc\"}"));
+        assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=1&sort=username,asc\"}"));
+        assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/user/v1?direction=asc&page=1&size=1&sort=username,asc\"}}"));
 
-        assertTrue(content.contains("\"page\":{\"size\":2,\"totalElements\":3,\"totalPages\":2,\"number\":0}}"));
+        assertTrue(content.contains("\"page\":{\"size\":1,\"totalElements\":2,\"totalPages\":2,\"number\":0}}"));
     }
 
 

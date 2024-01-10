@@ -3,6 +3,7 @@ package com.extensions.unittests.services;
 import com.extensions.domain.dto.user.UserDTOMapper;
 import com.extensions.domain.dto.user.UserUpdateDTO;
 import com.extensions.domain.entity.User;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.extensions.repository.IUserRepository;
 import com.extensions.services.UserService;
 import com.extensions.services.exceptions.ObjectNotFoundException;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UserServiceTest extends AbstractIntegrationTest {
     public static final String UUID_MOCK = "7bf808f8-da36-44ea-8fbd-79653a80023e";
     MockUser input;
     @InjectMocks

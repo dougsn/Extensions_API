@@ -4,6 +4,7 @@ import com.extensions.config.TestConfigs;
 import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SetorControllerAuthorizationTest {
+public class SetorControllerAuthorizationTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static RequestSpecification specificationWithoutAuthorization;
     private static ObjectMapper objectMapper;
