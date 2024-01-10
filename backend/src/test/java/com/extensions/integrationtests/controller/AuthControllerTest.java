@@ -5,6 +5,7 @@ import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.auth.RegisterRequest;
 import com.extensions.integrationtests.dto.user.UserDTO;
+import com.extensions.integrationtests.dto.user.UserInfoDTO;
 import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -27,6 +28,7 @@ public class AuthControllerTest extends AbstractIntegrationTest {
     private static ObjectMapper objectMapper;
     private static UserDTO user;
     private static AuthenticationResponse authenticationResponse;
+    private static String ID_NEW_USER;
 
     @BeforeAll
     public static void setup() {
@@ -101,7 +103,44 @@ public class AuthControllerTest extends AbstractIntegrationTest {
                 .extract()
                 .body()
                 .asString();
-
+        UserInfoDTO info = objectMapper.readValue(userInfo, UserInfoDTO.class);
+        System.out.println(info.getId());
+        System.out.println(info.getName());
+        ID_NEW_USER = info.getId();
         assertNotNull(userInfo);
+    }
+    @Test
+    @Order(3)
+    public void StestDeleteUser() throws JsonProcessingException {
+        AuthenticationRequest user = new AuthenticationRequest("Administrator", "admin123");
+        var token = given()
+                .basePath("/api/auth/v1/login")
+                .port(TestConfigs.SERVER_PORT)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .body(user)
+                .when()
+                .post()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        authenticationResponse = objectMapper.readValue(token, AuthenticationResponse.class);
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARM_AUTHORIZATION, "Bearer " + authenticationResponse.getToken())
+                .setBasePath("/api/user/v1")
+                .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
+
+        given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .pathParam("id", ID_NEW_USER)
+                .when()
+                .delete("{id}")
+                .then()
+                .statusCode(204);
     }
 }

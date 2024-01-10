@@ -5,6 +5,7 @@ import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.user.UserDTO;
 import com.extensions.integrationtests.dto.user.UserUpdateDTO;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.extensions.integrationtests.wrappers.setor.WrapperSetorDTO;
 import com.extensions.integrationtests.wrappers.user.WrapperUserDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserControllerTest {
+public class UserControllerTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static UserDTO user;
@@ -163,7 +164,7 @@ public class UserControllerTest {
         assertNotNull(userThree.getName());
         assertNotNull(userThree.getPermissions());
 
-        assertEquals("casd123s-5e6f-7g8h-9i0j-asdas3123as", userThree.getId());
+        assertEquals(userUpdate.getId(), userThree.getId());
         assertEquals("Teste Modificado", userThree.getName());
     }
 
