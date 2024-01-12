@@ -6,44 +6,43 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "funcionarios")
-@Table(name = "funcionarios")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Funcionario implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String ramal;
-    String email;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+    private String nome;
+    private String ramal;
+    private String email;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_id_setores")
-    Setor setor;
+    private Setor setor;
 
     public Funcionario() {
     }
 
-    public Funcionario(Long id, String name, String ramal, String email, Setor setor) {
+    public Funcionario(String id, String nome, String ramal, String email, Setor setor) {
         this.id = id;
-        this.name = name;
+        this.nome = nome;
         this.ramal = ramal;
         this.email = email;
         this.setor = setor;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String name) {
+        this.nome = name;
     }
 
     public String getRamal() {

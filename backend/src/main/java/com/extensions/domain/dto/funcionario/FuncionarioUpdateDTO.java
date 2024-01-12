@@ -8,7 +8,9 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 
-public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implements Serializable {
+public class FuncionarioUpdateDTO extends RepresentationModel<FuncionarioUpdateDTO> implements Serializable {
+    @Schema(type = "string", example = "08db05ec-7c84-45d1-8e37-170f21a32138")
+    @NotEmpty(message = "O campo [id] é obrigatório.")
     private String id;
     @Schema(type = "string", example = "John Doe ...")
     @NotEmpty(message = "O campo [nome] é obrigatório.")
@@ -27,22 +29,14 @@ public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implemen
     @NotEmpty(message = "O campo [setor] é obrigatório.")
     private String idSetor;
 
-    public FuncionarioDTO() {
+    public FuncionarioUpdateDTO() {
     }
 
-    public FuncionarioDTO(String id, String nome, String ramal, String email, String idSetor) {
+    public FuncionarioUpdateDTO(String id, String nome, String ramal, String email, String idSetor) {
         this.id = id;
         this.nome = nome;
         this.ramal = ramal;
         this.email = email;
-        this.idSetor = idSetor;
-    }
-
-    public String getIdSetor() {
-        return idSetor;
-    }
-
-    public void setIdSetor(String idSetor) {
         this.idSetor = idSetor;
     }
 
@@ -76,5 +70,13 @@ public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implemen
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getIdSetor() {
+        return idSetor;
+    }
+
+    public void setIdSetor(String idSetor) {
+        this.idSetor = idSetor;
     }
 }
