@@ -97,8 +97,6 @@ public class SetorService {
             logger.info("O setor com de nome: " + nome + " já existe!");
             throw new DataIntegratyViolationException("O setor com de nome: " + nome + " já existe!");
         }
-
-
     }
 
 }
