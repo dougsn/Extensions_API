@@ -59,7 +59,7 @@ public class SetorService {
     @Transactional
     public SetorDTO add(SetorDTO data) {
         logger.info("Adicionando um novo setor.");
-        checkingSectorWithTheSameName(data.getNome());
+        checkingSectorWithTheSameName(data);
 
         Setor newSetor = repository.save(new Setor(null, data.getNome()));
 
@@ -70,7 +70,7 @@ public class SetorService {
     @Transactional
     public SetorDTO update(SetorDTO data) {
         logger.info("Atualizando setor de id" + data.getId());
-        checkingSectorWithTheSameName(data.getNome());
+        checkingSectorWithTheSameNameDuringUpdate(data);
 
         Setor updatedSetor = repository.findById(data.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Setor de id: " + data.getId() + " não encontrado."));
@@ -92,11 +92,19 @@ public class SetorService {
     }
 
     @Transactional(readOnly = true)
-    public void checkingSectorWithTheSameName(String nome) {
-        if (repository.findByNome(nome).isPresent()) {
-            logger.info("O setor com de nome: " + nome + " já existe!");
-            throw new DataIntegratyViolationException("O setor com de nome: " + nome + " já existe!");
+    public void checkingSectorWithTheSameNameDuringUpdate(SetorDTO data) {
+        var setor = repository.findByNome(data.getNome());
+        if (setor.isPresent() && !setor.get().getId().equals(data.getId())) {
+            logger.info("O setor com de nome: " + data.getNome() + " já existe!");
+            throw new DataIntegratyViolationException("O setor com de nome: " + data.getNome() + " já existe!");
         }
     }
 
+    @Transactional(readOnly = true)
+    public void checkingSectorWithTheSameName(SetorDTO data) {
+        if (repository.findByNome(data.getNome()).isPresent()) {
+            logger.info("O setor com de nome: " + data.getNome() + " já existe!");
+            throw new DataIntegratyViolationException("O setor com de nome: " + data.getNome() + " já existe!");
+        }
+    }
 }

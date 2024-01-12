@@ -1,5 +1,6 @@
 package com.extensions.unittests.services;
 
+import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOMapper;
 import com.extensions.domain.entity.Setor;
 import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class SetorServiceTest extends AbstractIntegrationTest {
+public class SetorServiceTest {
     public static final String UUID_MOCK = "7bf808f8-da36-44ea-8fbd-79653a80023e";
     public static final String UUID_MOCK_CREATE = "7bf807f7-da36-55ae-0dqw-95210a80066a";
     MockSetor input;
@@ -86,7 +87,7 @@ public class SetorServiceTest extends AbstractIntegrationTest {
     @Test
     void testCreateWithTheSameName() {
         when(repository.findByNome("TI 7bf807f7-da36-55ae-0dqw-95210a80066a")).thenReturn(Optional.of(input.mockEntity(UUID_MOCK_CREATE)));
-        assertThrows(DataIntegratyViolationException.class, () -> service.add(input.mockDTO(UUID_MOCK_CREATE)));
+        assertThrows(DataIntegratyViolationException.class, () -> service.checkingSectorWithTheSameName(input.mockDTO(UUID_MOCK_CREATE)));
     }
 
     @Test
@@ -105,11 +106,11 @@ public class SetorServiceTest extends AbstractIntegrationTest {
         assertEquals(UUID_MOCK, result.getId());
         assertEquals("TI " + UUID_MOCK, result.getNome());
     }
-
     @Test
-    void testUpdateWithTheSameName() {
-        when(repository.findByNome("TI 7bf808f8-da36-44ea-8fbd-79653a80023e")).thenReturn(Optional.of(input.mockEntity(UUID_MOCK)));
-        assertThrows(DataIntegratyViolationException.class, () -> service.update(input.mockDTO(UUID_MOCK)));
+    void testCheckingSectorWithTheSameNameDuringUpdate() {
+        when(repository.findByNome("NomeExistente")).thenReturn(Optional.of(new Setor("1", "NomeExistente")));
+        SetorDTO data = new SetorDTO("2", "NomeExistente");
+        assertThrows(DataIntegratyViolationException.class, () -> service.checkingSectorWithTheSameNameDuringUpdate(data));
     }
 
     @Test
