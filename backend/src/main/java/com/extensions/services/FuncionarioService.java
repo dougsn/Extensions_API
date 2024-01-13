@@ -1,7 +1,6 @@
 package com.extensions.services;
 
 import com.extensions.controller.FuncionarioController;
-import com.extensions.controller.SetorController;
 import com.extensions.domain.dto.funcionario.FuncionarioDTO;
 import com.extensions.domain.dto.funcionario.FuncionarioDTOMapper;
 import com.extensions.domain.dto.funcionario.FuncionarioUpdateDTO;
@@ -71,14 +70,14 @@ public class FuncionarioService {
         var funcionario = repository.findById(id)
                 .map(mapper)
                 .orElseThrow(() -> new ObjectNotFoundException("Funcionário de id: " + id + " não encontrado"));
-        funcionario.add(linkTo(methodOn(SetorController.class).findById(id)).withSelfRel());
+        funcionario.add(linkTo(methodOn(FuncionarioController.class).findById(id)).withSelfRel());
 
         return funcionario;
     }
 
     public FuncionarioDTO add(FuncionarioDTO data) {
         logger.info("Adicionando um novo funcionário.");
-        checkingFuncionariorWithTheSameName(data);
+        checkingFuncionarioWithTheSameName(data);
         Setor setor = setorRepository.findById(data.getIdSetor())
                 .orElseThrow(() -> new ObjectNotFoundException("Setor de ID: " + data.getIdSetor() + " não encontrado."));
 
@@ -86,13 +85,13 @@ public class FuncionarioService {
                 setor));
 
         return mapper.apply(newFuncionario)
-                .add(linkTo(methodOn(SetorController.class).findById(newFuncionario.getId())).withSelfRel());
+                .add(linkTo(methodOn(FuncionarioController.class).findById(newFuncionario.getId())).withSelfRel());
     }
 
     @Transactional
     public FuncionarioDTO update(FuncionarioUpdateDTO data) {
         logger.info("Atualizando funcionário de id" + data.getId());
-        checkingFuncionariorWithTheSameNameDuringUpdate(data);
+        checkingFuncionarioWithTheSameNameDuringUpdate(data);
 
         Setor setor = setorRepository.findById(data.getIdSetor())
                 .orElseThrow(() -> new ObjectNotFoundException("Setor de ID: " + data.getIdSetor() + " não encontrado."));
@@ -119,7 +118,7 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public void checkingFuncionariorWithTheSameNameDuringUpdate(FuncionarioUpdateDTO data) {
+    public void checkingFuncionarioWithTheSameNameDuringUpdate(FuncionarioUpdateDTO data) {
         var funcionario = repository.findByNome(data.getNome());
         if (funcionario.isPresent() && !funcionario.get().getId().equals(data.getId())) {
             logger.info("O funcionário com de nome: " + data.getNome() + " já existe!");
@@ -128,7 +127,7 @@ public class FuncionarioService {
     }
 
     @Transactional(readOnly = true)
-    public void checkingFuncionariorWithTheSameName(FuncionarioDTO data) {
+    public void checkingFuncionarioWithTheSameName(FuncionarioDTO data) {
         if (repository.findByNome(data.getNome()).isPresent()) {
             logger.info("O funcionário com de nome: " + data.getNome() + " já existe!");
             throw new DataIntegratyViolationException("O funcionário com de nome: " + data.getNome() + " já existe!");

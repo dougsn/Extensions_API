@@ -1,17 +1,13 @@
 package com.extensions.domain.dto.funcionario;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implements Serializable {
     private String id;
@@ -32,12 +28,6 @@ public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implemen
     @NotEmpty(message = "O campo [id_setor] é obrigatório.")
     @JsonProperty("id_setor")
     private String idSetor;
-
-    @Override
-    @JsonIgnore
-    public Optional<Link> getLink(LinkRelation relation) {
-        return super.getLink(relation);
-    }
 
     public FuncionarioDTO() {
     }
