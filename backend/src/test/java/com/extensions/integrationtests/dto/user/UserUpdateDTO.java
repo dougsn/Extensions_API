@@ -2,13 +2,11 @@ package com.extensions.integrationtests.dto.user;
 
 
 import com.extensions.domain.entity.Permission;
-import com.extensions.integrationtests.dto.setor.SetorDTO;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class UserUpdateDTO extends RepresentationModel<UserUpdateDTO> implements Serializable {
+public class UserUpdateDTO implements Serializable {
     private String id;
     private String name;
     private String password;

@@ -1,11 +1,9 @@
 package com.extensions.integrationtests.dto.setor;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import java.io.Serializable;
 
 
-public class SetorDTO extends RepresentationModel<SetorDTO> implements Serializable {
+public class SetorDTO implements Serializable {
     private String id;
     private String nome;
 

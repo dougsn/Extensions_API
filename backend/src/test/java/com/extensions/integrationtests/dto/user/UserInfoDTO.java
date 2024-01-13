@@ -3,12 +3,11 @@ package com.extensions.integrationtests.dto.user;
 
 
 import com.extensions.domain.entity.Permission;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class UserInfoDTO extends RepresentationModel<UserInfoDTO> implements Serializable {
+public class UserInfoDTO implements Serializable {
     private String id;
     private String name;
     private List<Permission> permissions;
