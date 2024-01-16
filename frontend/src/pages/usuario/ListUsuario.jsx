@@ -37,7 +37,7 @@ import { Pagination } from "../../components/Pagination";
 
 export const ListUsuario = () => {
   const [page, setPage] = useState(0);
-  const [lastPage, setLastPage] = useState(0);
+  const [infoPage, setInfopage] = useState(0);
 
   const [usuario, setUsuario] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,10 +55,9 @@ export const ListUsuario = () => {
       const request = await api.get(`/user/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      console.log(request)
-      // setLastPage(request.headers["x-total-pages"]);
+      setInfopage(request.data.page.totalPages);
       setIsLoading(false);
-      setUsuario(request.data);
+      setUsuario(request.data._embedded.userDTOList);
       if (request.data.length === 0) {
         setIsEmpty(true);
       }
@@ -91,7 +90,9 @@ export const ListUsuario = () => {
           <Heading size="lg" fontWeight="500">
             Lista de Usuários
           </Heading>
-          {userData.role == "ADMIN" && (
+          {userData.permissions.some(
+            (p) => p.description === "ADMIN" || p.description === "MANAGER"
+          ) && (
             <Button
               size="sm"
               fontSize="sm"
@@ -107,7 +108,9 @@ export const ListUsuario = () => {
           <Heading size="lg" fontWeight="500">
             Lista de Usuários
           </Heading>
-          {userData.role == "ADMIN" && (
+          {userData.permissions.some(
+            (p) => p.description === "ADMIN" || p.description === "MANAGER"
+          ) && (
             <Button
               size="sm"
               fontSize="sm"
@@ -182,46 +185,41 @@ export const ListUsuario = () => {
             return (
               <Card textAlign={"center"} w={"auto"} key={usuarioMap.id}>
                 <CardHeader>
-                  <Heading size="md">
-                    Usuário: {usuarioMap.login}
-                  </Heading>
+                  <Heading size="md">Usuário: {usuarioMap.name}</Heading>
                 </CardHeader>
-                <CardBody>
-                  <Text>Matrícula: {usuarioMap.matricula}</Text>
-                </CardBody>
                 <CardFooter justify="space-around">
                   <Button
                     size="sm"
                     fontSize="sm"
                     colorScheme="blue"
-                    onClick={() =>
-                      navigate(`/user/detail/${usuarioMap.id}`)
-                    }
+                    onClick={() => navigate(`/user/detail/${usuarioMap.id}`)}
                   >
                     <Icon as={RxMagnifyingGlass} fontSize="20" />
                   </Button>
-                  {userData.role == "ADMIN" && (
+                  {userData.permissions.some(
+                    (p) =>
+                      p.description === "ADMIN" || p.description === "MANAGER"
+                  ) && (
                     <Button
                       size="sm"
                       fontSize="sm"
                       colorScheme="yellow"
                       color="white"
-                      onClick={() =>
-                        navigate(`/user/update/${usuarioMap.id}`)
-                      }
+                      onClick={() => navigate(`/user/update/${usuarioMap.id}`)}
                     >
                       <Icon as={RiEditLine} fontSize="20" />
                     </Button>
                   )}
-                  {userData.role == "ADMIN" && (
+                  {userData.permissions.some(
+                    (p) =>
+                      p.description === "ADMIN" || p.description === "MANAGER"
+                  ) && (
                     <Button
                       size="sm"
                       fontSize="sm"
                       colorScheme="red"
                       color="white"
-                      onClick={() =>
-                        navigate(`/user/delete/${usuarioMap.id}`)
-                      }
+                      onClick={() => navigate(`/user/delete/${usuarioMap.id}`)}
                     >
                       <Icon as={RiDeleteBinLine} fontSize="20" />
                     </Button>
@@ -277,7 +275,11 @@ export const ListUsuario = () => {
                         <Icon as={RxMagnifyingGlass} fontSize="20" />
                       </Button>
 
-                      {userData.role == "ADMIN" && (
+                      {userData.permissions.some(
+                        (p) =>
+                          p.description === "ADMIN" ||
+                          p.description === "MANAGER"
+                      ) && (
                         <Button
                           size="sm"
                           fontSize="sm"
@@ -291,7 +293,11 @@ export const ListUsuario = () => {
                         </Button>
                       )}
 
-                      {userData.role == "ADMIN" && (
+                      {userData.permissions.some(
+                        (p) =>
+                          p.description === "ADMIN" ||
+                          p.description === "MANAGER"
+                      ) && (
                         <Button
                           size="sm"
                           fontSize="sm"
@@ -313,9 +319,9 @@ export const ListUsuario = () => {
         </Table>
       )}
       <Pagination
-        lastPages={lastPage}
-        currentPage={page}
-        onPageChange={setPage}
+         lastPages={infoPage}
+         currentPage={page}
+         onPageChange={setPage}
       />
     </Box>
   );

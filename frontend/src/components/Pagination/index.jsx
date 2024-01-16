@@ -19,11 +19,11 @@ export function Pagination({
   const lastPage = lastPages - 1;
 
   const previousPages =
-    currentPage > 1
-      ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
-      : [];
+  currentPage > 1
+    ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
+    : [];
 
-  const nextPages =
+    const nextPages =
     currentPage < lastPage
       ? generatePagesArray(
           currentPage,
