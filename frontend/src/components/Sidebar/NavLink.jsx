@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Box, Icon, Text } from "@chakra-ui/react";
 
-// { backgroundColor: "gray.200", borderRadius: "5", transition: "background-color .3s ease, border-radius .3s ease" }
 
 export const NavLink = ({ icon, children, active }) => {
   return (

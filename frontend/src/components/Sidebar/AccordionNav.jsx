@@ -6,6 +6,7 @@ import {
   BsFillClipboard2CheckFill,
   BsFillPeopleFill,
   BsFillPersonFill,
+  BsTelephoneFill,
 } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
@@ -50,15 +51,15 @@ export const AccordionNav = ({ close }) => {
 
   return (
     <Stack spacing="8" align="flex-start">
-      <Accordion allowMultiple w="64" defaultIndex={[0, 1]}>
+      <Accordion allowMultiple w="64" defaultIndex={[0]}>
         <AccordionSection title="RAMAL">
-          <Link to="/home" onClick={close}>
+          <Link to="/ramais" onClick={close}>
             <NavLink
               as="a"
-              icon={BsFillClipboard2CheckFill}
-              active={checkUrl(location.pathname, "home")}
+              icon={BsTelephoneFill}
+              active={checkUrl(location.pathname, "ramais")}
             >
-              Home
+              Ramais
             </NavLink>
           </Link>
         </AccordionSection>

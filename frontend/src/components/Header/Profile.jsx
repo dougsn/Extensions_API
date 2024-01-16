@@ -7,6 +7,7 @@ import {
   Divider,
   Stack,
   useMediaQuery,
+  Icon,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
@@ -14,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { api } from "../../services/api";
 import { deleteToken, getToken } from "../../utils/localstorage";
+import { IoLogOut } from "react-icons/io5";
 
 export const Profile = () => {
   const { isAuthenticated, userData, setIsAuthenticated, setUserData } =
@@ -105,15 +107,18 @@ export const Profile = () => {
             <Box display={"flex"} gap={5}>
               {isLargerThan850 ? (
                 <Stack direction="row">
-                  <Button
-                    fontSize={"small"}
+                  <Box
+                    as="button"
                     onClick={() => logoutUser()}
-                    bgColor="blue.500"
-                    _hover={{ bgColor: "blue.600" }}
-                    color={"white"}
+                    _hover={{ bgColor: "gray.200" }}
+                    display="flex"
+                    alignItems="center"
+                    padding={2}
+                    borderRadius={"5"}
+                    transition={"all .5s ease"}
                   >
-                    Logout
-                  </Button>
+                    <Icon as={IoLogOut} fontSize="25" />
+                  </Box>
                 </Stack>
               ) : (
                 <Stack direction="row">
@@ -130,14 +135,18 @@ export const Profile = () => {
                     borderColor="gray.300"
                     m="0 10px"
                   />
-                  <Button
+                  <Box
+                    as="button"
                     onClick={() => logoutUser()}
-                    bgColor="blue.500"
-                    _hover={{ bgColor: "blue.600" }}
-                    color={"white"}
+                    _hover={{ bgColor: "gray.200" }}
+                    display="flex"
+                    alignItems="center"
+                    padding={2}
+                    borderRadius={"5"}
+                    transition={"all .5s ease"}
                   >
-                    Logout
-                  </Button>
+                    <Icon as={IoLogOut} fontSize="25" />
+                  </Box>
                 </Stack>
               )}
             </Box>
