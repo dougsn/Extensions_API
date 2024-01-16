@@ -22,10 +22,9 @@ import { getToken } from "../../utils/localstorage";
 import { useState } from "react";
 
 const CreateUserFormSchema = yup.object().shape({
-  login: yup.string().required("Login é obrigatório"),
+  username: yup.string().required("O nome do usuário é obrigatório"),
   password: yup.string().required("Senha é obrigatória"),
-  matricula: yup.string().required("Matrícula é obrigatória"),
-  role: yup.string().required("O permissionamento é obrigatório"),
+  permissions: yup.string().required("O nível de acesso é obrigatório"),
 });
 
 export const CreateUsuario = () => {
@@ -34,9 +33,10 @@ export const CreateUsuario = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const userLevel = [
-    { value: "USER", label: "Usuário" },
-    { value: "ADMIN", label: "Administrador" },
+  const userLevel = [ // Criar 1 método para buscar as roles e popular automaticamente.
+    { value: 1, label: "Administrador" },
+    { value: 2, label: "Gerente" },
+    { value: 3, label: "Usuário" },
   ];
 
   const { register, handleSubmit, formState } = useForm({
@@ -45,17 +45,18 @@ export const CreateUsuario = () => {
 
   const handleCreateUserFormSchema = async (data) => {
     const newUser = {
-      login: data.login.trim(),
+      username: data.username.trim(),
       password: data.password.trim(),
-      matricula: data.matricula.trim(),
-      role: data.role.trim(),
+      permissions: [{ id: data.permissions }],
     };
     setIsLoading(true);
 
     try {
-      const request = await api.post("authentication/register", newUser, {
+      const request = await api.post("auth/v1/register", newUser, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
+
+      console.log(newUser);
 
       if (request.status == 201) {
         toast({
@@ -123,31 +124,25 @@ export const CreateUsuario = () => {
           <CommonInput
             placeholder="Login"
             label="Login"
-            {...register("login")}
-            error={formState.errors.login}
+            {...register("username")}
+            error={formState.errors.username}
           />
-          <CommonInput
-            placeholder="Matrícula"
-            label="Matrícula"
-            {...register("matricula")}
-            error={formState.errors.matricula}
-          />
-        </SimpleGrid>
-      </VStack>
-      <VStack pt={5} spacing="8">
-        <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
           <CommonInputPassword
             placeholder="Senha"
             label="Senha"
             {...register("password")}
             error={formState.errors.password}
           />
+        </SimpleGrid>
+      </VStack>
+      <VStack pt={5} spacing="8">
+        <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
           <CommonSelectEnum
             type={userLevel}
             label={"Nível de acesso"}
-            {...register("role")}
+            {...register("permissions")}
             placeholder="Selecione um nível de acesso"
-            error={formState.errors.role}
+            error={formState.errors.permissions}
           />
         </SimpleGrid>
       </VStack>
@@ -155,10 +150,7 @@ export const CreateUsuario = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button
-              colorScheme="blackAlpha"
-              onClick={() => navigate("/user")}
-            >
+            <Button colorScheme="blackAlpha" onClick={() => navigate("/user")}>
               Voltar
             </Button>
           </Box>

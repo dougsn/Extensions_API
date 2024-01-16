@@ -233,11 +233,7 @@ export const ListUsuario = () => {
         <Table colorScheme="blackAlpha">
           <Thead>
             <Tr>
-              <Th px={["4", "4", "6"]} width="8">
-                #
-              </Th>
               <Th>Nome</Th>
-              <Th>Matrícula</Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -246,21 +242,7 @@ export const ListUsuario = () => {
               return (
                 <Tr key={usuarioMap.id}>
                   <Td px={["4", "4", "6"]} fontWeight="bold">
-                    {usuarioMap.id}
-                  </Td>
-                  <Td>
-                    <Box>
-                      <ChakraLink>
-                        <Text fontWeight="bold">{usuarioMap.login}</Text>
-                      </ChakraLink>
-                    </Box>
-                  </Td>
-                  <Td>
-                    <Box>
-                      <ChakraLink>
-                        <Text fontWeight="bold">{usuarioMap.matricula}</Text>
-                      </ChakraLink>
-                    </Box>
+                    {usuarioMap.name}
                   </Td>
                   <Td>
                     <HStack spacing="2" display="flex" justifyContent="end">

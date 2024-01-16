@@ -40,9 +40,11 @@ public class AuthenticationService {
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
+        System.out.println(request.getPermissions());
         userAlreadyRegistered(request);
 
-        var user = new User(null, request.getUsername(), passwordEncoder.encode(request.getPassword()));
+        var user = new User(null, request.getUsername(), passwordEncoder.encode(request.getPassword()),
+                request.getPermissions());
 
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
