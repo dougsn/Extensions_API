@@ -32,7 +32,7 @@ export const ModalDetailsUsuario = () => {
 
   const getUserById = async () => {
     try {
-      const request = await api.get(`/user/${id}`, {
+      const request = await api.get(`/user/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {

@@ -7,8 +7,10 @@ export const ProtectedRoute = (props) => {
   const location = useLocation();
 
   const path = location.pathname.split("/");
-
-  if (userData.role == "ADMIN") {
+  if (
+    userData.permissions.some((p) => p.description === "ADMIN") ||
+    userData.permissions.some((p) => p.description === "MANAGER")
+  ) {
     return props.children;
   } else {
     return <Navigate to={`/${path[1]}`} />;

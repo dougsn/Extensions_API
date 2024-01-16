@@ -21,12 +21,22 @@ import { Link } from "react-router-dom";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { AccordionNav } from "../Sidebar/AccordionNav";
 import { NavLink } from "../Sidebar/NavLink";
+import { BsTelephoneFill } from "react-icons/bs";
 
 export const Menu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan850] = useMediaQuery("(max-width: 850px)");
 
   const { isAuthenticated, userData } = useContext(AuthenticationContext);
+  
+  const checkUrl = (url, place) => {
+    const part = url.split("/");
+    if (part[1] === place) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <>
@@ -49,10 +59,22 @@ export const Menu = () => {
             {isAuthenticated ? (
               <AccordionNav close={onClose} />
             ) : (
-              <Link to={""} onClick={onClose}>
-                <NavLink as="a" icon={RiHomeLine}>
-                  Login
-                </NavLink>
+              <Link to={"/ramais"} onClick={onClose}>
+                <Box
+                  active={checkUrl(location.pathname, "ramais")}
+                  bgColor={`${
+                    checkUrl(location.pathname, "ramais") ? "gray.400" : ""
+                  }`}
+                  _hover={{ bgColor: "gray.200" }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Icon as={BsTelephoneFill} fontSize="20" />
+                  <Text fontWeight="medium" ml="4">Ramais</Text>
+                </Box>
               </Link>
             )}
           </DrawerBody>

@@ -5,7 +5,6 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 // Components
 
 import { Header } from "../components/Header";
-import { Sidebar } from "../components/Sidebar";
 import { AuthenticationProvider } from "../provider/AuthenticationProvider";
 
 // Home
@@ -13,7 +12,7 @@ import { Home } from "../pages/home";
 
 // Login
 import { LoginForm } from "../pages/login";
-import { UsuarioList } from "../pages/usuario/ListUsuario";
+import { ListUsuario } from "../pages/usuario/ListUsuario";
 import { CreateUsuario } from "../pages/usuario/CreateUsuario";
 import { ModalDetailsUsuario } from "../pages/usuario/ModalDetailsUsuario";
 import { UpdateUsuario } from "../pages/usuario/UpdateUsuario";
@@ -41,7 +40,7 @@ const AppRoutes = () => {
               path="/user"
               element={
                 <ProtectedRoute>
-                  <UsuarioList />
+                  <ListUsuario />
                 </ProtectedRoute>
               }
             />

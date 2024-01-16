@@ -35,7 +35,7 @@ import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
 
-export const UsuarioList = () => {
+export const ListUsuario = () => {
   const [page, setPage] = useState(0);
   const [lastPage, setLastPage] = useState(0);
 
@@ -52,10 +52,11 @@ export const UsuarioList = () => {
 
   const getUsuario = async () => {
     try {
-      const request = await api.get(`/user?page=${page}&size=${5}`, {
+      const request = await api.get(`/user/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      setLastPage(request.headers["x-total-pages"]);
+      console.log(request)
+      // setLastPage(request.headers["x-total-pages"]);
       setIsLoading(false);
       setUsuario(request.data);
       if (request.data.length === 0) {
