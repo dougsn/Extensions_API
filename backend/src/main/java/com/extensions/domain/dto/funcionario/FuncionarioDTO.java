@@ -29,7 +29,6 @@ public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implemen
     @JsonProperty("id_setor")
     private String idSetor;
     @Schema(type = "string", example = "Administração")
-    @NotEmpty(message = "O campo [nome_setor] é obrigatório.")
     @JsonProperty("nome_setor")
     private String nomeSetor;
 

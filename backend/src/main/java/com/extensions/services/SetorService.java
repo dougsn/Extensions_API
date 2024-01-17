@@ -16,7 +16,9 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,6 +32,12 @@ public class SetorService {
     private SetorDTOMapper mapper;
     @Autowired
     PagedResourcesAssembler<SetorDTO> assembler;
+
+    @Transactional(readOnly = true)
+    public List<SetorDTO> findAllSetores() {
+        return repository.findAll().stream().map(mapper)
+                .collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     public PagedModel<EntityModel<SetorDTO>> findAll(Pageable pageable) {
