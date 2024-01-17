@@ -1,6 +1,6 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
 
-export const Home = () => {
+export const ListRamal = () => {
   return (
     <Box flex="1" p="8">
       <Flex mb="8" justify="center" align="center">

@@ -92,7 +92,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       }
 
       toast({
-        title: error.response.data.error,
+        title: error.response.data.errorMessage,
         status: "error",
         position: "top-right",
         duration: 3000,

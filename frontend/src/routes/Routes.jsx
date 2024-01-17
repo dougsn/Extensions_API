@@ -8,7 +8,7 @@ import { Header } from "../components/Header";
 import { AuthenticationProvider } from "../provider/AuthenticationProvider";
 
 // Home
-import { Home } from "../pages/home";
+import { ListRamal } from "../pages/ramal/ListRamal";
 
 // Login
 import { LoginForm } from "../pages/login";
@@ -17,6 +17,12 @@ import { CreateUsuario } from "../pages/usuario/CreateUsuario";
 import { ModalDetailsUsuario } from "../pages/usuario/ModalDetailsUsuario";
 import { UpdateUsuario } from "../pages/usuario/UpdateUsuario";
 import { DeleteUsuario } from "../pages/usuario/DeleteUsuario";
+
+// Setor
+import { ListSetor } from "../pages/setores/ListSetor";
+import { CreateSetor } from "../pages/setores/CreateSetor";
+import { DeleteSetor } from "../pages/setores/DeleteSetor";
+import { UpdateSetor } from "../pages/setores/UpdateSetor";
 
 const AppRoutes = () => {
   return (
@@ -33,7 +39,7 @@ const AppRoutes = () => {
         >
           <Routes>
             <Route path="" element={<LoginForm />} />
-            <Route path="/ramais" element={<Home />} />
+            <Route path="/ramais" element={<ListRamal />} />
 
             {/* Gerenciamento de Usuários */}
             <Route
@@ -61,6 +67,35 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <DeleteUsuario />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Gerenciamento de Setores */}
+            <Route
+              path="/setor"
+              element={
+                <ProtectedRoute>
+                  <ListSetor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/setor/new"
+              element={
+                <ProtectedRoute>
+                  <CreateSetor />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/setor/update/:id" element={<UpdateSetor />} />
+
+            <Route
+              path="/setor/delete/:id"
+              element={
+                <ProtectedRoute>
+                  <DeleteSetor />
                 </ProtectedRoute>
               }
             />

@@ -35,11 +35,11 @@ import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
 
-export const ListUsuario = () => {
+export const ListSetor = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
-  const [usuario, setUsuario] = useState([]);
+  const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -50,9 +50,9 @@ export const ListUsuario = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const getUsuario = async () => {
+  const getSetor = async () => {
     try {
-      const request = await api.get(`/user/v1?page=${page}&size=${5}`, {
+      const request = await api.get(`/setor/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       setInfopage(request.data.page.totalPages);
@@ -60,7 +60,7 @@ export const ListUsuario = () => {
         setIsEmpty(true);
       }
       setIsLoading(false);
-      setUsuario(request.data._embedded.userDTOList);
+      setSetor(request.data._embedded.setorDTOList);
     } catch (error) {
       setIsLoading(false);
       setErro(true);
@@ -76,7 +76,7 @@ export const ListUsuario = () => {
   };
 
   useEffect(() => {
-    getUsuario();
+    getSetor();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -88,7 +88,7 @@ export const ListUsuario = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Usuários
+            Lista de Setores
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -97,7 +97,7 @@ export const ListUsuario = () => {
               size="sm"
               fontSize="sm"
               colorScheme="blue"
-              onClick={() => navigate("/user/new/")}
+              onClick={() => navigate("/setor/new/")}
             >
               <Icon as={RiAddLine} fontSize="20" />
             </Button>
@@ -106,7 +106,7 @@ export const ListUsuario = () => {
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Usuários
+            Lista de Setores
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -116,7 +116,7 @@ export const ListUsuario = () => {
               fontSize="sm"
               colorScheme="blue"
               leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/user/new/")}
+              onClick={() => navigate("/setor/new/")}
             >
               Criar novo
             </Button>
@@ -156,7 +156,7 @@ export const ListUsuario = () => {
             Não há dados
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
-            Cadastre um novo tanque
+            Cadastre um novo setor
           </AlertDescription>
         </Alert>
       ) : erro ? (
@@ -173,7 +173,7 @@ export const ListUsuario = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados dos usuários
+            Falha ao obter dados dos setores
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
@@ -181,21 +181,13 @@ export const ListUsuario = () => {
         </Alert>
       ) : isLargerThan800 ? (
         <Box display={"flex"} flexDirection={"column"} gap={10}>
-          {usuario.map((usuarioMap) => {
+          {setor.map((setorMap) => {
             return (
-              <Card textAlign={"center"} w={"auto"} key={usuarioMap.id}>
+              <Card textAlign={"center"} w={"auto"} key={setorMap.id}>
                 <CardHeader>
-                  <Heading size="md">Usuário: {usuarioMap.name}</Heading>
+                  <Heading size="md">Setor: {setorMap.nome}</Heading>
                 </CardHeader>
                 <CardFooter justify="space-around">
-                  <Button
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="blue"
-                    onClick={() => navigate(`/user/detail/${usuarioMap.id}`)}
-                  >
-                    <Icon as={RxMagnifyingGlass} fontSize="20" />
-                  </Button>
                   {userData.permissions.some(
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
@@ -205,7 +197,7 @@ export const ListUsuario = () => {
                       fontSize="sm"
                       colorScheme="yellow"
                       color="white"
-                      onClick={() => navigate(`/user/update/${usuarioMap.id}`)}
+                      onClick={() => navigate(`/setor/update/${setorMap.id}`)}
                     >
                       <Icon as={RiEditLine} fontSize="20" />
                     </Button>
@@ -219,7 +211,7 @@ export const ListUsuario = () => {
                       fontSize="sm"
                       colorScheme="red"
                       color="white"
-                      onClick={() => navigate(`/user/delete/${usuarioMap.id}`)}
+                      onClick={() => navigate(`/setor/delete/${setorMap.id}`)}
                     >
                       <Icon as={RiDeleteBinLine} fontSize="20" />
                     </Button>
@@ -238,29 +230,18 @@ export const ListUsuario = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {usuario.map((usuarioMap) => {
+            {setor.map((setorMap) => {
               return (
-                <Tr key={usuarioMap.id}>
+                <Tr key={setorMap.id}>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{usuarioMap.name}</Text>
+                        <Text fontWeight="bold">{setorMap.nome}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <HStack spacing="2" display="flex" justifyContent="end">
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="blue"
-                        onClick={() =>
-                          navigate(`/user/detail/${usuarioMap.id}`)
-                        }
-                      >
-                        <Icon as={RxMagnifyingGlass} fontSize="20" />
-                      </Button>
-
                       {userData.permissions.some(
                         (p) =>
                           p.description === "ADMIN" ||
@@ -272,7 +253,7 @@ export const ListUsuario = () => {
                           colorScheme="yellow"
                           color="white"
                           onClick={() =>
-                            navigate(`/user/update/${usuarioMap.id}`)
+                            navigate(`/setor/update/${setorMap.id}`)
                           }
                         >
                           <Icon as={RiEditLine} fontSize="20" />
@@ -290,7 +271,7 @@ export const ListUsuario = () => {
                           colorScheme="red"
                           color="white"
                           onClick={() =>
-                            navigate(`/user/delete/${usuarioMap.id}`)
+                            navigate(`/setor/delete/${setorMap.id}`)
                           }
                         >
                           <Icon as={RiDeleteBinLine} fontSize="20" />

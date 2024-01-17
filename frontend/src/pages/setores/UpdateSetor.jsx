@@ -21,80 +21,48 @@ import { CommonInput } from "../../components/Form/CommonInput";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
-import { useContext, useEffect, useState } from "react";
-import { deleteToken, getToken } from "../../utils/localstorage";
-import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
-import { CommonSelectEnum } from "../../components/Form/CommonSelectEnum";
-import { AuthenticationContext } from "../../provider/AuthenticationProvider";
+import { useEffect, useState } from "react";
+import { getToken } from "../../utils/localstorage";
 
-const UpdateUserFormSchema = yup.object().shape({
-  username: yup.string().required("O nome do usuário é obrigatório"),
+const UpdateSetorFormSchema = yup.object().shape({
+  nome: yup.string().required("O nome do usuário é obrigatório"),
 });
 
-export const UpdateUsuario = () => {
-  const [usuario, setUsuario] = useState([]);
+export const UpdateSetor = () => {
+  const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
   const [erro, setErro] = useState(false);
-
-  const { userData, setIsAuthenticated, setUserData } = useContext(
-    AuthenticationContext
-  );
 
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
 
-  const userLevel = [
-    // Criar 1 método para buscar as roles e popular automaticamente.
-    { value: 1, label: "Administrador" },
-    { value: 2, label: "Gerente" },
-    { value: 3, label: "Usuário" },
-  ];
-
   const { register, handleSubmit, formState, setValue } = useForm({
-    resolver: yupResolver(UpdateUserFormSchema),
+    resolver: yupResolver(UpdateSetorFormSchema),
   });
 
-  const logoutUserUpdate = () => {
-    setIsAuthenticated(false);
-    setUserData({});
-    deleteToken();
-    toast({
-      title: "Usuário atualizado com sucesso, faça login novamente!",
-      status: "success",
-      position: "top-right",
-      duration: 1000,
-      isClosable: true,
-    });
-    setTimeout(() => navigate("/"), 1000);
-  };
-
-  const handleUpdateUser = async (data) => {
-    const newUser = {
+  const handleUpdateSetor = async (data) => {
+    const newSetor = {
       id: id,
-      name: data.username.trim(),
-      password: data.password.trim(),
-      permissions: [{ id: data.permissions }],
+      nome: data.nome.trim(),
     };
     setIsLoadingBtn(true);
     try {
-      const request = await api.put("/user/v1", newUser, {
+      const request = await api.put("/setor/v1", newSetor, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       console.log(request)
-      if (request.status == 200 && userData.id == id) {
-        logoutUserUpdate();
-        setTimeout(() => navigate("/"), 1000);
-      } else if (request.status == 200) {
+      console.log(data)
+      if (request.status == 200) {
         toast({
-          title: "Usuário atualizado com sucesso!",
+          title: "Setor atualizado com sucesso!",
           status: "success",
           position: "top-right",
           duration: 3000,
           isClosable: true,
         });
-        setTimeout(() => navigate("/user"), 1000);
+        setTimeout(() => navigate("/setor"), 1000);
       }
     } catch (error) {
       setIsLoadingBtn(false);
@@ -131,17 +99,16 @@ export const UpdateUsuario = () => {
     }
   };
 
-  const getUserById = async () => {
+  const getSetorById = async () => {
     try {
-      const request = await api.get(`/user/v1/${id}`, {
+      const request = await api.get(`/setor/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
-      setValue("role", request.data.role);
       if (request.length != 0) {
         setErro(false);
-        setUsuario(request.data);
-        setValue("username", request.data.name);
+        setSetor(request.data);
+        setValue("nome", request.data.nome);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -153,7 +120,7 @@ export const UpdateUsuario = () => {
   };
 
   useEffect(() => {
-    getUserById();
+    getSetorById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -197,7 +164,7 @@ export const UpdateUsuario = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados do usuário
+            Falha ao obter dados do setor
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
@@ -209,10 +176,10 @@ export const UpdateUsuario = () => {
           flex="1"
           borderRadius={8}
           p={["6", "8"]}
-          onSubmit={handleSubmit(handleUpdateUser)}
+          onSubmit={handleSubmit(handleUpdateSetor)}
         >
           <Heading size="lg" fontWeight="500">
-            Editar Usuário: {usuario.name}
+            Editar Setor: {setor.nome}
           </Heading>
 
           <Divider my="6" borderColor="gray.300" />
@@ -220,27 +187,10 @@ export const UpdateUsuario = () => {
           <VStack spacing="8">
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <CommonInput
-                placeholder="Usuário"
-                label="Nome do Usuário"
-                {...register("username")}
-                error={formState.errors.username}
-              />
-              <CommonInputPassword
-                placeholder="Senha"
-                label="Senha"
-                {...register("password")}
-                error={formState.errors.password}
-              />
-            </SimpleGrid>
-          </VStack>
-          <VStack pt={5} spacing="8">
-            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <CommonSelectEnum
-                type={userLevel}
-                label={"Nível de acesso"}
-                {...register("permissions")}
-                placeholder="Selecione um nível de acesso"
-                error={formState.errors.permissions}
+                placeholder="Setor"
+                label="Nome do Setor"
+                {...register("nome")}
+                error={formState.errors.nome}
               />
             </SimpleGrid>
           </VStack>
@@ -250,7 +200,7 @@ export const UpdateUsuario = () => {
               <Box>
                 <Button
                   colorScheme="blackAlpha"
-                  onClick={() => navigate("/user")}
+                  onClick={() => navigate("/setor")}
                 >
                   Voltar
                 </Button>
