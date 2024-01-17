@@ -58,7 +58,10 @@ export const ModalDetailsUsuario = () => {
         <Modal
           isOpen={isOpen}
           onClose={() => {
-            usuario.role == "ADMIN" ? navigate("/user") : navigate("/home");
+            usuario.permissions.some((p) => p.description === "ADMIN") ||
+            usuario.permissions.some((p) => p.description === "MANAGER")
+              ? navigate("/user")
+              : navigate("/ramais");
           }}
           isCentered
           motionPreset="scale"
@@ -124,13 +127,7 @@ export const ModalDetailsUsuario = () => {
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Login: {usuario.login}</Text>
-                    <Text>Matrícula: {usuario.matricula}</Text>
-                    {usuario.role == "ADMIN" ? (
-                      <Text>Nível de acesso: Administrador</Text>
-                    ) : (
-                      <Text>Nível de acesso: Usuário</Text>
-                    )}
+                    <Text>Login: {usuario.name}</Text>
                   </VStack>
                 </ModalBody>
 
@@ -139,9 +136,14 @@ export const ModalDetailsUsuario = () => {
                     fontSize={["12px", "16px"]}
                     colorScheme="blue"
                     onClick={() => {
-                      usuario.role == "ADMIN"
+                      usuario.permissions.some(
+                        (p) => p.description === "ADMIN"
+                      ) ||
+                      usuario.permissions.some(
+                        (p) => p.description === "MANAGER"
+                      )
                         ? navigate("/user")
-                        : navigate("/home");
+                        : navigate("/ramais");
                     }}
                   >
                     Voltar

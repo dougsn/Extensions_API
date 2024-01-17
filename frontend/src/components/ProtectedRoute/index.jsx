@@ -7,9 +7,12 @@ export const ProtectedRoute = (props) => {
   const location = useLocation();
 
   const path = location.pathname.split("/");
+
   if (
-    userData.permissions.some((p) => p.description === "ADMIN") ||
-    userData.permissions.some((p) => p.description === "MANAGER")
+    userData &&
+    userData.permissions &&
+    (userData.permissions.some((p) => p.description === "ADMIN") ||
+      userData.permissions.some((p) => p.description === "MANAGER"))
   ) {
     return props.children;
   } else {
