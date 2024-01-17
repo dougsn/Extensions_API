@@ -7,9 +7,6 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import { Header } from "../components/Header";
 import { AuthenticationProvider } from "../provider/AuthenticationProvider";
 
-// Home
-import { ListRamal } from "../pages/ramal/ListRamal";
-
 // Login
 import { LoginForm } from "../pages/login";
 import { ListUsuario } from "../pages/usuario/ListUsuario";
@@ -23,6 +20,12 @@ import { ListSetor } from "../pages/setores/ListSetor";
 import { CreateSetor } from "../pages/setores/CreateSetor";
 import { DeleteSetor } from "../pages/setores/DeleteSetor";
 import { UpdateSetor } from "../pages/setores/UpdateSetor";
+
+// Ramal
+import { ListRamal } from "../pages/ramal/ListRamal";
+import { CreateRamal } from "../pages/ramal/CreateRamal";
+import { DeleteRamal } from "../pages/ramal/DeleteRamal";
+import { UpdateRamal } from "../pages/ramal/UpdateRamal";
 
 const AppRoutes = () => {
   return (
@@ -96,6 +99,27 @@ const AppRoutes = () => {
               element={
                 <ProtectedRoute>
                   <DeleteSetor />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Gerenciamento de Ramais */}
+            <Route
+              path="/ramal/new"
+              element={
+                <ProtectedRoute>
+                  <CreateRamal />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/ramal/update/:id" element={<UpdateRamal />} />
+
+            <Route
+              path="/ramal/delete/:id"
+              element={
+                <ProtectedRoute>
+                  <DeleteRamal />
                 </ProtectedRoute>
               }
             />
