@@ -39,19 +39,19 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       duration: 1000,
       isClosable: true,
     });
-    setTimeout(() => navigate("/"), 1000);
+    setTimeout(() => navigate("/ramais"), 1000);
   };
 
   async function handleRemove() {
     try {
       setIsLoading(true);
 
-      const response = await api.delete(`${endpoint}/${id}`, {
+      const response = await api.delete(`${endpoint}/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (response.status == 204 && endpoint == "user" && userData.id == id) {
         logoutUserDelete();
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => navigate("/ramais"), 1000);
       } else if (response.status == 204) {
         toast({
           title: `${name} removido(a) com sucesso!`,

@@ -36,7 +36,7 @@ export const DeleteUsuario = () => {
 
   const getUsuarioById = async () => {
     try {
-      const request = await api.get(`/user/${id}`, {
+      const request = await api.get(`/user/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {
@@ -117,17 +117,11 @@ export const DeleteUsuario = () => {
             ) : (
               <>
                 <ModalHeader textAlign={"center"}>
-                  Deletar Usuário: {usuario.login}
+                  Deletar Usuário: {usuario.name}
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Login: {usuario.login}</Text>
-                    <Text>Matricula: {usuario.matricula}</Text>
-                    {usuario.role == "ADMIN" ? (
-                      <Text>Nível de acesso: Administrador</Text>
-                    ) : (
-                      <Text>Nível de acesso: Usuário</Text>
-                    )}
+                    <Text>Login: {usuario.name}</Text>
                   </VStack>
                 </ModalBody>
 
