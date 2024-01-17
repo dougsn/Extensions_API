@@ -72,11 +72,6 @@ export const ListRamal = () => {
       return null;
     }
   };
-  console.log(
-    Object.keys(userData).length === 0
-      ? "Objeto vazio"
-      : "Objeto com informações"
-  );
 
   useEffect(() => {
     getRamal();

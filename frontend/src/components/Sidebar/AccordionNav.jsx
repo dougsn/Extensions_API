@@ -3,14 +3,15 @@ import { AccordionSection } from "./AccordionSection";
 import { NavLink } from "./NavLink";
 import { Accordion, Stack } from "@chakra-ui/react";
 import {
-  BsFillClipboard2CheckFill,
   BsFillPeopleFill,
-  BsFillPersonFill,
+  BsPrinterFill,
   BsTelephoneFill,
 } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
+import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
 
 export const AccordionNav = ({ close }) => {
   const location = useLocation();
@@ -30,21 +31,53 @@ export const AccordionNav = ({ close }) => {
       userData.permissions.some((p) => p.description === "MANAGER")
     ) {
       return (
-        <Link to="/user" onClick={close}>
-          <NavLink
-            as="a"
-            icon={BsFillPeopleFill}
-            active={checkUrl(location.pathname, "user")}
-          >
-            Todos Usuários
-          </NavLink>
-        </Link>
-      );
-    } else {
-      return (
-        <Link to={`/user/detail/${userData.id}`}>
-          <NavLink icon={BsFillPersonFill}>Meus Dados</NavLink>
-        </Link>
+        <>
+          <Link to="/setor" onClick={close}>
+            <NavLink
+              as="a"
+              icon={RiOrganizationChart}
+              active={checkUrl(location.pathname, "setor")}
+            >
+              Setores
+            </NavLink>
+          </Link>
+          <Link to="/email" onClick={close}>
+            <NavLink
+              as="a"
+              icon={MdEmail}
+              active={checkUrl(location.pathname, "email")}
+            >
+              Emails
+            </NavLink>
+          </Link>
+          <Link to="/computador" onClick={close}>
+            <NavLink
+              as="a"
+              icon={RiComputerFill}
+              active={checkUrl(location.pathname, "computador")}
+            >
+              Computadores
+            </NavLink>
+          </Link>
+          <Link to="/impressora" onClick={close}>
+            <NavLink
+              as="a"
+              icon={BsPrinterFill}
+              active={checkUrl(location.pathname, "impressora")}
+            >
+              Impressoras
+            </NavLink>
+          </Link>
+          <Link to="/user" onClick={close}>
+            <NavLink
+              as="a"
+              icon={BsFillPeopleFill}
+              active={checkUrl(location.pathname, "user")}
+            >
+              Todos Usuários
+            </NavLink>
+          </Link>
+        </>
       );
     }
   };
@@ -62,8 +95,7 @@ export const AccordionNav = ({ close }) => {
               Ramais
             </NavLink>
           </Link>
-        </AccordionSection>
-        <AccordionSection title="USUÁRIOS">
+
           {renderLinksBasedOnPermissions()}
         </AccordionSection>
       </Accordion>
