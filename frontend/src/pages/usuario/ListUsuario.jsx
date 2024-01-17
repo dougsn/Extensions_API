@@ -78,8 +78,6 @@ export const ListUsuario = () => {
 
   useEffect(() => {
     getUsuario();
-    console.log(page);
-
     window.scrollTo({
       top: 0,
       behavior: "smooth",
