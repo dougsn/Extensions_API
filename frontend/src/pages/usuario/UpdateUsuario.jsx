@@ -82,7 +82,6 @@ export const UpdateUsuario = () => {
       const request = await api.put("/user/v1", newUser, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      console.log(request)
       if (request.status == 200 && userData.id == id) {
         logoutUserUpdate();
         setTimeout(() => navigate("/"), 1000);

@@ -63,7 +63,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
 
         setTimeout(() => {
           setIsLoading(false);
-          navigate(`/${endpoint}`);
+          navigate(`/${endpoint == "funcionario" ? endpoint = "ramais" : endpoint = endpoint}`);
         }, 1000);
       }
     } catch (error) {
@@ -117,7 +117,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       {/* Modal */}
       <Modal
         isOpen={isOpen}
-        onClose={() => navigate(`/${endpoint}`)}
+        onClose={() => navigate(`/${endpoint == "funcionario" ? endpoint = "ramais" : endpoint = endpoint}`)}
         isCentered
         motionPreset="scale"
       >

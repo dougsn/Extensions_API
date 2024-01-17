@@ -250,16 +250,6 @@ export const ListUsuario = () => {
                   </Td>
                   <Td>
                     <HStack spacing="2" display="flex" justifyContent="end">
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="blue"
-                        onClick={() =>
-                          navigate(`/user/detail/${usuarioMap.id}`)
-                        }
-                      >
-                        <Icon as={RxMagnifyingGlass} fontSize="20" />
-                      </Button>
 
                       {userData.permissions.some(
                         (p) =>

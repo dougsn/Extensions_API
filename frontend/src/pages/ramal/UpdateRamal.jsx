@@ -23,12 +23,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
+import { CommonSelect } from "../../components/Form/CommonSelect";
 
-const UpdateSetorFormSchema = yup.object().shape({
-  nome: yup.string().required("O nome do usuário é obrigatório"),
+const UpdateRamalFormSchema = yup.object().shape({
+  nome: yup.string().required("O nome é obrigatório"),
+  ramal: yup.string().required("O ramal é obrigatório"),
+  email: yup.string().required("O email é obrigatório"),
+  id_setor: yup.string().required("O setor é obrigatório"),
 });
 
 export const UpdateRamal = () => {
+  const [ramal, setRamal] = useState([]);
   const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
@@ -39,30 +44,31 @@ export const UpdateRamal = () => {
   const toast = useToast();
 
   const { register, handleSubmit, formState, setValue } = useForm({
-    resolver: yupResolver(UpdateSetorFormSchema),
+    resolver: yupResolver(UpdateRamalFormSchema),
   });
 
-  const handleUpdateSetor = async (data) => {
-    const newSetor = {
+  const handleUpdateRamal = async (data) => {
+    const newRamal = {
       id: id,
       nome: data.nome.trim(),
+      ramal: data.ramal.trim(),
+      email: data.email.trim(),
+      id_setor: data.id_setor.trim(),
     };
     setIsLoadingBtn(true);
     try {
-      const request = await api.put("/setor/v1", newSetor, {
+      const request = await api.put("/funcionario/v1", newRamal, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      console.log(request)
-      console.log(data)
       if (request.status == 200) {
         toast({
-          title: "Setor atualizado com sucesso!",
+          title: "Ramal atualizado com sucesso!",
           status: "success",
           position: "top-right",
           duration: 3000,
           isClosable: true,
         });
-        setTimeout(() => navigate("/setor"), 1000);
+        setTimeout(() => navigate("/ramais"), 1000);
       }
     } catch (error) {
       setIsLoadingBtn(false);
@@ -99,16 +105,19 @@ export const UpdateRamal = () => {
     }
   };
 
-  const getSetorById = async () => {
+  const getRamalById = async () => {
     try {
-      const request = await api.get(`/setor/v1/${id}`, {
+      const request = await api.get(`/funcionario/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
       if (request.length != 0) {
         setErro(false);
-        setSetor(request.data);
+        setRamal(request.data);
         setValue("nome", request.data.nome);
+        setValue("ramal", request.data.ramal);
+        setValue("email", request.data.email);
+        setValue("id_setor", request.data.id_setor);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -119,8 +128,20 @@ export const UpdateRamal = () => {
     }
   };
 
+  const getSetor = async () => {
+    try {
+      const request = await api.get(`/setor/v1/all`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      setSetor(request.data);
+    } catch (error) {
+      return null;
+    }
+  };
+
   useEffect(() => {
-    getSetorById();
+    getRamalById();
+    getSetor();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -164,7 +185,7 @@ export const UpdateRamal = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados do setor
+            Falha ao obter dados do ramal
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
@@ -176,10 +197,10 @@ export const UpdateRamal = () => {
           flex="1"
           borderRadius={8}
           p={["6", "8"]}
-          onSubmit={handleSubmit(handleUpdateSetor)}
+          onSubmit={handleSubmit(handleUpdateRamal)}
         >
           <Heading size="lg" fontWeight="500">
-            Editar Setor: {setor.nome}
+            Editar Ramal do: {ramal.nome}
           </Heading>
 
           <Divider my="6" borderColor="gray.300" />
@@ -187,20 +208,42 @@ export const UpdateRamal = () => {
           <VStack spacing="8">
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <CommonInput
-                placeholder="Setor"
-                label="Nome do Setor"
+                placeholder="Ramal"
+                label="Nome do Ramal"
                 {...register("nome")}
                 error={formState.errors.nome}
               />
+              <CommonInput
+                placeholder="Ramal"
+                label="Ramal"
+                {...register("ramal")}
+                error={formState.errors.ramal}
+              />
             </SimpleGrid>
           </VStack>
-
+          <VStack spacing="8">
+            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+              <CommonInput
+                placeholder="Email"
+                label="Email"
+                {...register("email")}
+                error={formState.errors.email}
+              />
+              <CommonSelect
+                entity={setor}
+                placeholder="Selecione um setor"
+                label={"Setor"}
+                {...register("id_setor")}
+                error={formState.errors.id_setor}
+              />
+            </SimpleGrid>
+          </VStack>
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
               <Box>
                 <Button
                   colorScheme="blackAlpha"
-                  onClick={() => navigate("/setor")}
+                  onClick={() => navigate("/ramais")}
                 >
                   Voltar
                 </Button>

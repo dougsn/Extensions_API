@@ -72,7 +72,7 @@ export const Profile = () => {
       const response = await getUserData();
 
       if (response == false) {
-        if (isAuthenticated == false && location.pathname != "/") {
+        if (isAuthenticated == false && location.pathname != "/ramais") {
           toast({
             title: "Você precisa estar autenticado para usar o sistema.",
             status: "error",

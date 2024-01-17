@@ -52,8 +52,6 @@ export const UpdateSetor = () => {
       const request = await api.put("/setor/v1", newSetor, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      console.log(request)
-      console.log(data)
       if (request.status == 200) {
         toast({
           title: "Setor atualizado com sucesso!",

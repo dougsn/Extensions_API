@@ -52,9 +52,7 @@ export const ListRamal = () => {
 
   const getRamal = async () => {
     try {
-      const request = await api.get(`/funcionario/v1?page=${page}&size=${5}`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const request = await api.get(`/funcionario/v1?page=${page}&size=${5}`);
       setInfopage(request.data.page.totalPages);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
@@ -65,7 +63,7 @@ export const ListRamal = () => {
       setIsLoading(false);
       setErro(true);
       toast({
-        title: error.response.data.error,
+        title: error.response.data.errorMessage,
         status: "error",
         position: "top-right",
         duration: 2000,
@@ -74,6 +72,11 @@ export const ListRamal = () => {
       return null;
     }
   };
+  console.log(
+    Object.keys(userData).length === 0
+      ? "Objeto vazio"
+      : "Objeto com informações"
+  );
 
   useEffect(() => {
     getRamal();
@@ -90,7 +93,8 @@ export const ListRamal = () => {
           <Heading size="lg" fontWeight="500">
             Lista de Ramal
           </Heading>
-          {userData &&
+          {Object.keys(userData).length != 0 &&
+            userData &&
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -110,7 +114,8 @@ export const ListRamal = () => {
           <Heading size="lg" fontWeight="500">
             Lista de Ramal
           </Heading>
-          {userData &&
+          {Object.keys(userData).length != 0 &&
+            userData &&
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -197,34 +202,36 @@ export const ListRamal = () => {
                   <Text>Email: {ramalMap.email}</Text>
                 </CardBody>
                 <CardFooter justify="space-around">
-                  {userData.permissions.some(
-                    (p) =>
-                      p.description === "ADMIN" || p.description === "MANAGER"
-                  ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      color="white"
-                      onClick={() => navigate(`/ramal/update/${ramalMap.id}`)}
-                    >
-                      <Icon as={RiEditLine} fontSize="20" />
-                    </Button>
-                  )}
-                  {userData.permissions.some(
-                    (p) =>
-                      p.description === "ADMIN" || p.description === "MANAGER"
-                  ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="red"
-                      color="white"
-                      onClick={() => navigate(`/ramal/delete/${ramalMap.id}`)}
-                    >
-                      <Icon as={RiDeleteBinLine} fontSize="20" />
-                    </Button>
-                  )}
+                  {Object.keys(userData).length != 0 &&
+                    userData.permissions.some(
+                      (p) =>
+                        p.description === "ADMIN" || p.description === "MANAGER"
+                    ) && (
+                      <Button
+                        size="sm"
+                        fontSize="sm"
+                        colorScheme="yellow"
+                        color="white"
+                        onClick={() => navigate(`/ramal/update/${ramalMap.id}`)}
+                      >
+                        <Icon as={RiEditLine} fontSize="20" />
+                      </Button>
+                    )}
+                  {Object.keys(userData).length != 0 &&
+                    userData.permissions.some(
+                      (p) =>
+                        p.description === "ADMIN" || p.description === "MANAGER"
+                    ) && (
+                      <Button
+                        size="sm"
+                        fontSize="sm"
+                        colorScheme="red"
+                        color="white"
+                        onClick={() => navigate(`/ramal/delete/${ramalMap.id}`)}
+                      >
+                        <Icon as={RiDeleteBinLine} fontSize="20" />
+                      </Button>
+                    )}
                 </CardFooter>
               </Card>
             );
@@ -275,7 +282,8 @@ export const ListRamal = () => {
                   </Td>
                   <Td>
                     <HStack spacing="2" display="flex" justifyContent="end">
-                      {userData &&
+                      {Object.keys(userData).length != 0 &&
+                        userData &&
                         userData.permissions &&
                         userData.permissions.some(
                           (p) =>
@@ -295,23 +303,26 @@ export const ListRamal = () => {
                           </Button>
                         )}
 
-                      {userData.permissions.some(
-                        (p) =>
-                          p.description === "ADMIN" ||
-                          p.description === "MANAGER"
-                      ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="red"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/ramal/delete/${ramalMap.id}`)
-                          }
-                        >
-                          <Icon as={RiDeleteBinLine} fontSize="20" />
-                        </Button>
-                      )}
+                      {Object.keys(userData).length != 0 &&
+                        userData &&
+                        userData.permissions &&
+                        userData.permissions.some(
+                          (p) =>
+                            p.description === "ADMIN" ||
+                            p.description === "MANAGER"
+                        ) && (
+                          <Button
+                            size="sm"
+                            fontSize="sm"
+                            colorScheme="red"
+                            color="white"
+                            onClick={() =>
+                              navigate(`/ramal/delete/${ramalMap.id}`)
+                            }
+                          >
+                            <Icon as={RiDeleteBinLine} fontSize="20" />
+                          </Button>
+                        )}
                     </HStack>
                   </Td>
                 </Tr>

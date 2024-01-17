@@ -24,7 +24,7 @@ import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 
 export const DeleteRamal = () => {
-  const [setor, setSetor] = useState([]);
+  const [ramal, setRamal] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
@@ -34,15 +34,15 @@ export const DeleteRamal = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const getSetorById = async () => {
+  const getRamalById = async () => {
     try {
-      const request = await api.get(`/setor/v1/${id}`, {
+      const request = await api.get(`/funcionario/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {
         setIsLoading(false);
         setErro(false);
-        setSetor(request.data);
+        setRamal(request.data);
       }
     } catch (error) {
       setErro(true);
@@ -52,7 +52,7 @@ export const DeleteRamal = () => {
 
   useEffect(() => {
     onOpen();
-    getSetorById();
+    getRamalById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +61,7 @@ export const DeleteRamal = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/setor")}
+          onClose={() => navigate("/ramais")}
           isCentered
           motionPreset="scale"
         >
@@ -108,7 +108,7 @@ export const DeleteRamal = () => {
               >
                 <AlertIcon boxSize="40px" mr={0} />
                 <AlertTitle mt={4} mb={1} fontSize="xl">
-                  Falha ao obter dados do setor
+                  Falha ao obter dados do ramais
                 </AlertTitle>
                 <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
                   Tente novamente mais tarde.
@@ -117,11 +117,13 @@ export const DeleteRamal = () => {
             ) : (
               <>
                 <ModalHeader textAlign={"center"}>
-                  Deletar Setor: {setor.nome}
+                  Deletar Ramal do: {ramal.nome}
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Login: {setor.nome}</Text>
+                    <Text>Ramal: {ramal.nome}</Text>
+                    <Text>Email: {ramal.email}</Text>
+                    <Text>Setor: {ramal.nome_setor}</Text>
                   </VStack>
                 </ModalBody>
 
@@ -130,7 +132,7 @@ export const DeleteRamal = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/setor")}
+                    onClick={() => navigate("/ramais")}
                   >
                     Voltar
                   </Button>
@@ -138,8 +140,8 @@ export const DeleteRamal = () => {
                   <ConfirmDelete
                     color="red"
                     id={id}
-                    name={"Setor"}
-                    endpoint={"setor"}
+                    name={"Ramal"}
+                    endpoint={"funcionario"}
                   ></ConfirmDelete>
                 </ModalFooter>
               </>
