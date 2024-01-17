@@ -16,7 +16,8 @@ public class FuncionarioDTOMapper implements Function<Funcionario, FuncionarioDT
                 funcionario.getNome(),
                 funcionario.getRamal(),
                 funcionario.getEmail(),
-                funcionario.getSetor().getId()
+                funcionario.getSetor().getId(),
+                funcionario.getSetor().getNome()
         );
 
     }

@@ -28,16 +28,29 @@ public class FuncionarioDTO extends RepresentationModel<FuncionarioDTO> implemen
     @NotEmpty(message = "O campo [id_setor] é obrigatório.")
     @JsonProperty("id_setor")
     private String idSetor;
+    @Schema(type = "string", example = "Administração")
+    @NotEmpty(message = "O campo [nome_setor] é obrigatório.")
+    @JsonProperty("nome_setor")
+    private String nomeSetor;
 
     public FuncionarioDTO() {
     }
 
-    public FuncionarioDTO(String id, String nome, String ramal, String email, String idSetor) {
+    public FuncionarioDTO(String id, String nome, String ramal, String email, String idSetor, String nomeSetor) {
         this.id = id;
         this.nome = nome;
         this.ramal = ramal;
         this.email = email;
         this.idSetor = idSetor;
+        this.nomeSetor = nomeSetor;
+    }
+
+    public String getNomeSetor() {
+        return nomeSetor;
+    }
+
+    public void setNomeSetor(String nomeSetor) {
+        this.nomeSetor = nomeSetor;
     }
 
     public String getIdSetor() {
