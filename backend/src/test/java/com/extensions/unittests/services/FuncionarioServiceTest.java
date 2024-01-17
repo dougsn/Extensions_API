@@ -126,7 +126,7 @@ public class FuncionarioServiceTest {
     @Test
     void testCheckingSectorWithTheSameNameDuringUpdate() {
         when(repository.findByNome("NomeExistente")).thenReturn(Optional.of(new Funcionario("1", "NomeExistente", "douglas@gmail.com", "123", inputSetor.mockEntity(UUID_MOCK))));
-        FuncionarioUpdateDTO data = new FuncionarioUpdateDTO("123", "NomeExistente","123", "douglas@gmail.com", UUID_MOCK, "Administração");
+        FuncionarioUpdateDTO data = new FuncionarioUpdateDTO("123", "NomeExistente","123", "douglas@gmail.com", UUID_MOCK);
         assertThrows(DataIntegratyViolationException.class, () -> service.checkingFuncionarioWithTheSameNameDuringUpdate(data));
     }
 
