@@ -39,7 +39,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       duration: 1000,
       isClosable: true,
     });
-    setTimeout(() => navigate("/ramais"), 1000);
+    setTimeout(() => navigate("/ramal"), 1000);
   };
 
   async function handleRemove() {
@@ -51,7 +51,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       });
       if (response.status == 204 && endpoint == "user" && userData.id == id) {
         logoutUserDelete();
-        setTimeout(() => navigate("/ramais"), 1000);
+        setTimeout(() => navigate("/ramal"), 1000);
       } else if (response.status == 204) {
         toast({
           title: `${name} removido(a) com sucesso!`,
@@ -63,7 +63,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
 
         setTimeout(() => {
           setIsLoading(false);
-          navigate(`/${endpoint == "funcionario" ? endpoint = "ramais" : endpoint = endpoint}`);
+          navigate(`/${endpoint == "funcionario" ? endpoint = "ramal" : endpoint = endpoint}`);
         }, 1000);
       }
     } catch (error) {
@@ -117,7 +117,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       {/* Modal */}
       <Modal
         isOpen={isOpen}
-        onClose={() => navigate(`/${endpoint == "funcionario" ? endpoint = "ramais" : endpoint = endpoint}`)}
+        onClose={() => navigate(`/${endpoint == "funcionario" ? endpoint = "ramal" : endpoint = endpoint}`)}
         isCentered
         motionPreset="scale"
       >

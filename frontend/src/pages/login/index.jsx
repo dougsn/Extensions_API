@@ -61,7 +61,7 @@ export const LoginForm = () => {
 
         await getUserData();
         setTimeout(() => {
-          navigate("/ramais");
+          navigate("/ramal");
         }, 1000);
       }
     } catch (error) {

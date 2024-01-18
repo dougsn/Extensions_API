@@ -127,11 +127,11 @@ export const ButtonsNavigate = () => {
         <Box display={"flex"} gap={5}>
           <Stack direction="row">
             {isLargerThan1001 && (
-              <Link to={`/ramais`}>
+              <Link to={`/ramal`}>
                 <Box
-                  active={checkUrl(location.pathname, "ramais")}
+                  active={checkUrl(location.pathname, "ramal")}
                   bgColor={`${
-                    checkUrl(location.pathname, "ramais") ? "gray.400" : ""
+                    checkUrl(location.pathname, "ramal") ? "gray.400" : ""
                   }`}
                   _hover={{ bgColor: "gray.200" }}
                   display="flex"

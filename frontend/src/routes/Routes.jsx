@@ -42,7 +42,7 @@ const AppRoutes = () => {
           >
             <Routes>
               <Route path="" element={<LoginForm />} />
-              <Route path="/ramais" element={<ListRamal />} />
+              <Route path="/ramal" element={<ListRamal />} />
 
               {/* Gerenciamento de Usuários */}
               <Route

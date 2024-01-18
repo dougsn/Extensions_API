@@ -86,11 +86,11 @@ export const AccordionNav = ({ close }) => {
     <Stack spacing="8" align="flex-start">
       <Accordion allowMultiple w="64" defaultIndex={[0]}>
         <AccordionSection title="RAMAL">
-          <Link to="/ramais" onClick={close}>
+          <Link to="/ramal" onClick={close}>
             <NavLink
               as="a"
               icon={BsTelephoneFill}
-              active={checkUrl(location.pathname, "ramais")}
+              active={checkUrl(location.pathname, "ramal")}
             >
               Ramais
             </NavLink>

@@ -59,11 +59,11 @@ export const Menu = () => {
             {isAuthenticated ? (
               <AccordionNav close={onClose} />
             ) : (
-              <Link to={"/ramais"} onClick={onClose}>
+              <Link to={"/ramal"} onClick={onClose}>
                 <Box
-                  active={checkUrl(location.pathname, "ramais")}
+                  active={checkUrl(location.pathname, "ramal")}
                   bgColor={`${
-                    checkUrl(location.pathname, "ramais") ? "gray.400" : ""
+                    checkUrl(location.pathname, "ramal") ? "gray.400" : ""
                   }`}
                   _hover={{ bgColor: "gray.200" }}
                   display="flex"

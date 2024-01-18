@@ -71,7 +71,7 @@ export const CreateRamal = () => {
           isClosable: true,
         });
         setTimeout(() => {
-          navigate(`/ramais`);
+          navigate(`/ramal`);
         }, 1000);
       }
     } catch (error) {
@@ -165,7 +165,7 @@ export const CreateRamal = () => {
           <Box>
             <Button
               colorScheme="blackAlpha"
-              onClick={() => navigate("/ramais")}
+              onClick={() => navigate("/ramal")}
             >
               Voltar
             </Button>

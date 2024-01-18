@@ -30,16 +30,17 @@ import {
   CardFooter,
 } from "@chakra-ui/react";
 import { RiAddLine, RiDeleteBinLine, RiEditLine } from "react-icons/ri";
-import { RxMagnifyingGlass } from "react-icons/rx";
-import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
+import { CommonSelectRamal } from "../../components/Form/CommonSelectRamal";
+import { CommonInputRamal } from "../../components/Form/CommonInputRamal";
 
 export const ListRamal = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
   const [ramal, setRamal] = useState([]);
+  const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -72,9 +73,40 @@ export const ListRamal = () => {
       return null;
     }
   };
+  const getSetor = async () => {
+    try {
+      const request = await api.get(`/setor/v1/all`, {});
+      setSetor(request.data);
+    } catch (error) {
+      toast({
+        title: error.response.data.errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 2000,
+        isClosable: true,
+      });
+      return null;
+    }
+  };
+  const handleSelectChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    setRamal(newEntity._embedded.funcionarioDTOList);
+    handleSelectIsLoading(false);
+  };
+
+  const handleInputChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    setRamal(newEntity);
+    handleSelectIsLoading(false);
+  };
+
+  const handleSelectIsLoading = (loading) => {
+    setIsLoading(loading);
+  };
 
   useEffect(() => {
     getRamal();
+    getSetor();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -127,6 +159,22 @@ export const ListRamal = () => {
             )}
         </Flex>
       )}
+      <Flex mb="8" justify="space-between" align="center" gap={50}>
+        <CommonInputRamal
+          handleLoading={handleSelectIsLoading}
+          handleChange={handleInputChange}
+          entity={ramal}
+          placeholder="Filtrar nome"
+          label="Nome"
+        />
+        <CommonSelectRamal
+          handleLoading={handleSelectIsLoading}
+          handleChange={handleSelectChange}
+          entity={setor}
+          placeholder="Selecione um setor"
+          label={"Setor"}
+        />
+      </Flex>
 
       {isLoading ? (
         <Flex

@@ -61,7 +61,7 @@ export const DeleteRamal = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/ramais")}
+          onClose={() => navigate("/ramal")}
           isCentered
           motionPreset="scale"
         >
@@ -132,7 +132,7 @@ export const DeleteRamal = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/ramais")}
+                    onClick={() => navigate("/ramal")}
                   >
                     Voltar
                   </Button>

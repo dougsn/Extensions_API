@@ -19,7 +19,9 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -62,6 +64,16 @@ public class FuncionarioService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<FuncionarioDTO> findFuncionarioByNome(String nome) {
+        logger.info("Buscando funcionário de nome: " + nome);
+        var funcionarios = repository.findFuncionarioByNome(nome)
+                .stream().map(mapper)
+                .collect(Collectors.toList());
+
+        funcionarios.forEach(f -> f.add(linkTo(methodOn(FuncionarioController.class).findById(f.getId())).withSelfRel()));
+        return funcionarios;
     }
 
 

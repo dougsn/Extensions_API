@@ -68,7 +68,7 @@ export const UpdateRamal = () => {
           duration: 3000,
           isClosable: true,
         });
-        setTimeout(() => navigate("/ramais"), 1000);
+        setTimeout(() => navigate("/ramal"), 1000);
       }
     } catch (error) {
       setIsLoadingBtn(false);
@@ -243,7 +243,7 @@ export const UpdateRamal = () => {
               <Box>
                 <Button
                   colorScheme="blackAlpha"
-                  onClick={() => navigate("/ramais")}
+                  onClick={() => navigate("/ramal")}
                 >
                   Voltar
                 </Button>
