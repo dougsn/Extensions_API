@@ -42,7 +42,10 @@ const Input = (
         }
       } else {
         const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
-        handleChange(request.data._embedded.funcionarioDTOList)
+        setTimeout(() => {
+          handleChange(request.data._embedded.funcionarioDTOList);
+          handleLoading(false);
+        }, 1000);
       }
     } catch (error) {}
   };
