@@ -27,16 +27,22 @@ const Input = (
   ref
 ) => {
   const handleSelectChange = async (event) => {
-    const data = event.target.value;
+    const data = event.target.value.trim();
     try {
       handleLoading(true);
-
-      const request = await api.get(`/funcionario/v1/funcionario?nome=${data}`);
-      if (request.data.length != 0) {
-        setTimeout(() => {
-          handleChange(request.data);
-          handleLoading(false);
-        }, 1000);
+      if (data) {
+        const request = await api.get(
+          `/funcionario/v1/funcionario?nome=${data}`
+        );
+        if (request.data.length !== 0) {
+          setTimeout(() => {
+            handleChange(request.data);
+            handleLoading(false);
+          }, 1000);
+        }
+      } else {
+        const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
+        handleChange(request.data._embedded.funcionarioDTOList)
       }
     } catch (error) {}
   };
