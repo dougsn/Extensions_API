@@ -3,6 +3,7 @@ package com.extensions.services;
 import com.extensions.controller.FuncionarioController;
 import com.extensions.domain.dto.funcionario.FuncionarioDTO;
 import com.extensions.domain.dto.funcionario.FuncionarioDTOMapper;
+import com.extensions.domain.dto.funcionario.FuncionarioDTOMapperList;
 import com.extensions.domain.dto.funcionario.FuncionarioUpdateDTO;
 import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
@@ -31,6 +32,8 @@ public class FuncionarioService {
     private final Logger logger = Logger.getLogger(FuncionarioService.class.getName());
     @Autowired
     private FuncionarioDTOMapper mapper;
+    @Autowired
+    private FuncionarioDTOMapperList listMapper;
     @Autowired
     private IFuncionarioRepository repository;
     @Autowired
@@ -68,12 +71,12 @@ public class FuncionarioService {
 
     public List<FuncionarioDTO> findFuncionarioByNome(String nome) {
         logger.info("Buscando funcionário de nome: " + nome);
-        var funcionarios = repository.findFuncionarioByNome(nome)
-                .stream().map(mapper)
-                .collect(Collectors.toList());
+        var funcionarios = repository.findFuncionarioByNome(nome);
 
-        funcionarios.forEach(f -> f.add(linkTo(methodOn(FuncionarioController.class).findById(f.getId())).withSelfRel()));
-        return funcionarios;
+        var dtoList = listMapper.apply(funcionarios);
+        dtoList.forEach(f -> f.add(linkTo(methodOn(FuncionarioController.class).findById(f.getId())).withSelfRel()));
+
+        return dtoList;
     }
 
 

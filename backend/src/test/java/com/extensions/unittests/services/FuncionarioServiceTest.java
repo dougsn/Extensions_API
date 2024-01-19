@@ -1,6 +1,8 @@
 package com.extensions.unittests.services;
 
+import com.extensions.domain.dto.funcionario.FuncionarioDTO;
 import com.extensions.domain.dto.funcionario.FuncionarioDTOMapper;
+import com.extensions.domain.dto.funcionario.FuncionarioDTOMapperList;
 import com.extensions.domain.dto.funcionario.FuncionarioUpdateDTO;
 import com.extensions.domain.entity.Funcionario;
 import com.extensions.repository.IFuncionarioRepository;
@@ -20,10 +22,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -43,12 +47,29 @@ public class FuncionarioServiceTest {
     ISetorRepository setorRepository;
     @Mock
     FuncionarioDTOMapper mapper;
+    @Mock
+    FuncionarioDTOMapperList listMapper;
 
     @BeforeEach
     void setUpMocks() {
         input = new MockFuncionario();
         inputSetor = new MockSetor();
         MockitoAnnotations.openMocks(this);
+    }
+
+
+    @Test
+    void testFindByNome() {
+        List<Funcionario> funcionarios = input.mockEntityList(inputSetor.mockEntity(UUID_MOCK));
+        List<FuncionarioDTO> dtoList = input.mockDTOList(inputSetor.mockDTO(UUID_MOCK).getId());
+
+        when(repository.findFuncionarioByNome(UUID_MOCK)).thenReturn(funcionarios);
+        when(listMapper.apply(anyList())).thenReturn(dtoList);
+
+        var funcionario = service.findFuncionarioByNome(UUID_MOCK);
+        System.out.println(funcionario);
+        assertNotNull(funcionario.get(0));
+        assertEquals(10, funcionario.size());
     }
 
 
@@ -123,15 +144,16 @@ public class FuncionarioServiceTest {
         assertEquals(UUID_MOCK, result.getId());
         assertEquals("Douglas " + UUID_MOCK, result.getNome());
     }
+
     @Test
     void testCheckingSectorWithTheSameNameDuringUpdate() {
         when(repository.findByNome("NomeExistente")).thenReturn(Optional.of(new Funcionario("1", "NomeExistente", "douglas@gmail.com", "123", inputSetor.mockEntity(UUID_MOCK))));
-        FuncionarioUpdateDTO data = new FuncionarioUpdateDTO("123", "NomeExistente","123", "douglas@gmail.com", UUID_MOCK);
+        FuncionarioUpdateDTO data = new FuncionarioUpdateDTO("123", "NomeExistente", "123", "douglas@gmail.com", UUID_MOCK);
         assertThrows(DataIntegratyViolationException.class, () -> service.checkingFuncionarioWithTheSameNameDuringUpdate(data));
     }
 
     @Test
-    void testDelete(){
+    void testDelete() {
         Funcionario funcionario = input.mockEntity(UUID_MOCK, inputSetor.mockEntity(UUID_MOCK));
         when(repository.findById(UUID_MOCK)).thenReturn(Optional.of(funcionario));
 

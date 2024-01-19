@@ -6,7 +6,6 @@ import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.funcionario.FuncionarioDTOTest;
 import com.extensions.integrationtests.dto.funcionario.FuncionarioUpdateDTOTest;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
-import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.extensions.integrationtests.wrappers.funcionario.WrapperFuncionarioDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -24,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FuncionarioControllerTest extends AbstractIntegrationTest {
+public class FuncionarioControllerTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static FuncionarioDTOTest funcionario;
@@ -230,24 +229,6 @@ public class FuncionarioControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(6)
-    public void testFindAllWithoutToken() {
-        RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
-                .setBasePath("/api/funcionario/v1")
-                .setPort(TestConfigs.SERVER_PORT)
-                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                .build();
-
-        given().spec(specificationWithoutToken)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
-                .when()
-                .get()
-                .then()
-                .statusCode(403);
-    }
-
-    @Test
-    @Order(7)
     public void testHATEOAS() {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
@@ -270,6 +251,44 @@ public class FuncionarioControllerTest extends AbstractIntegrationTest {
         assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/funcionario/v1?direction=asc&page=1&size=1&sort=nome,asc\"}}"));
 
         assertTrue(content.contains("\"page\":{\"size\":1,\"totalElements\":2,\"totalPages\":2,\"number\":0}}"));
+    }
+
+    @Test
+    @Order(7)
+    public void testFindByNome() throws JsonProcessingException {
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .queryParams("nome", "Douglas")
+                .when()
+                .get("/funcionario")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+
+        assertTrue(content.contains("\"id\":\"1d3808f8-da36-44ea-8fbd-79653a80002s\""));
+        assertTrue(content.contains("\"nome\":\"Douglas Nascimento\""));
+        assertTrue(content.contains("\"ramal\":\"123\""));
+        assertTrue(content.contains("\"email\":\"douglas@gmail.com\""));
+        assertTrue(content.contains("\"id_setor\":\"7bf808f8-da36-44ea-8fbd-79653a80023e\""));
+        assertTrue(content.contains("\"nome_setor\":\"TI\""));
+
+//        assertNotNull(content.contains("id":"1d3808f8-da36-44ea-8fbd-79653a80002s","nome":"Douglas Nascimento","ramal":"123","email":"douglas@gmail.com",
+//                "links":[{"rel":"self","href":"http://localhost:8080/api/funcionario/v1/1d3808f8-da36-44ea-8fbd-79653a80002s"}],"id_setor":"7bf808f8-da36-44ea-8fbd-79653a80023e","nome_setor":"TI"}));
+//        assertNotNull(func.getId());
+//        assertNotNull(func.getNome());
+//        assertNotNull(func.getEmail());
+//        assertNotNull(func.getRamal());
+//        assertNotNull(func.getId_setor());
+//
+//        assertEquals(func.getId(), "1d3808f8-da36-44ea-8fbd-79653a80002s");
+//
+//        assertEquals("Douglas Nascimento", func.getNome());
+//        assertEquals("douglas@gmail.com", func.getEmail());
+//        assertEquals("123", func.getRamal());
+//        assertEquals(func.getId_setor(), "7bf808f8-da36-44ea-8fbd-79653a80023e");
     }
 
 

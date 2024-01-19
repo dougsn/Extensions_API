@@ -2,12 +2,31 @@ package com.extensions.unittests.mocks;
 
 import com.extensions.domain.dto.funcionario.FuncionarioDTO;
 import com.extensions.domain.dto.funcionario.FuncionarioUpdateDTO;
-import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
+import com.extensions.integrationtests.dto.setor.SetorDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MockFuncionario {
 
+    public List<Funcionario> mockEntityList(Setor setor) {
+        List<Funcionario> funcionarios = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            funcionarios.add(mockEntity("ID" + i, setor));
+        }
+        return funcionarios;
+    }
+    public List<FuncionarioDTO> mockDTOList(String idSetor) {
+        List<FuncionarioDTO> funcionarios = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            funcionarios.add(mockDTO("ID" + i, idSetor));
+        }
+        return funcionarios;
+    }
 
     public Funcionario mockEntity(String id, Setor setor) {
         Funcionario funcionario = new Funcionario();

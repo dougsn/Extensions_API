@@ -52,6 +52,24 @@ public class FuncionarioRepositoryTest {
     }
 
     @Test
+    public void testListFindByNome(){
+        var funcionarioByNome = repository.findFuncionarioByNome("Douglas Nascimento");
+
+        assertNotNull(funcionarioByNome.get(0).getId());
+        assertNotNull(funcionarioByNome.get(0).getNome());
+        assertNotNull(funcionarioByNome.get(0).getEmail());
+        assertNotNull(funcionarioByNome.get(0).getRamal());
+        assertNotNull(funcionarioByNome.get(0).getSetor());
+
+
+        assertEquals(funcionarioByNome.get(0).getId(), "1d3808f8-da36-44ea-8fbd-79653a80002s");
+        assertEquals(funcionarioByNome.get(0).getNome(), "Douglas Nascimento");
+        assertEquals(funcionarioByNome.get(0).getRamal(), "123");
+        assertEquals(funcionarioByNome.get(0).getEmail(), "douglas@gmail.com");
+        assertEquals(funcionarioByNome.get(0).getSetor().getId(), "7bf808f8-da36-44ea-8fbd-79653a80023e");
+    }
+
+    @Test
     public void testFindBySetorId() {
         Pageable pageable = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "nome"));
 
