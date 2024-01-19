@@ -255,7 +255,7 @@ public class FuncionarioControllerTest {
 
     @Test
     @Order(7)
-    public void testFindByNome() throws JsonProcessingException {
+    public void testFindByNome() {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
                 .queryParams("nome", "Douglas")
@@ -274,23 +274,44 @@ public class FuncionarioControllerTest {
         assertTrue(content.contains("\"email\":\"douglas@gmail.com\""));
         assertTrue(content.contains("\"id_setor\":\"7bf808f8-da36-44ea-8fbd-79653a80023e\""));
         assertTrue(content.contains("\"nome_setor\":\"TI\""));
-
-//        assertNotNull(content.contains("id":"1d3808f8-da36-44ea-8fbd-79653a80002s","nome":"Douglas Nascimento","ramal":"123","email":"douglas@gmail.com",
-//                "links":[{"rel":"self","href":"http://localhost:8080/api/funcionario/v1/1d3808f8-da36-44ea-8fbd-79653a80002s"}],"id_setor":"7bf808f8-da36-44ea-8fbd-79653a80023e","nome_setor":"TI"}));
-//        assertNotNull(func.getId());
-//        assertNotNull(func.getNome());
-//        assertNotNull(func.getEmail());
-//        assertNotNull(func.getRamal());
-//        assertNotNull(func.getId_setor());
-//
-//        assertEquals(func.getId(), "1d3808f8-da36-44ea-8fbd-79653a80002s");
-//
-//        assertEquals("Douglas Nascimento", func.getNome());
-//        assertEquals("douglas@gmail.com", func.getEmail());
-//        assertEquals("123", func.getRamal());
-//        assertEquals(func.getId_setor(), "7bf808f8-da36-44ea-8fbd-79653a80023e");
     }
 
+    @Test
+    @Order(8)
+    public void findByIdSetor() throws JsonProcessingException {
+        mockFuncionario();
+        mockSetor();
+
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .header(TestConfigs.HEADER_PARM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .pathParams("idSetor", setor.getId())
+                .when()
+                .get("setor/{idSetor}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        WrapperFuncionarioDTO wrapper = objectMapper.readValue(content, WrapperFuncionarioDTO.class);
+        var funcionarios = wrapper.getEmbeded().getFuncionarios();
+
+        FuncionarioDTOTest funcionarioOne = funcionarios.get(0);
+
+        assertNotNull(funcionarioOne);
+        assertNotNull(funcionarioOne.getId());
+        assertNotNull(funcionarioOne.getNome());
+        assertNotNull(funcionarioOne.getEmail());
+        assertNotNull(funcionarioOne.getRamal());
+        assertNotNull(funcionarioOne.getId_setor());
+
+        assertEquals("1d3808f8-da36-44ea-8fbd-79653a80002s", funcionarioOne.getId());
+        assertEquals("Douglas Nascimento", funcionarioOne.getNome());
+        assertEquals("douglas@gmail.com", funcionarioOne.getEmail());
+        assertEquals("123", funcionarioOne.getRamal());
+        assertEquals("7bf808f8-da36-44ea-8fbd-79653a80023e",funcionarioOne.getId_setor());
+    }
 
     private void mockSetor() {
         setor.setId("7bf808f8-da36-44ea-8fbd-79653a80023e");
