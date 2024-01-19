@@ -4,6 +4,7 @@ import {
   FormLabel,
   Input as ChakraInput,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 import { api } from "../../services/api";
@@ -26,7 +27,10 @@ const Input = (
   },
   ref
 ) => {
-  const handleSelectChange = async (event) => {
+  
+  const toast = useToast();
+
+  const handleInputChange = async (event) => {
     const data = event.target.value.trim();
     try {
       handleLoading(true);
@@ -34,20 +38,30 @@ const Input = (
         const request = await api.get(
           `/funcionario/v1/funcionario?nome=${data}`
         );
-        if (request.data.length !== 0) {
+        if (request.data.length != 0) {
           setTimeout(() => {
             handleChange(request.data);
             handleLoading(false);
           }, 1000);
+        } else {
+          toast({
+            title: `${data} não foi encontrado na base de dados.`,
+            status: "error",
+            position: "top-right",
+            duration: 2000,
+            isClosable: true,
+          });
+          const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
+          setTimeout(() => {
+            handleChange(request.data._embedded.funcionarioDTOList);
+            handleLoading(false);
+          }, 1000);
         }
-      } else {
-        const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
-        setTimeout(() => {
-          handleChange(request.data._embedded.funcionarioDTOList);
-          handleLoading(false);
-        }, 1000);
       }
-    } catch (error) {}
+    } catch (error) {
+      handleLoading(false);
+      return null;
+    }
   };
 
   return (
@@ -55,7 +69,7 @@ const Input = (
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
       {handleChange ? (
         <ChakraInput
-          onKeyUp={handleSelectChange}
+          onKeyUp={handleInputChange}
           handleChange={handleChange}
           readOnly={readOnly}
           defaultValue={valueDefault}
