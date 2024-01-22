@@ -1,5 +1,5 @@
 import { Image } from "@chakra-ui/react";
-import icon from "../../../public/favicon.png";
+import icon from "../../assets/favicon.png";
 
 export const Logo = () => {
   return (

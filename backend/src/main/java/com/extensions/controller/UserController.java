@@ -47,7 +47,7 @@ public class UserController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PagedModel<EntityModel<UserDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,

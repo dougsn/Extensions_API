@@ -211,8 +211,7 @@ export const ListUsuario = () => {
                     </Button>
                   )}
                   {userData.permissions.some(
-                    (p) =>
-                      p.description === "ADMIN" || p.description === "MANAGER"
+                    (p) => p.description === "ADMIN"
                   ) && (
                     <Button
                       size="sm"
@@ -250,7 +249,6 @@ export const ListUsuario = () => {
                   </Td>
                   <Td>
                     <HStack spacing="2" display="flex" justifyContent="end">
-
                       {userData.permissions.some(
                         (p) =>
                           p.description === "ADMIN" ||
@@ -270,9 +268,7 @@ export const ListUsuario = () => {
                       )}
 
                       {userData.permissions.some(
-                        (p) =>
-                          p.description === "ADMIN" ||
-                          p.description === "MANAGER"
+                        (p) => p.description === "ADMIN"
                       ) && (
                         <Button
                           size="sm"

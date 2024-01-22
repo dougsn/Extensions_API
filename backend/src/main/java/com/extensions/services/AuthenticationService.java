@@ -9,6 +9,7 @@ import com.extensions.domain.dto.user.UserInfoDTOMapper;
 import com.extensions.domain.entity.User;
 import com.extensions.infra.security.jwt.JwtService;
 import com.extensions.repository.IUserRepository;
+import com.extensions.services.exceptions.AccessDeniedGenericException;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,15 @@ public class AuthenticationService {
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
-        System.out.println(request.getPermissions());
         userAlreadyRegistered(request);
+        User userEntity = repository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
+                .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado."));
+
+        userEntity.getPermissions().forEach(u -> request.getPermissions().forEach(r -> {
+            if (!u.getDescription().equals("ADMIN") && r.getId() == 1) {
+                throw new AccessDeniedGenericException("Você não possui permissão para cadastrar um usuário com essa permissão.");
+            }
+        }));
 
         var user = new User(null, request.getUsername(), passwordEncoder.encode(request.getPassword()),
                 request.getPermissions());

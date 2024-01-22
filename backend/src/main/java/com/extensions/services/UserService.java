@@ -6,6 +6,7 @@ import com.extensions.domain.dto.user.UserDTOMapper;
 import com.extensions.domain.dto.user.UserUpdateDTO;
 import com.extensions.domain.entity.User;
 import com.extensions.repository.IUserRepository;
+import com.extensions.services.exceptions.AccessDeniedGenericException;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,9 +69,20 @@ public class UserService {
     public UserDTO update(UserUpdateDTO request) {
         userAlreadyRegistered(request);
         logger.info("Atualizando usuario");
+        User userEntity = repository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
+                .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado."));
 
         var userExisting = repository.findById(request.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado para ser atualizado."));
+
+        userEntity.getPermissions().forEach(uAuth -> request.getPermissions().forEach(r -> userExisting.getPermissions().forEach(uExisting -> {
+            if (!uAuth.getDescription().equals("ADMIN") && r.getId() == 1 && !uExisting.getDescription().equals("ADMIN"))
+                throw new AccessDeniedGenericException("Você não possui permissão para atualizar um usuário com essa permissão.");
+
+        })));
+
+
+
 
         var user = new User(request.getId(), request.getName());
         if (request.getPassword() == null || request.getPassword().isEmpty()) {
@@ -102,7 +115,7 @@ public class UserService {
         Optional<User> userLogin = repository.findByUsername(data.getName());
 
         if (userLogin.isPresent() && !userLogin.get().getId().equals(data.getId()))
-            throw new DataIntegratyViolationException("User already registered.");
+            throw new DataIntegratyViolationException("Usuário já registrado.");
     }
 
 }
