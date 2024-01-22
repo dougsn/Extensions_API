@@ -4,8 +4,6 @@ import com.extensions.config.TestConfigs;
 import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
-import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
-import com.extensions.integrationtests.wrappers.setor.SetorEmbeddedDTO;
 import com.extensions.integrationtests.wrappers.setor.WrapperSetorDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -165,6 +163,25 @@ public class SetorControllerTest {
 
     @Test
     @Order(5)
+    public void testDeleteWithRelationShip() {
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .pathParam("id", "7bf808f8-da36-44ea-8fbd-79653a80023e")
+                .when()
+                .delete("{id}")
+                .then()
+                .statusCode(409)
+                .extract()
+                .body()
+                .asString();
+
+
+        assertTrue(content.contains("O setor está vinculado a um funcionário."));
+        assertTrue(content.contains("/api/setor/v1/7bf808f8-da36-44ea-8fbd-79653a80023e"));
+    }
+
+    @Test
+    @Order(6)
     public void testFindAllWithPagination() throws JsonProcessingException {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
@@ -191,7 +208,7 @@ public class SetorControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testFindAllWithoutToken() {
         RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
                 .setBasePath("/api/setor/v1")
@@ -209,7 +226,7 @@ public class SetorControllerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void testHATEOAS() {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
@@ -232,7 +249,7 @@ public class SetorControllerTest {
         assertTrue(content.contains("\"page\":{\"size\":5,\"totalElements\":10,\"totalPages\":2,\"number\":0}}"));
     }
     @Test
-    @Order(8)
+    @Order(9)
     public void testFindAll() {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)

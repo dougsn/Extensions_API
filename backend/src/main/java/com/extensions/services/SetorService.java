@@ -3,7 +3,9 @@ package com.extensions.services;
 import com.extensions.controller.SetorController;
 import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOMapper;
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
+import com.extensions.repository.IFuncionarioRepository;
 import com.extensions.repository.ISetorRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
@@ -26,6 +28,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class SetorService {
     private final Logger logger = Logger.getLogger(SetorService.class.getName());
+    @Autowired
+    private IFuncionarioRepository funcionarioRepository;
     @Autowired
     private ISetorRepository repository;
     @Autowired
@@ -92,6 +96,7 @@ public class SetorService {
     @Transactional
     public Boolean delete(String id) {
         logger.info("Deletando setor de id" + id);
+        validatingTheIntegrityOfTheRelationship(id);
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
@@ -114,5 +119,19 @@ public class SetorService {
             logger.info("O setor com de nome: " + data.getNome() + " já existe!");
             throw new DataIntegratyViolationException("O setor com de nome: " + data.getNome() + " já existe!");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public void validatingTheIntegrityOfTheRelationship(String id) {
+        Setor setor = repository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Task ID: " + id + " not found."));
+
+        List<Funcionario> funcionarios = funcionarioRepository.findBySetor(setor);
+
+        funcionarios.forEach(funcionario -> {
+            if (funcionario.getSetor().getId().equals(setor.getId())) {
+                throw new DataIntegratyViolationException("O setor está vinculado a um funcionário.");
+            }
+        });
     }
 }

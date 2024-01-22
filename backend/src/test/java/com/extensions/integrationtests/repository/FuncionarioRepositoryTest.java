@@ -2,6 +2,7 @@ package com.extensions.integrationtests.repository;
 
 import com.extensions.domain.entity.Funcionario;
 import com.extensions.repository.IFuncionarioRepository;
+import com.extensions.repository.ISetorRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ public class FuncionarioRepositoryTest {
 
     @Autowired
     IFuncionarioRepository repository;
+
+    @Autowired
+    ISetorRepository setorRepository;
     private static Funcionario funcionario;
 
     @BeforeAll
@@ -75,6 +79,30 @@ public class FuncionarioRepositoryTest {
 
         var funcionariosBySetor =
                 repository.findBySetorId("7bf808f8-da36-44ea-8fbd-79653a80023e",pageable);
+
+        var list = funcionariosBySetor.stream().toList();
+        var funcionarioOne = list.get(0);
+
+        assertNotNull(funcionarioOne.getId());
+        assertNotNull(funcionarioOne.getNome());
+        assertNotNull(funcionarioOne.getEmail());
+        assertNotNull(funcionarioOne.getRamal());
+        assertNotNull(funcionarioOne.getSetor());
+
+        assertEquals(funcionarioOne.getId(), "1d3808f8-da36-44ea-8fbd-79653a80002s");
+        assertEquals(funcionarioOne.getNome(), "Douglas Nascimento");
+        assertEquals(funcionarioOne.getRamal(), "123");
+        assertEquals(funcionarioOne.getEmail(), "douglas@gmail.com");
+        assertEquals(funcionarioOne.getSetor().getId(), "7bf808f8-da36-44ea-8fbd-79653a80023e");
+
+    }
+
+    @Test
+    public void testFindBySetor() {
+        var setor = setorRepository.findById("7bf808f8-da36-44ea-8fbd-79653a80023e");
+
+        var funcionariosBySetor =
+                repository.findBySetor(setor.get());
 
         var list = funcionariosBySetor.stream().toList();
         var funcionarioOne = list.get(0);

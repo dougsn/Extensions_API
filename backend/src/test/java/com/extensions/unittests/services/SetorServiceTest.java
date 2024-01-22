@@ -2,12 +2,14 @@ package com.extensions.unittests.services;
 
 import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOMapper;
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
-import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
+import com.extensions.repository.IFuncionarioRepository;
 import com.extensions.repository.ISetorRepository;
 import com.extensions.services.SetorService;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
+import com.extensions.unittests.mocks.MockFuncionario;
 import com.extensions.unittests.mocks.MockSetor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,17 +36,21 @@ public class SetorServiceTest {
     public static final String UUID_MOCK = "7bf808f8-da36-44ea-8fbd-79653a80023e";
     public static final String UUID_MOCK_CREATE = "7bf807f7-da36-55ae-0dqw-95210a80066a";
     MockSetor input;
+    MockFuncionario inputFuncionario;
 
     @InjectMocks
     private SetorService service;
     @Mock
     ISetorRepository repository;
     @Mock
+    IFuncionarioRepository funcionarioRepository;
+    @Mock
     SetorDTOMapper mapper;
 
     @BeforeEach
     void setUpMocks() {
         input = new MockSetor();
+        inputFuncionario = new MockFuncionario();
         MockitoAnnotations.openMocks(this);
     }
 
@@ -106,6 +114,7 @@ public class SetorServiceTest {
         assertEquals(UUID_MOCK, result.getId());
         assertEquals("TI " + UUID_MOCK, result.getNome());
     }
+
     @Test
     void testCheckingSectorWithTheSameNameDuringUpdate() {
         when(repository.findByNome("NomeExistente")).thenReturn(Optional.of(new Setor("1", "NomeExistente")));
@@ -114,12 +123,25 @@ public class SetorServiceTest {
     }
 
     @Test
-    void testDelete(){
+    void testDelete() {
         Setor setor = input.mockEntity(UUID_MOCK);
         when(repository.findById(UUID_MOCK)).thenReturn(Optional.of(setor));
 
         service.delete(UUID_MOCK);
     }
+
+    @Test
+    void testDeleteWithRelationShip() {
+        Setor setor = input.mockEntity(UUID_MOCK);
+        List<Funcionario> funcList = new ArrayList<>();
+        Funcionario funcionario = inputFuncionario.mockEntity(UUID_MOCK, setor);
+        funcList.add(funcionario);
+        when(repository.findById(UUID_MOCK)).thenReturn(Optional.of(setor));
+        when(funcionarioRepository.findBySetor(setor)).thenReturn(funcList);
+
+        assertThrows(DataIntegratyViolationException.class, () -> service.delete(UUID_MOCK));
+    }
+
     @Test
     void testDeleteNotFound() {
         assertThrows(ObjectNotFoundException.class, () -> service.delete("3dasd1-da36-44ea-8fbd-asdasd312das"));
