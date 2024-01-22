@@ -6,6 +6,7 @@ import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.funcionario.FuncionarioDTOTest;
 import com.extensions.integrationtests.dto.funcionario.FuncionarioUpdateDTOTest;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
+import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.extensions.integrationtests.wrappers.funcionario.WrapperFuncionarioDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FuncionarioControllerTest {
+public class FuncionarioControllerTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static FuncionarioDTOTest funcionario;

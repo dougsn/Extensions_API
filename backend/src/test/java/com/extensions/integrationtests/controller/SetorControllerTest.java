@@ -5,6 +5,7 @@ import com.extensions.integrationtests.dto.auth.AuthenticationRequest;
 import com.extensions.integrationtests.dto.auth.AuthenticationResponse;
 import com.extensions.integrationtests.dto.setor.SetorDTO;
 import com.extensions.integrationtests.testcontainers.AbstractIntegrationTest;
+import com.extensions.integrationtests.wrappers.setor.SetorEmbeddedDTO;
 import com.extensions.integrationtests.wrappers.setor.WrapperSetorDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SetorControllerTest extends AbstractIntegrationTest {
+public class SetorControllerTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static SetorDTO setor;
@@ -164,7 +165,7 @@ public class SetorControllerTest extends AbstractIntegrationTest {
 
     @Test
     @Order(5)
-    public void testFindAll() throws JsonProcessingException {
+    public void testFindAllWithPagination() throws JsonProcessingException {
         var content = given().spec(specification)
                 .contentType(TestConfigs.CONTENT_TYPE_JSON)
                 .queryParams("page", 0, "size", 5, "direction", "asc")
@@ -229,6 +230,30 @@ public class SetorControllerTest extends AbstractIntegrationTest {
         assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8080/api/setor/v1?direction=asc&page=1&size=5&sort=nome,asc\"}}"));
 
         assertTrue(content.contains("\"page\":{\"size\":5,\"totalElements\":10,\"totalPages\":2,\"number\":0}}"));
+    }
+    @Test
+    @Order(8)
+    public void testFindAll() {
+        var content = given().spec(specification)
+                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .when()
+                .get("/all")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        assertNotNull(content);
+
+        assertTrue(content.contains("12das123-da36-44ea-8fbd-79653a80023e"));
+        assertTrue(content.contains("RH"));
+        assertTrue(content.contains("7bf808f8-da36-44ea-8fbd-79653a80023e"));
+        assertTrue(content.contains("TI"));
+        assertTrue(content.contains("asdag12s-da36-44ea-8fbd-79653a80023e"));
+        assertTrue(content.contains("CONTABILIDADE"));
+
+
     }
 
 
