@@ -1,5 +1,6 @@
 package com.extensions.controller;
 
+import com.extensions.domain.dto.email.EmailDTO;
 import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOSwagger;
 import com.extensions.services.SetorService;
@@ -41,7 +42,7 @@ public class SetorController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTOSwagger.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTO.class))
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -50,7 +51,7 @@ public class SetorController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "/all",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<SetorDTO>> findAllSetores() {
         return ResponseEntity.ok(service.findAllSetores());
     }
@@ -63,7 +64,7 @@ public class SetorController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTOSwagger.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTO.class))
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -91,7 +92,7 @@ public class SetorController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTOSwagger.class))
+                                            schema = @Schema(implementation = SetorDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -113,14 +114,22 @@ public class SetorController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTOSwagger.class))
+                                            schema = @Schema(implementation = SetorDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
-            })
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo de payload para criar um setor",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SetorDTOSwagger.class)
+                    )
+            ))
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -135,14 +144,22 @@ public class SetorController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = SetorDTOSwagger.class))
+                                            schema = @Schema(implementation = SetorDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
-            })
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo de payload para atualizar um setor",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = SetorDTOSwagger.class)
+                    )
+            ))
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})

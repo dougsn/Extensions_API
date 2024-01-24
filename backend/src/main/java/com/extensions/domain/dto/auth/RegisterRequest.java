@@ -14,7 +14,7 @@ public class RegisterRequest {
     @Schema(type = "string", example = "#Password!")
     @NotBlank(message = "O campo [password] é obrigatório,")
     private String password;
-    @Schema(type = "array", example = "[ADMIN, USER]")
+    @Schema(type = "array", example = "[{'id': 1}]")
     private List<Permission> permissions;
 
     public RegisterRequest() {

@@ -25,7 +25,7 @@ public class AuthenticationController {
 
     @Operation(summary = "Criar conta no aplicativo")
     @ApiResponse(responseCode = "201", description = "Created", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterRequest.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))
     })
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -36,7 +36,7 @@ public class AuthenticationController {
 
     @Operation(summary = "Faça login no sistema")
     @ApiResponse(responseCode = "200", description = "Success", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationRequest.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))
     })
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authentication(@Valid @RequestBody AuthenticationRequest request) {

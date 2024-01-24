@@ -2,6 +2,7 @@ package com.extensions.domain.dto.email;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,9 +22,6 @@ public class EmailDTOSwagger implements Serializable {
     @NotEmpty(message = "O campo [id_setor] é obrigatório.")
     @JsonProperty("id_setor")
     private String idSetor;
-    @Schema(type = "string", example = "Administração")
-    @JsonProperty("nome_setor")
-    private String nomeSetor;
 
     public EmailDTOSwagger() {
     }
@@ -33,7 +31,6 @@ public class EmailDTOSwagger implements Serializable {
         this.conta = conta;
         this.senha = senha;
         this.idSetor = idSetor;
-        this.nomeSetor = nomeSetor;
     }
 
     public String getId() {
@@ -66,13 +63,5 @@ public class EmailDTOSwagger implements Serializable {
 
     public void setIdSetor(String idSetor) {
         this.idSetor = idSetor;
-    }
-
-    public String getNomeSetor() {
-        return nomeSetor;
-    }
-
-    public void setNomeSetor(String nomeSetor) {
-        this.nomeSetor = nomeSetor;
     }
 }

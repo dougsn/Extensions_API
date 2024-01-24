@@ -1,6 +1,8 @@
 package com.extensions.controller;
 
 
+import com.extensions.domain.dto.email.EmailDTO;
+import com.extensions.domain.dto.setor.SetorDTOSwagger;
 import com.extensions.domain.dto.user.UserDTO;
 import com.extensions.domain.dto.user.UserDTOSwagger;
 import com.extensions.domain.dto.user.UserUpdateDTO;
@@ -38,7 +40,7 @@ public class UserController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = UserDTOSwagger.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -67,7 +69,7 @@ public class UserController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = UserDTOSwagger.class))
+                                            schema = @Schema(implementation = UserDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -88,14 +90,22 @@ public class UserController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = UserDTOSwagger.class))
+                                            schema = @Schema(implementation = UserDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
-            })
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo de payload para atualizar um usuário",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UserDTOSwagger.class)
+                    )
+            ))
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<UserDTO> udpdate(@Valid @RequestBody UserUpdateDTO user) {

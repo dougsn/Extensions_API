@@ -15,7 +15,9 @@ public class UserDTOSwagger implements Serializable {
     @Schema(type = "string", example = "John Doe ...")
     @NotBlank(message = "O campo [name] é obrigatório.")
     private String name;
-    @Schema(type = "array", example = "[ADMIN, USER]")
+    @Schema(type = "string", example = "!Password#")
+    private String password;
+    @Schema(type = "array", example = "[{'id': 1}]")
     private List<Permission> permissions;
 
     public UserDTOSwagger() {

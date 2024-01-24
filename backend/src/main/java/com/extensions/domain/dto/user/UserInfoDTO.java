@@ -15,7 +15,7 @@ public class UserInfoDTO extends RepresentationModel<UserInfoDTO> implements Ser
     @Schema(type = "string", example = "John Doe ...")
     @NotBlank(message = "O campo [name] é obrigatório.")
     private String name;
-    @Schema(type = "array", example = "[ADMIN, USER]")
+    @Schema(type = "array", example = "[{'id': 1}]")
     private List<Permission> permissions;
 
     public UserInfoDTO() {
