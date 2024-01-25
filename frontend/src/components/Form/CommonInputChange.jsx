@@ -6,8 +6,9 @@ import {
   FormErrorMessage,
   useToast,
 } from "@chakra-ui/react";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { api } from "../../services/api";
+import { getToken } from "../../utils/localstorage";
 
 // Tivemos que trocar a function para const para passar a ref como parâmetro.
 const Input = (
@@ -23,20 +24,25 @@ const Input = (
     handleChange,
     handleLoading,
     readOnly,
+    endpoint,
+    sortPropertie,
     ...rest
   },
   ref
 ) => {
   const toast = useToast();
+  
 
   const handleInputChange = async (event) => {
     const data = event.target.value.trim();
     try {
-      console.log(data == "");
       handleLoading(true);
       if (data) {
         const request = await api.get(
-          `/funcionario/v1/funcionario?nome=${data}`
+          `/${endpoint}/v1/${endpoint}?${sortPropertie}=${data}`,
+          {
+            headers: { Authorization: `Bearer ${getToken()}` },
+          }
         );
         if (request.data.length != 0) {
           setTimeout(() => {
@@ -51,16 +57,20 @@ const Input = (
             duration: 2000,
             isClosable: true,
           });
-          const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
+          const request = await api.get(`/${endpoint}/v1?page=${0}&size=${5}`, {
+            headers: { Authorization: `Bearer ${getToken()}` },
+          });
           setTimeout(() => {
-            handleChange(request.data._embedded.funcionarioDTOList);
+            handleChange(request.data);
             handleLoading(false);
           }, 1000);
         }
       } else {
-        const request = await api.get(`/funcionario/v1?page=${0}&size=${5}`);
+        const request = await api.get(`/${endpoint}/v1?page=${0}&size=${5}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
         setTimeout(() => {
-          handleChange(request.data._embedded.funcionarioDTOList);
+          handleChange(request.data);
           handleLoading(false);
         }, 1000);
       }
@@ -112,7 +122,7 @@ const Input = (
   );
 };
 
-export const CommonInputRamal = forwardRef(Input);
+export const CommonInputChange = forwardRef(Input);
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,

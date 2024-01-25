@@ -32,14 +32,15 @@ import {
 import { RiAddLine, RiDeleteBinLine, RiEditLine } from "react-icons/ri";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
-import { CommonSelectChangeWithoutToken } from "../../components/Form/CommonSelectChangeWithoutToken";
-import { CommonInputChangeWithoutToken } from "../../components/Form/CommonInputChangeWithoutToken";
+import { CommonSelectChange } from "../../components/Form/CommonSelectChange";
+import { CommonInputChange } from "../../components/Form/CommonInputChange";
+import { getToken } from "../../utils/localstorage";
 
-export const ListRamal = () => {
+export const ListEmail = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
-  const [ramal, setRamal] = useState([]);
+  const [email, setEmail] = useState([]);
   const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
@@ -51,15 +52,17 @@ export const ListRamal = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const getRamal = async () => {
+  const getEmail = async () => {
     try {
-      const request = await api.get(`/funcionario/v1?page=${page}&size=${5}`);
+      const request = await api.get(`/email/v1?page=${page}&size=${5}`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       setInfopage(request.data.page.totalPages);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
       setIsLoading(false);
-      setRamal(request.data._embedded.funcionarioDTOList);
+      setEmail(request.data._embedded.emailDTOList);
     } catch (error) {
       setIsLoading(false);
       setErro(true);
@@ -90,7 +93,7 @@ export const ListRamal = () => {
   };
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
-    setRamal(newEntity._embedded.funcionarioDTOList);
+    setEmail(newEntity._embedded.emailDTOList);
     handleSelectIsLoading(false);
   };
 
@@ -98,13 +101,14 @@ export const ListRamal = () => {
     handleSelectIsLoading(true);
     if (
       newEntity._embedded &&
-      newEntity._embedded.funcionarioDTOList &&
-      newEntity._embedded.funcionarioDTOList.length !== 0
+      newEntity._embedded.emailDTOList &&
+      newEntity._embedded.emailDTOList.length !== 0
     ) {
-      setRamal(newEntity._embedded.funcionarioDTOList);
+      setEmail(newEntity._embedded.emailDTOList);
     } else {
-      setRamal(newEntity);
+      setEmail(newEntity);
     }
+
     handleSelectIsLoading(false);
   };
 
@@ -113,7 +117,7 @@ export const ListRamal = () => {
   };
 
   useEffect(() => {
-    getRamal();
+    getEmail();
     getSetor();
     window.scrollTo({
       top: 0,
@@ -126,7 +130,7 @@ export const ListRamal = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Ramal
+            Lista de E-mail
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
@@ -138,7 +142,7 @@ export const ListRamal = () => {
                 size="sm"
                 fontSize="sm"
                 colorScheme="blue"
-                onClick={() => navigate("/ramal/new/")}
+                onClick={() => navigate("/email/new/")}
               >
                 <Icon as={RiAddLine} fontSize="20" />
               </Button>
@@ -147,7 +151,7 @@ export const ListRamal = () => {
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Ramal
+            Lista de E-mail
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
@@ -160,7 +164,7 @@ export const ListRamal = () => {
                 fontSize="sm"
                 colorScheme="blue"
                 leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/ramal/new/")}
+                onClick={() => navigate("/email/new/")}
               >
                 Criar novo
               </Button>
@@ -168,19 +172,19 @@ export const ListRamal = () => {
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
-        <CommonInputChangeWithoutToken
+        <CommonInputChange
           handleLoading={handleSelectIsLoading}
           handleChange={handleInputChange}
-          endpoint={"funcionario"}
-          sortPropertie={"nome"}
-          placeholder="Filtrar nome"
-          label="Nome"
+          endpoint={"email"}
+          sortPropertie={"conta"}
+          placeholder="Filtrar conta"
+          label="Conta"
         />
-        <CommonSelectChangeWithoutToken
+        <CommonSelectChange
           handleLoading={handleSelectIsLoading}
           handleChange={handleSelectChange}
           entity={setor}
-          endpoint={"funcionario"}
+          endpoint={"email"}
           placeholder="Selecione um setor"
           label={"Setor"}
         />
@@ -218,7 +222,7 @@ export const ListRamal = () => {
             Não há dados
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
-            Cadastre um novo ramal
+            Cadastre um novo e-mail
           </AlertDescription>
         </Alert>
       ) : erro ? (
@@ -243,16 +247,15 @@ export const ListRamal = () => {
         </Alert>
       ) : isLargerThan800 ? (
         <Box display={"flex"} flexDirection={"column"} gap={10}>
-          {ramal.map((ramalMap) => {
+          {email.map((emailMap) => {
             return (
-              <Card textAlign={"center"} w={"auto"} key={ramalMap.id}>
+              <Card textAlign={"center"} w={"auto"} key={emailMap.id}>
                 <CardHeader>
-                  <Heading size="md">Nome: {ramalMap.nome}</Heading>
+                  <Heading size="md">Conta: {emailMap.conta}</Heading>
                 </CardHeader>
                 <CardBody>
-                  <Text>Setor: {ramalMap.nome_setor}</Text>
-                  <Text>Ramal: {ramalMap.ramal}</Text>
-                  <Text>Email: {ramalMap.email}</Text>
+                  <Text>Senha: {emailMap.senha}</Text>
+                  <Text>Setor: {emailMap.nome_setor}</Text>
                 </CardBody>
                 <CardFooter justify="space-around">
                   {Object.keys(userData).length != 0 &&
@@ -265,7 +268,7 @@ export const ListRamal = () => {
                         fontSize="sm"
                         colorScheme="yellow"
                         color="white"
-                        onClick={() => navigate(`/ramal/update/${ramalMap.id}`)}
+                        onClick={() => navigate(`/email/update/${emailMap.id}`)}
                       >
                         <Icon as={RiEditLine} fontSize="20" />
                       </Button>
@@ -280,7 +283,7 @@ export const ListRamal = () => {
                         fontSize="sm"
                         colorScheme="red"
                         color="white"
-                        onClick={() => navigate(`/ramal/delete/${ramalMap.id}`)}
+                        onClick={() => navigate(`/email/delete/${emailMap.id}`)}
                       >
                         <Icon as={RiDeleteBinLine} fontSize="20" />
                       </Button>
@@ -294,42 +297,34 @@ export const ListRamal = () => {
         <Table colorScheme="blackAlpha">
           <Thead>
             <Tr>
-              <Th>Nome</Th>
+              <Th>Conta</Th>
+              <Th>Senha</Th>
               <Th>Setor</Th>
-              <Th>Ramal</Th>
-              <Th>Email</Th>
               <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
-            {ramal.map((ramalMap) => {
+            {email.map((emailMap) => {
               return (
-                <Tr key={ramalMap.id}>
+                <Tr key={emailMap.id}>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{ramalMap.nome}</Text>
+                        <Text fontWeight="bold">{emailMap.conta}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{ramalMap.nome_setor}</Text>
+                        <Text fontWeight="bold">{emailMap.senha}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{ramalMap.ramal}</Text>
-                      </ChakraLink>
-                    </Box>
-                  </Td>
-                  <Td>
-                    <Box>
-                      <ChakraLink>
-                        <Text fontWeight="bold">{ramalMap.email}</Text>
+                        <Text fontWeight="bold">{emailMap.nome_setor}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
@@ -349,7 +344,7 @@ export const ListRamal = () => {
                             colorScheme="yellow"
                             color="white"
                             onClick={() =>
-                              navigate(`/ramal/update/${ramalMap.id}`)
+                              navigate(`/email/update/${emailMap.id}`)
                             }
                           >
                             <Icon as={RiEditLine} fontSize="20" />
@@ -370,7 +365,7 @@ export const ListRamal = () => {
                             colorScheme="red"
                             color="white"
                             onClick={() =>
-                              navigate(`/ramal/delete/${ramalMap.id}`)
+                              navigate(`/email/delete/${emailMap.id}`)
                             }
                           >
                             <Icon as={RiDeleteBinLine} fontSize="20" />

@@ -65,7 +65,7 @@ export const ListSetor = () => {
       setIsLoading(false);
       setErro(true);
       toast({
-        title: error.response.data.error,
+        title: error.response.data.errorMessage,
         status: "error",
         position: "top-right",
         duration: 2000,

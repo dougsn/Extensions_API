@@ -14,17 +14,23 @@ import { CreateUsuario } from "../pages/usuario/CreateUsuario";
 import { UpdateUsuario } from "../pages/usuario/UpdateUsuario";
 import { DeleteUsuario } from "../pages/usuario/DeleteUsuario";
 
+// Ramal
+import { ListRamal } from "../pages/ramal/ListRamal";
+import { CreateRamal } from "../pages/ramal/CreateRamal";
+import { DeleteRamal } from "../pages/ramal/DeleteRamal";
+import { UpdateRamal } from "../pages/ramal/UpdateRamal";
+
 // Setor
 import { ListSetor } from "../pages/setores/ListSetor";
 import { CreateSetor } from "../pages/setores/CreateSetor";
 import { DeleteSetor } from "../pages/setores/DeleteSetor";
 import { UpdateSetor } from "../pages/setores/UpdateSetor";
 
-// Ramal
-import { ListRamal } from "../pages/ramal/ListRamal";
-import { CreateRamal } from "../pages/ramal/CreateRamal";
-import { DeleteRamal } from "../pages/ramal/DeleteRamal";
-import { UpdateRamal } from "../pages/ramal/UpdateRamal";
+// Email
+import { ListEmail } from "../pages/email/ListEmail";
+import { CreateEmail } from "../pages/email/CreateEmail";
+import { DeleteEmail } from "../pages/email/DeleteEmail";
+import { UpdateEmail } from "../pages/email/UpdateEmail";
 
 const AppRoutes = () => {
   return (
@@ -119,6 +125,35 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteRamal />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de E-mails */}
+              <Route
+                path="/email"
+                element={
+                  <ProtectedRoute>
+                    <ListEmail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/email/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateEmail />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/email/update/:id" element={<UpdateEmail />} />
+
+              <Route
+                path="/email/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteEmail />
                   </ProtectedRoute>
                 }
               />

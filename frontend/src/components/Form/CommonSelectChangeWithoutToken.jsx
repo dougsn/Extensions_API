@@ -15,6 +15,7 @@ const Select = (
     placeholder,
     error,
     entity,
+    endpoint,
     handleChange,
     handleLoading,
     isDisabled,
@@ -23,22 +24,19 @@ const Select = (
   ref
 ) => {
   const handleSelectChange = async (event) => {
-    const entityId = event.target.value; // Obtém o valor selecionado no <select>
-    // Faça a requisição GET para buscar a entidade com base no entityId
+    const entityId = event.target.value;
     try {
       if (entityId != 0) {
         handleLoading(true);
         const request = await api.get(
-          `/funcionario/v1/setor/${entityId}?size=100`,
-          {}
-        ); // Substitua pela sua URL de API
+          `/${endpoint}/v1/setor/${entityId}?size=100`
+        );
         if (request.data.length != 0) {
           handleChange(request.data);
           handleLoading(false);
         }
       }
     } catch (error) {
-      console.error("Erro ao buscar a entidade:");
       handleLoading(false);
     }
   };
@@ -95,4 +93,4 @@ const Select = (
   );
 };
 
-export const CommonSelectRamal = forwardRef(Select);
+export const CommonSelectChangeWithoutToken = forwardRef(Select);
