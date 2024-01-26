@@ -32,6 +32,12 @@ import { CreateEmail } from "../pages/email/CreateEmail";
 import { DeleteEmail } from "../pages/email/DeleteEmail";
 import { UpdateEmail } from "../pages/email/UpdateEmail";
 
+// Computador
+import { ListComputador } from "../pages/computador/ListComputador";
+import { CreateComputador } from "../pages/computador/CreateComputador";
+import { DeleteComputador } from "../pages/computador/DeleteComputador";
+import { UpdateComputador } from "../pages/computador/UpdateComputador";
+
 const AppRoutes = () => {
   return (
     <>
@@ -154,6 +160,35 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteEmail />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de E-mails */}
+              <Route
+                path="/computador"
+                element={
+                  <ProtectedRoute>
+                    <ListComputador />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/computador/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateComputador />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/computador/update/:id" element={<UpdateComputador />} />
+
+              <Route
+                path="/computador/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteComputador />
                   </ProtectedRoute>
                 }
               />

@@ -33,7 +33,7 @@ public class ComputadorDTOSwagger implements Serializable {
     @NotEmpty(message = "O campo [sistema_operacional] é obrigatório.")
     @Length(max = 15, message = "O campo [sistema_operacional] não pode ser maior que 15 caracteres")
     @JsonProperty("sistema_operacional")
-    private String SistemaOperacional;
+    private String sistemaOperacional;
     @Schema(type = "string", example = "Computador de John Doe ...")
     @NotEmpty(message = "O campo [observacao] é obrigatório.")
     private String observacao;
@@ -55,7 +55,7 @@ public class ComputadorDTOSwagger implements Serializable {
         this.cpu = cpu;
         this.memoria = memoria;
         this.disco = disco;
-        SistemaOperacional = sistemaOperacional;
+        this.sistemaOperacional = sistemaOperacional;
         this.observacao = observacao;
         this.idSetor = idSetor;
         this.nomeSetor = nomeSetor;
@@ -110,11 +110,11 @@ public class ComputadorDTOSwagger implements Serializable {
     }
 
     public String getSistemaOperacional() {
-        return SistemaOperacional;
+        return sistemaOperacional;
     }
 
     public void setSistemaOperacional(String sistemaOperacional) {
-        SistemaOperacional = sistemaOperacional;
+        this.sistemaOperacional = sistemaOperacional;
     }
 
     public String getObservacao() {
