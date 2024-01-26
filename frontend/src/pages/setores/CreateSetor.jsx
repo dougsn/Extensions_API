@@ -16,13 +16,14 @@ import { CommonInput } from "../../components/Form/CommonInput";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
-import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
-import { CommonSelectEnum } from "../../components/Form/CommonSelectEnum";
 import { getToken } from "../../utils/localstorage";
 import { useState } from "react";
 
 const CreateSetorFormSchema = yup.object().shape({
-  nome: yup.string().required("O nome do setor é obrigatório"),
+  nome: yup
+    .string()
+    .required("O nome do setor é obrigatório")
+    .max(50, "O nome deve ter no máximo 50 caracteres"),
 });
 
 export const CreateSetor = () => {
@@ -30,7 +31,6 @@ export const CreateSetor = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
-
 
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(CreateSetorFormSchema),

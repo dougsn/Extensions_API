@@ -25,7 +25,10 @@ import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
 
 const UpdateSetorFormSchema = yup.object().shape({
-  nome: yup.string().required("O nome do usuário é obrigatório"),
+  nome: yup
+    .string()
+    .required("O nome do setor é obrigatório")
+    .max(50, "O nome deve ter no máximo 50 caracteres"),
 });
 
 export const UpdateSetor = () => {

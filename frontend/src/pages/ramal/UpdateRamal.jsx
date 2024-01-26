@@ -26,9 +26,18 @@ import { getToken } from "../../utils/localstorage";
 import { CommonSelect } from "../../components/Form/CommonSelect";
 
 const UpdateRamalFormSchema = yup.object().shape({
-  nome: yup.string().required("O nome é obrigatório"),
-  ramal: yup.string().required("O ramal é obrigatório"),
-  email: yup.string().required("O email é obrigatório"),
+  nome: yup
+    .string()
+    .required("O nome é obrigatório")
+    .max(100, "O nome deve ter no máximo 100 caracteres"),
+  ramal: yup
+    .string()
+    .required("O ramal é obrigatório")
+    .max(7, "O ramal deve ter no máximo 7 caracteres"),
+  email: yup
+    .string()
+    .required("O email é obrigatório")
+    .max(100, "O e-mail deve ter no máximo 100 caracteres"),
   id_setor: yup.string().required("O setor é obrigatório"),
 });
 

@@ -26,8 +26,10 @@ import { getToken } from "../../utils/localstorage";
 import { CommonSelect } from "../../components/Form/CommonSelect";
 
 const UpdateEmailFormSchema = yup.object().shape({
-  conta: yup.string().required("O conta é obrigatório"),
-  senha: yup.string().required("O senha é obrigatório"),
+  conta: yup.string().required("A conta é obrigatório")
+  .max(100, "A conta deve ter no máximo 100 caracteres"),
+  senha: yup.string().required("O senha é obrigatório")
+  .max(50, "A senha deve ter no máximo 50 caracteres"),
   id_setor: yup.string().required("O setor é obrigatório"),
 });
 
@@ -197,7 +199,7 @@ export const UpdateEmail = () => {
           onSubmit={handleSubmit(handleUpdateEmail)}
         >
           <Heading size="lg" fontWeight="500">
-            Editar E-mail do: {email.nome}
+            Editar E-mail do: {email.conta}
           </Heading>
 
           <Divider my="6" borderColor="gray.300" />
