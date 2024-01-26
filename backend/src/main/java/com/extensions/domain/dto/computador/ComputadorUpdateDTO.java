@@ -44,15 +44,12 @@ public class ComputadorUpdateDTO extends RepresentationModel<ComputadorUpdateDTO
     @NotEmpty(message = "O campo [id_setor] é obrigatório.")
     @JsonProperty("id_setor")
     private String idSetor;
-    @Schema(type = "string", example = "Administração")
-    @JsonProperty("nome_setor")
-    private String nomeSetor;
 
     public ComputadorUpdateDTO() {
     }
 
 
-    public ComputadorUpdateDTO(String id, String hostname, String modelo, String cpu, String memoria, String disco, String sistemaOperacional, String observacao, String idSetor, String nomeSetor) {
+    public ComputadorUpdateDTO(String id, String hostname, String modelo, String cpu, String memoria, String disco, String sistemaOperacional, String observacao, String idSetor) {
         this.id = id;
         this.hostname = hostname;
         this.modelo = modelo;
@@ -62,7 +59,6 @@ public class ComputadorUpdateDTO extends RepresentationModel<ComputadorUpdateDTO
         SistemaOperacional = sistemaOperacional;
         this.observacao = observacao;
         this.idSetor = idSetor;
-        this.nomeSetor = nomeSetor;
     }
 
     public String getId() {
@@ -135,13 +131,5 @@ public class ComputadorUpdateDTO extends RepresentationModel<ComputadorUpdateDTO
 
     public void setIdSetor(String idSetor) {
         this.idSetor = idSetor;
-    }
-
-    public String getNomeSetor() {
-        return nomeSetor;
-    }
-
-    public void setNomeSetor(String nomeSetor) {
-        this.nomeSetor = nomeSetor;
     }
 }
