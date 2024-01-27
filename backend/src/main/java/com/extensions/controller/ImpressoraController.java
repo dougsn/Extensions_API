@@ -1,9 +1,9 @@
 package com.extensions.controller;
 
-import com.extensions.domain.dto.computador.ComputadorDTO;
-import com.extensions.domain.dto.computador.ComputadorDTOSwagger;
-import com.extensions.domain.dto.computador.ComputadorUpdateDTO;
-import com.extensions.services.ComputadorService;
+import com.extensions.domain.dto.impressora.ImpressoraDTO;
+import com.extensions.domain.dto.impressora.ImpressoraDTOSwagger;
+import com.extensions.domain.dto.impressora.ImpressoraUpdateDTO;
+import com.extensions.services.ImpressoraService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,21 +27,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/computador/v1")
-@Tag(description = "Computadores da aplicação", name = "Computadores")
-public class ComputadorController {
+@RequestMapping("/api/impressora/v1")
+@Tag(description = "Impressoras da aplicação", name = "Impressoras")
+public class ImpressoraController {
 
     @Autowired
-    private ComputadorService service;
+    private ImpressoraService service;
 
-    @Operation(summary = "Buscando todos os computadores", description = "Buscando todos os computadores",
-            tags = {"Computador"},
+    @Operation(summary = "Buscando todas as Impressoras", description = "Buscando todos os Impressoras",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ComputadorDTO.class)
+                                            schema = @Schema(implementation = ImpressoraDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -50,25 +50,25 @@ public class ComputadorController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PagedModel<EntityModel<ComputadorDTO>>> findAll(
+    public ResponseEntity<PagedModel<EntityModel<ImpressoraDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "12") Integer size,
             @RequestParam(value = "direction", defaultValue = "asc") String direction
     ) {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "hostname"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "marca"));
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
-    @Operation(summary = "Buscando todos os computadores de um setor", description = "Buscando todos os computadores de um setor",
-            tags = {"Computador"},
+    @Operation(summary = "Buscando todas as impressoras de um setor", description = "Buscando todos os impressoras de um setor",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ComputadorDTO.class)
+                                            schema = @Schema(implementation = ImpressoraDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -78,7 +78,7 @@ public class ComputadorController {
             })
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/setor/{idSetor}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PagedModel<EntityModel<ComputadorDTO>>> findComputadorBySetor(
+    public ResponseEntity<PagedModel<EntityModel<ImpressoraDTO>>> findImpressoraBySetor(
             @PathVariable String idSetor,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -86,18 +86,18 @@ public class ComputadorController {
     ) {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "hostname"));
-        return ResponseEntity.ok(service.findComputadorBySetor(pageable, idSetor));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "marca"));
+        return ResponseEntity.ok(service.findImpressoraBySetor(pageable, idSetor));
     }
 
-    @Operation(summary = "Buscar Computador pelo ID", description = "Buscar Computador pelo ID",
-            tags = {"Computador"},
+    @Operation(summary = "Buscar impressora pelo ID", description = "Buscar impressora pelo ID",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ComputadorDTO.class)
+                                            schema = @Schema(implementation = ImpressoraDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -107,18 +107,18 @@ public class ComputadorController {
             })
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ComputadorDTO> findById(@PathVariable String id) {
+    public ResponseEntity<ImpressoraDTO> findById(@PathVariable String id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
-    @Operation(summary = "Buscar Computador pelo nome", description = "Buscar Computador pelo nome",
-            tags = {"Computador"},
+    @Operation(summary = "Buscar impressora pelo nome", description = "Buscar impressora pelo nome",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = ComputadorDTO.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = ImpressoraDTO.class))
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -127,19 +127,19 @@ public class ComputadorController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "/computador", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<ComputadorDTO>> findComputadorByHostname(@RequestParam(value = "hostname", defaultValue = "") String hostname) {
-        return ResponseEntity.ok().body(service.findComputadorByHostname(hostname));
+    @GetMapping(value = "/impressora", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<ImpressoraDTO>> findImpressoraByHostname(@RequestParam(value = "marca", defaultValue = "") String marca) {
+        return ResponseEntity.ok().body(service.findImpressoraByMarca(marca));
     }
 
-    @Operation(summary = "Criar um Computador", description = "Criar um Computador",
-            tags = {"Computador"},
+    @Operation(summary = "Criar uma impressora", description = "Criar uma impressora",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ComputadorDTO.class)
+                                            schema = @Schema(implementation = ImpressoraDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -148,29 +148,29 @@ public class ComputadorController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para criar um Computador",
+                    description = "Exemplo de payload para criar uma impressora",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ComputadorDTOSwagger.class)
+                            schema = @Schema(implementation = ImpressoraDTOSwagger.class)
                     )
             )
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ComputadorDTO> add(@Valid @RequestBody ComputadorDTO data) {
+    public ResponseEntity<ImpressoraDTO> add(@Valid @RequestBody ImpressoraDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.add(data));
     }
 
-    @Operation(summary = "Atualizar um Computador", description = "Atualizar um Computador",
-            tags = {"Computador"},
+    @Operation(summary = "Atualizar uma impressora", description = "Atualizar uma impressora",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = ComputadorDTO.class)
+                                            schema = @Schema(implementation = ImpressoraDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -179,23 +179,23 @@ public class ComputadorController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para criar um Computador",
+                    description = "Exemplo de payload para criar uma impressora",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ComputadorDTOSwagger.class)
+                            schema = @Schema(implementation = ImpressoraDTOSwagger.class)
                     )
             )
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ComputadorDTO> update(@Valid @RequestBody ComputadorUpdateDTO data) {
+    public ResponseEntity<ImpressoraDTO> update(@Valid @RequestBody ImpressoraUpdateDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(data));
     }
 
-    @Operation(summary = "Deletar um Computador", description = "Deletar um Computador",
-            tags = {"Computador"},
+    @Operation(summary = "Deletar uma impressora", description = "Deletar uma impressora",
+            tags = {"Impressora"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
