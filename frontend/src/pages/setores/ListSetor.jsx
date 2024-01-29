@@ -55,7 +55,7 @@ export const ListSetor = () => {
       const request = await api.get(`/setor/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      setInfopage(request.data.page.totalPages);
+      setInfopage(request.data.page);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
@@ -286,7 +286,9 @@ export const ListSetor = () => {
         </Table>
       )}
       <Pagination
-        lastPages={infoPage}
+        lastPages={infoPage.totalPages}
+        size={infoPage.size}
+        totalElements={infoPage.totalElements}
         currentPage={page}
         onPageChange={setPage}
       />

@@ -26,11 +26,9 @@ import {
   useMediaQuery,
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
 } from "@chakra-ui/react";
 import { RiAddLine, RiDeleteBinLine, RiEditLine } from "react-icons/ri";
-import { RxMagnifyingGlass } from "react-icons/rx";
 import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
@@ -55,7 +53,7 @@ export const ListUsuario = () => {
       const request = await api.get(`/user/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      setInfopage(request.data.page.totalPages);
+      setInfopage(request.data.page);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
@@ -188,14 +186,6 @@ export const ListUsuario = () => {
                   <Heading size="md">Usuário: {usuarioMap.name}</Heading>
                 </CardHeader>
                 <CardFooter justify="space-around">
-                  <Button
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="blue"
-                    onClick={() => navigate(`/user/detail/${usuarioMap.id}`)}
-                  >
-                    <Icon as={RxMagnifyingGlass} fontSize="20" />
-                  </Button>
                   {userData.permissions.some(
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
@@ -291,7 +281,9 @@ export const ListUsuario = () => {
         </Table>
       )}
       <Pagination
-        lastPages={infoPage}
+        lastPages={infoPage.totalPages}
+        size={infoPage.size}
+        totalElements={infoPage.totalElements}
         currentPage={page}
         onPageChange={setPage}
       />

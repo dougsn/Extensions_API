@@ -1,4 +1,4 @@
-import { Stack, Text } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import { PaginationItem } from "./PaginationItem";
 
 const siblingsCount = 1;
@@ -13,23 +13,28 @@ function generatePagesArray(from, to) {
 
 export function Pagination({
   lastPages,
-  currentPage,
+  currentPage = 0,
   onPageChange,
+  size = 0,
+  totalElements = 0,
 }) {
   const lastPage = lastPages - 1;
 
   const previousPages =
-  currentPage > 1
-    ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
-    : [];
+    currentPage > 1
+      ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
+      : [];
 
-    const nextPages =
+  const nextPages =
     currentPage < lastPage
       ? generatePagesArray(
           currentPage,
           Math.min(currentPage + siblingsCount, lastPage)
         )
       : [];
+
+  const startItem = currentPage * size + 1;
+  const endItem = Math.min((currentPage + 1) * size, totalElements);
 
   return (
     <Stack
@@ -38,7 +43,12 @@ export function Pagination({
       mt="8"
       justify="flex-end"
       align="center"
+      justifyContent={"space-between"}
     >
+      <Box>
+        <strong>{startItem}</strong> - <strong>{endItem}</strong> de{" "}
+        <strong>{totalElements}</strong>
+      </Box>
       <Stack direction="row" spacing="2">
         {currentPage > 1 - siblingsCount && (
           <>

@@ -54,7 +54,7 @@ export const ListRamal = () => {
   const getRamal = async () => {
     try {
       const request = await api.get(`/funcionario/v1?page=${page}&size=${5}`);
-      setInfopage(request.data.page.totalPages);
+      setInfopage(request.data.page);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
@@ -385,7 +385,9 @@ export const ListRamal = () => {
         </Table>
       )}
       <Pagination
-        lastPages={infoPage}
+        lastPages={infoPage.totalPages}
+        size={infoPage.size}
+        totalElements={infoPage.totalElements}
         currentPage={page}
         onPageChange={setPage}
       />
