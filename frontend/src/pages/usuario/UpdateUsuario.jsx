@@ -28,7 +28,7 @@ import { CommonSelectEnum } from "../../components/Form/CommonSelectEnum";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 
 const UpdateUserFormSchema = yup.object().shape({
-  username: yup.string().required("O nome do usuário é obrigatório"),
+  name: yup.string().required("O nome do usuário é obrigatório"),
 });
 
 export const UpdateUsuario = () => {
@@ -71,12 +71,17 @@ export const UpdateUsuario = () => {
   };
 
   const handleUpdateUser = async (data) => {
+    if (data.permissions == "") {
+      // Se estiver vazio, use o valor do estado user
+      data.permissions = usuario.permissions[0].id;
+    }
     const newUser = {
       id: id,
-      name: data.username.trim(),
+      name: data.name.trim(),
       password: data.password.trim(),
       permissions: [{ id: data.permissions }],
     };
+
     setIsLoadingBtn(true);
     try {
       const request = await api.put("/user/v1", newUser, {
@@ -135,12 +140,11 @@ export const UpdateUsuario = () => {
       const request = await api.get(`/user/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-
-      setValue("role", request.data.role);
+      console.log(request.data.permissions[0].id);
       if (request.length != 0) {
         setErro(false);
         setUsuario(request.data);
-        setValue("username", request.data.name);
+        setValue("name", request.data.name);
       }
       setTimeout(() => {
         setIsLoading(false);
@@ -221,8 +225,8 @@ export const UpdateUsuario = () => {
               <CommonInput
                 placeholder="Usuário"
                 label="Nome do Usuário"
-                {...register("username")}
-                error={formState.errors.username}
+                {...register("name")}
+                error={formState.errors.name}
               />
               <CommonInputPassword
                 placeholder="Senha"

@@ -143,8 +143,8 @@ export const DeleteImpressora = () => {
                   <ConfirmDelete
                     color="red"
                     id={id}
-                    name={"Computador"}
-                    endpoint={"computador"}
+                    name={"Impressora"}
+                    endpoint={"impressora"}
                   ></ConfirmDelete>
                 </ModalFooter>
               </>

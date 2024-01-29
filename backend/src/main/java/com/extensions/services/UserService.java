@@ -66,6 +66,7 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public UserDTO update(UserUpdateDTO request) {
         userAlreadyRegistered(request);
         logger.info("Atualizando usuario");
@@ -75,14 +76,7 @@ public class UserService {
         var userExisting = repository.findById(request.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado para ser atualizado."));
 
-        userEntity.getPermissions().forEach(uAuth -> request.getPermissions().forEach(r -> userExisting.getPermissions().forEach(uExisting -> {
-            if (!uAuth.getDescription().equals("ADMIN") && r.getId() == 1 && !uExisting.getDescription().equals("ADMIN"))
-                throw new AccessDeniedGenericException("Você não possui permissão para atualizar um usuário com essa permissão.");
-
-        })));
-
-
-
+        checkPermission(userEntity, request);
 
         var user = new User(request.getId(), request.getName());
         if (request.getPassword() == null || request.getPassword().isEmpty()) {
@@ -97,7 +91,7 @@ public class UserService {
         }
 
 
-        return mapper.apply(repository.save(user))
+        return mapper.apply(repository.saveAndFlush(user))
                 .add(linkTo(methodOn(UserController.class).findById(request.getId())).withSelfRel());
     }
 
@@ -117,5 +111,16 @@ public class UserService {
         if (userLogin.isPresent() && !userLogin.get().getId().equals(data.getId()))
             throw new DataIntegratyViolationException("Usuário já registrado.");
     }
+
+    @Transactional(readOnly = true)
+    private void checkPermission(User userEntity, UserUpdateDTO request) {
+        userEntity.getPermissions().forEach(uAuth -> request.getPermissions().forEach(r -> {
+            if (!uAuth.getDescription().equals("ADMIN") && r.getId() == 1 && !userEntity.getPermissions().stream().anyMatch(uExisting ->
+                    uExisting.getDescription().equals("ADMIN"))) {
+                throw new AccessDeniedGenericException("Você não possui permissão para atualizar um usuário com essa permissão.");
+            }
+        }));
+    }
+
 
 }
