@@ -38,6 +38,12 @@ import { CreateComputador } from "../pages/computador/CreateComputador";
 import { DeleteComputador } from "../pages/computador/DeleteComputador";
 import { UpdateComputador } from "../pages/computador/UpdateComputador";
 
+// Impressora
+import { ListImpressora } from "../pages/impressora/ListImpressora";
+import { CreateImpressora } from "../pages/impressora/CreateImpressora";
+import { DeleteImpressora } from "../pages/impressora/DeleteImpressora";
+import { UpdateImpressora } from "../pages/impressora/UpdateImpressora";
+
 const AppRoutes = () => {
   return (
     <>
@@ -189,6 +195,35 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteComputador />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de Impressoras */}
+              <Route
+                path="/impressora"
+                element={
+                  <ProtectedRoute>
+                    <ListImpressora />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/impressora/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateImpressora />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/impressora/update/:id" element={<UpdateImpressora />} />
+
+              <Route
+                path="/impressora/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteImpressora />
                   </ProtectedRoute>
                 }
               />

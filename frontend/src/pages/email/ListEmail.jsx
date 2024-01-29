@@ -130,7 +130,7 @@ export const ListEmail = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de E-mail
+            Lista de E-mails
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
@@ -151,7 +151,7 @@ export const ListEmail = () => {
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de E-mail
+            Lista de E-mails
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&

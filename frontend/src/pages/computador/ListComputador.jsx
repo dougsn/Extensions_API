@@ -130,7 +130,7 @@ export const ListComputador = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Computador
+            Lista de Computadores
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
@@ -151,7 +151,7 @@ export const ListComputador = () => {
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Computador
+            Lista de Computadores
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
