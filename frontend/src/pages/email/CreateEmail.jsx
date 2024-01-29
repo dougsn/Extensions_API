@@ -24,6 +24,7 @@ const CreateEmailFormSchema = yup.object().shape({
   conta: yup
     .string()
     .required("A conta é obrigatório")
+    .email("Digite um e-mail válido")
     .max(100, "A conta deve ter no máximo 100 caracteres"),
   senha: yup
     .string()

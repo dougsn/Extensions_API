@@ -3,6 +3,7 @@ package com.extensions.domain.dto.email;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,6 +13,7 @@ public class EmailDTOSwagger implements Serializable {
     private String id;
     @Schema(type = "string", example = "John Doe ...")
     @NotEmpty(message = "O campo [conta] é obrigatório.")
+    @Email(message = "Digite um e-mail válido.")
     @Length(max = 100, message = "O campo [conta] não pode ser maior que 100 caracteres")
     private String conta;
     @Schema(type = "string", example = "!senha#")

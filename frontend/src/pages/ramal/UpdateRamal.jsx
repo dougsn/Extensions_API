@@ -37,6 +37,7 @@ const UpdateRamalFormSchema = yup.object().shape({
   email: yup
     .string()
     .required("O email é obrigatório")
+    .email("Digite um e-mail válido")
     .max(100, "O e-mail deve ter no máximo 100 caracteres"),
   id_setor: yup.string().required("O setor é obrigatório"),
 });

@@ -26,10 +26,15 @@ import { getToken } from "../../utils/localstorage";
 import { CommonSelect } from "../../components/Form/CommonSelect";
 
 const UpdateEmailFormSchema = yup.object().shape({
-  conta: yup.string().required("A conta é obrigatório")
-  .max(100, "A conta deve ter no máximo 100 caracteres"),
-  senha: yup.string().required("O senha é obrigatório")
-  .max(50, "A senha deve ter no máximo 50 caracteres"),
+  conta: yup
+    .string()
+    .required("A conta é obrigatório")
+    .email("Digite um e-mail válido")
+    .max(100, "A conta deve ter no máximo 100 caracteres"),
+  senha: yup
+    .string()
+    .required("O senha é obrigatório")
+    .max(50, "A senha deve ter no máximo 50 caracteres"),
   id_setor: yup.string().required("O setor é obrigatório"),
 });
 
