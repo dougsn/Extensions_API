@@ -42,14 +42,14 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         userAlreadyRegistered(request);
-        User userEntity = repository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
-                .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado."));
+        Optional<User> userEntity = repository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        userEntity.getPermissions().forEach(u -> request.getPermissions().forEach(r -> {
+        userEntity.ifPresent(user -> user.getPermissions().forEach(u -> request.getPermissions().forEach(r -> {
             if (!u.getDescription().equals("ADMIN") && r.getId() == 1) {
                 throw new AccessDeniedGenericException("Você não possui permissão para cadastrar um usuário com essa permissão.");
             }
-        }));
+        })));
+
 
         var user = new User(null, request.getUsername(), passwordEncoder.encode(request.getPassword()),
                 request.getPermissions());

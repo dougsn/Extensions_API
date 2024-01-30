@@ -3,12 +3,14 @@ import { Flex } from "@chakra-ui/react";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
 // Components
-
 import { Header } from "../components/Header";
 import { AuthenticationProvider } from "../provider/AuthenticationProvider";
 
 // Login
 import { LoginForm } from "../pages/login";
+import { RegisterForm } from "../pages/login/RegisterForm";
+
+// Usuário
 import { ListUsuario } from "../pages/usuario/ListUsuario";
 import { CreateUsuario } from "../pages/usuario/CreateUsuario";
 import { UpdateUsuario } from "../pages/usuario/UpdateUsuario";
@@ -60,6 +62,7 @@ const AppRoutes = () => {
           >
             <Routes>
               <Route path="" element={<LoginForm />} />
+              <Route path="/registrar" element={<RegisterForm />} />
               <Route path="/ramal" element={<ListRamal />} />
 
               {/* Gerenciamento de Usuários */}
