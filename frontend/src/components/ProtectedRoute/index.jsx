@@ -16,6 +16,7 @@ export const ProtectedRoute = (props) => {
   ) {
     return props.children;
   } else {
-    return <Navigate to={`/${path[1]}`} />;
+    // return <Navigate to={`/${path[1]}`} />;
+    return <Navigate to={`/ramal`} />
   }
 };

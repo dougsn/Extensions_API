@@ -23,8 +23,8 @@ import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 
-export const DeleteLocal = () => {
-  const [local, setLocal] = useState([]);
+export const DeleteModelo = () => {
+  const [modelo, setModelo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
@@ -34,15 +34,15 @@ export const DeleteLocal = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const getLocalById = async () => {
+  const getModeloById = async () => {
     try {
-      const request = await api.get(`/local/v1/${id}`, {
+      const request = await api.get(`/modelo/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {
         setIsLoading(false);
         setErro(false);
-        setLocal(request.data);
+        setModelo(request.data);
       }
     } catch (error) {
       setErro(true);
@@ -52,7 +52,7 @@ export const DeleteLocal = () => {
 
   useEffect(() => {
     onOpen();
-    getLocalById();
+    getModeloById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +61,7 @@ export const DeleteLocal = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/local")}
+          onClose={() => navigate("/modelo")}
           isCentered
           motionPreset="scale"
         >
@@ -108,7 +108,7 @@ export const DeleteLocal = () => {
               >
                 <AlertIcon boxSize="40px" mr={0} />
                 <AlertTitle mt={4} mb={1} fontSize="xl">
-                  Falha ao obter dados do local
+                  Falha ao obter dados do modelo
                 </AlertTitle>
                 <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
                   Tente novamente mais tarde.
@@ -117,11 +117,11 @@ export const DeleteLocal = () => {
             ) : (
               <>
                 <ModalHeader textAlign={"center"}>
-                  Deletar Local: {local.nome}
+                  Deletar Modelo: {modelo.nome}
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Local: {local.nome}</Text>
+                    <Text>Modelo: {modelo.nome}</Text>
                   </VStack>
                 </ModalBody>
 
@@ -130,7 +130,7 @@ export const DeleteLocal = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/local")}
+                    onClick={() => navigate("/modelo")}
                   >
                     Voltar
                   </Button>
@@ -138,8 +138,8 @@ export const DeleteLocal = () => {
                   <ConfirmDelete
                     color="red"
                     id={id}
-                    name={"Local"}
-                    endpoint={"local"}
+                    name={"Modelo"}
+                    endpoint={"modelo"}
                   ></ConfirmDelete>
                 </ModalFooter>
               </>

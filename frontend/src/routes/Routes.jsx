@@ -56,6 +56,12 @@ import { CreateLocal } from "../pages/local/CreateLocal";
 import { DeleteLocal } from "../pages/local/DeleteLocal";
 import { UpdateLocal } from "../pages/local/UpdateLocal";
 
+// Modelo
+import { ListModelo } from "../pages/modelo/ListModelo";
+import { CreateModelo } from "../pages/modelo/CreateModelo";
+import { DeleteModelo } from "../pages/modelo/DeleteModelo";
+import { UpdateModelo } from "../pages/modelo/UpdateModelo";
+
 const AppRoutes = () => {
   return (
     <>
@@ -242,7 +248,7 @@ const AppRoutes = () => {
 
                {/* Gerenciamento de Tipos de Antena */}
                <Route
-                path="/antena/tipo-antena"
+                path="/tipo-antena"
                 element={
                   <ProtectedRoute>
                     <ListTipoAntena />
@@ -250,7 +256,7 @@ const AppRoutes = () => {
                 }
               />
               <Route
-                path="/antena/tipo-antena/new"
+                path="/tipo-antena/new"
                 element={
                   <ProtectedRoute>
                     <CreateTipoAntena />
@@ -258,10 +264,10 @@ const AppRoutes = () => {
                 }
               />
 
-              <Route path="/antena/tipo-antena/update/:id" element={<UpdateTipoAntena />} />
+              <Route path="/tipo-antena/update/:id" element={<UpdateTipoAntena />} />
 
               <Route
-                path="/antena/tipo-antena/delete/:id"
+                path="/tipo-antena/delete/:id"
                 element={
                   <ProtectedRoute>
                     <DeleteTipoAntena />
@@ -271,7 +277,7 @@ const AppRoutes = () => {
 
               {/* Gerenciamento de Local */}
               <Route
-                path="/antena/local"
+                path="/local"
                 element={
                   <ProtectedRoute>
                     <ListLocal />
@@ -279,7 +285,7 @@ const AppRoutes = () => {
                 }
               />
               <Route
-                path="/antena/local/new"
+                path="/local/new"
                 element={
                   <ProtectedRoute>
                     <CreateLocal />
@@ -287,13 +293,42 @@ const AppRoutes = () => {
                 }
               />
 
-              <Route path="/antena/local/update/:id" element={<UpdateLocal />} />
+              <Route path="/local/update/:id" element={<UpdateLocal />} />
 
               <Route
-                path="/antena/local/delete/:id"
+                path="/local/delete/:id"
                 element={
                   <ProtectedRoute>
                     <DeleteLocal />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento do Modelo */}
+              <Route
+                path="/modelo"
+                element={
+                  <ProtectedRoute>
+                    <ListModelo />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/modelo/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateModelo />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/modelo/update/:id" element={<UpdateModelo />} />
+
+              <Route
+                path="/modelo/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteModelo />
                   </ProtectedRoute>
                 }
               />

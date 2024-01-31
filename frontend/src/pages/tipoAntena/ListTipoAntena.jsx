@@ -97,7 +97,7 @@ export const ListTipoAntena = () => {
               size="sm"
               fontSize="sm"
               colorScheme="blue"
-              onClick={() => navigate("/antena/tipo-antena/new/")}
+              onClick={() => navigate("/tipo-antena/new/")}
             >
               <Icon as={RiAddLine} fontSize="20" />
             </Button>
@@ -116,7 +116,7 @@ export const ListTipoAntena = () => {
               fontSize="sm"
               colorScheme="blue"
               leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/antena/tipo-antena/new/")}
+              onClick={() => navigate("/tipo-antena/new/")}
             >
               Criar novo
             </Button>
@@ -198,7 +198,7 @@ export const ListTipoAntena = () => {
                       colorScheme="yellow"
                       color="white"
                       onClick={() =>
-                        navigate(`/antena/tipo-antena/update/${tipoAntenaMap.id}`)
+                        navigate(`/tipo-antena/update/${tipoAntenaMap.id}`)
                       }
                     >
                       <Icon as={RiEditLine} fontSize="20" />
@@ -214,7 +214,7 @@ export const ListTipoAntena = () => {
                       colorScheme="red"
                       color="white"
                       onClick={() =>
-                        navigate(`/antena/tipo-antena/delete/${tipoAntenaMap.id}`)
+                        navigate(`/tipo-antena/delete/${tipoAntenaMap.id}`)
                       }
                     >
                       <Icon as={RiDeleteBinLine} fontSize="20" />
@@ -257,7 +257,7 @@ export const ListTipoAntena = () => {
                           colorScheme="yellow"
                           color="white"
                           onClick={() =>
-                            navigate(`/antena/tipo-antena/update/${tipoAntena.id}`)
+                            navigate(`/tipo-antena/update/${tipoAntena.id}`)
                           }
                         >
                           <Icon as={RiEditLine} fontSize="20" />
@@ -275,7 +275,7 @@ export const ListTipoAntena = () => {
                           colorScheme="red"
                           color="white"
                           onClick={() =>
-                            navigate(`/antena/tipo-antena/delete/${tipoAntena.id}`)
+                            navigate(`/tipo-antena/delete/${tipoAntena.id}`)
                           }
                         >
                           <Icon as={RiDeleteBinLine} fontSize="20" />

@@ -61,7 +61,7 @@ export const DeleteTipoAntena = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/antena/tipo-antena")}
+          onClose={() => navigate("/tipo-antena")}
           isCentered
           motionPreset="scale"
         >
@@ -130,7 +130,7 @@ export const DeleteTipoAntena = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/antena/tipo-antena")}
+                    onClick={() => navigate("/tipo-antena")}
                   >
                     Voltar
                   </Button>

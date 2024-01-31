@@ -43,7 +43,7 @@ export const CreateTipoAntena = () => {
     setIsLoading(true);
 
     try {
-      const request = await api.post("//tipo-antena/v1", newTipoAntena, {
+      const request = await api.post("/tipo-antena/v1", newTipoAntena, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
@@ -56,7 +56,7 @@ export const CreateTipoAntena = () => {
           isClosable: true,
         });
         setTimeout(() => {
-          navigate(`/antena/tipo-antena`);
+          navigate(`/tipo-antena`);
         }, 1000);
       }
     } catch (error) {
@@ -122,7 +122,7 @@ export const CreateTipoAntena = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button colorScheme="blackAlpha" onClick={() => navigate("/antena/tipo-antena")}>
+            <Button colorScheme="blackAlpha" onClick={() => navigate("/tipo-antena")}>
               Voltar
             </Button>
           </Box>

@@ -19,44 +19,44 @@ import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 import { useState } from "react";
 
-const CreateTipoAntenaFormSchema = yup.object().shape({
+const CreateCreateModeloFormSchema = yup.object().shape({
   nome: yup
     .string()
-    .required("O nome do local é obrigatório")
+    .required("O nome do modelo é obrigatório")
     .max(60, "O nome deve ter no máximo 60 caracteres"),
 });
 
-export const CreateLocal = () => {
+export const CreateModelo = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(CreateTipoAntenaFormSchema),
+    resolver: yupResolver(CreateCreateModeloFormSchema),
   });
 
-  const handleCreateLocalFormSchema = async (data) => {
-    const newLocal = {
+  const handleCreateModeloFormSchema = async (data) => {
+    const newModelo = {
       nome: data.nome.trim(),
     };
     setIsLoading(true);
 
     try {
-      const request = await api.post("/local/v1", newLocal, {
+      const request = await api.post("/modelo/v1", newModelo, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
       if (request.status == 201) {
         toast({
-          title: "Local criado com sucesso!",
+          title: "Modelo criado com sucesso!",
           status: "success",
           position: "top-right",
           duration: 3000,
           isClosable: true,
         });
         setTimeout(() => {
-          navigate(`/local`);
+          navigate(`/modelo`);
         }, 1000);
       }
     } catch (error) {
@@ -100,10 +100,10 @@ export const CreateLocal = () => {
       flex="1"
       borderRadius={8}
       p={["6", "8"]}
-      onSubmit={handleSubmit(handleCreateLocalFormSchema)}
+      onSubmit={handleSubmit(handleCreateModeloFormSchema)}
     >
       <Heading size="lg" fontWeight="500">
-        Criar Local
+        Criar Modelo
       </Heading>
 
       <Divider my="6" borderColor="gray.300" />
@@ -122,7 +122,7 @@ export const CreateLocal = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button colorScheme="blackAlpha" onClick={() => navigate("/local")}>
+            <Button colorScheme="blackAlpha" onClick={() => navigate("/modelo")}>
               Voltar
             </Button>
           </Box>

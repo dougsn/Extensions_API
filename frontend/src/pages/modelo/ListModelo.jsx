@@ -35,11 +35,11 @@ import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
 
-export const ListLocal = () => {
+export const ListModelo = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
-  const [local, setLocal] = useState([]);
+  const [modelo, setModelo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -50,9 +50,9 @@ export const ListLocal = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const getTipoAntena = async () => {
+  const getModelo = async () => {
     try {
-      const request = await api.get(`/local/v1?page=${page}&size=${5}`, {
+      const request = await api.get(`/modelo/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       setInfopage(request.data.page);
@@ -60,7 +60,7 @@ export const ListLocal = () => {
         setIsEmpty(true);
       }
       setIsLoading(false);
-      setLocal(request.data._embedded.localDTOList);
+      setModelo(request.data._embedded.modeloDTOList);
     } catch (error) {
       setIsLoading(false);
       setErro(true);
@@ -76,7 +76,7 @@ export const ListLocal = () => {
   };
 
   useEffect(() => {
-    getTipoAntena();
+    getModelo();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -88,7 +88,7 @@ export const ListLocal = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Locais
+            Lista de Modelos
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -97,7 +97,7 @@ export const ListLocal = () => {
               size="sm"
               fontSize="sm"
               colorScheme="blue"
-              onClick={() => navigate("/local/new/")}
+              onClick={() => navigate("/modelo/new/")}
             >
               <Icon as={RiAddLine} fontSize="20" />
             </Button>
@@ -106,7 +106,7 @@ export const ListLocal = () => {
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Locais
+            Lista de Modelos
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
@@ -116,7 +116,7 @@ export const ListLocal = () => {
               fontSize="sm"
               colorScheme="blue"
               leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/local/new/")}
+              onClick={() => navigate("/modelo/new/")}
             >
               Criar novo
             </Button>
@@ -156,7 +156,7 @@ export const ListLocal = () => {
             Não há dados
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
-            Cadastre um novo local
+            Cadastre um novo modelo
           </AlertDescription>
         </Alert>
       ) : erro ? (
@@ -173,7 +173,7 @@ export const ListLocal = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados dos locais
+            Falha ao obter dados dos modelos
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
@@ -181,11 +181,11 @@ export const ListLocal = () => {
         </Alert>
       ) : isLargerThan800 ? (
         <Box display={"flex"} flexDirection={"column"} gap={10}>
-          {local.map((localMap) => {
+          {modelo.map((modeloMap) => {
             return (
-              <Card textAlign={"center"} w={"auto"} key={localMap.id}>
+              <Card textAlign={"center"} w={"auto"} key={modeloMap.id}>
                 <CardHeader>
-                  <Heading size="md">Nome: {localMap.nome}</Heading>
+                  <Heading size="md">Nome: {modeloMap.nome}</Heading>
                 </CardHeader>
                 <CardFooter justify="space-around">
                   {userData.permissions.some(
@@ -198,7 +198,7 @@ export const ListLocal = () => {
                       colorScheme="yellow"
                       color="white"
                       onClick={() =>
-                        navigate(`/local/update/${localMap.id}`)
+                        navigate(`/modelo/update/${modeloMap.id}`)
                       }
                     >
                       <Icon as={RiEditLine} fontSize="20" />
@@ -214,7 +214,7 @@ export const ListLocal = () => {
                       colorScheme="red"
                       color="white"
                       onClick={() =>
-                        navigate(`/local/delete/${localMap.id}`)
+                        navigate(`/modelo/delete/${modeloMap.id}`)
                       }
                     >
                       <Icon as={RiDeleteBinLine} fontSize="20" />
@@ -234,13 +234,13 @@ export const ListLocal = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {local.map((localMap) => {
+            {modelo.map((modeloMap) => {
               return (
-                <Tr key={localMap.id}>
+                <Tr key={modeloMap.id}>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{localMap.nome}</Text>
+                        <Text fontWeight="bold">{modeloMap.nome}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
@@ -257,7 +257,7 @@ export const ListLocal = () => {
                           colorScheme="yellow"
                           color="white"
                           onClick={() =>
-                            navigate(`/local/update/${localMap.id}`)
+                            navigate(`/modelo/update/${modeloMap.id}`)
                           }
                         >
                           <Icon as={RiEditLine} fontSize="20" />
@@ -275,7 +275,7 @@ export const ListLocal = () => {
                           colorScheme="red"
                           color="white"
                           onClick={() =>
-                            navigate(`/local/delete/${localMap.id}`)
+                            navigate(`/modelo/delete/${modeloMap.id}`)
                           }
                         >
                           <Icon as={RiDeleteBinLine} fontSize="20" />

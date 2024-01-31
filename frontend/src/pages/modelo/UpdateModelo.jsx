@@ -24,15 +24,15 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
 
-const UpdateSetorFormSchema = yup.object().shape({
+const UpdateLocalFormSchema = yup.object().shape({
   nome: yup
     .string()
     .required("O nome do setor é obrigatório")
     .max(60, "O nome deve ter no máximo 50 caracteres"),
 });
 
-export const UpdateTipoAntena = () => {
-  const [tipoAntena, setTipoAntena] = useState([]);
+export const UpdateModelo = () => {
+  const [modelo, setModelo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
   const [erro, setErro] = useState(false);
@@ -42,28 +42,28 @@ export const UpdateTipoAntena = () => {
   const toast = useToast();
 
   const { register, handleSubmit, formState, setValue } = useForm({
-    resolver: yupResolver(UpdateSetorFormSchema),
+    resolver: yupResolver(UpdateLocalFormSchema),
   });
 
-  const handleUpdateTipoAntena = async (data) => {
-    const newTipoAntena = {
+  const handleUpdateModelo = async (data) => {
+    const newModelo = {
       id: id,
       nome: data.nome.trim(),
     };
     setIsLoadingBtn(true);
     try {
-      const request = await api.put("/tipo-antena/v1", newTipoAntena, {
+      const request = await api.put("/modelo/v1", newModelo, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.status == 200) {
         toast({
-          title: "Tipo de antena atualizado com sucesso!",
+          title: "Modelo atualizado com sucesso!",
           status: "success",
           position: "top-right",
           duration: 3000,
           isClosable: true,
         });
-        setTimeout(() => navigate("/tipo-antena"), 1000);
+        setTimeout(() => navigate("/modelo"), 1000);
       }
     } catch (error) {
       setIsLoadingBtn(false);
@@ -100,15 +100,15 @@ export const UpdateTipoAntena = () => {
     }
   };
 
-  const getTipoAntenaById = async () => {
+  const getLocalById = async () => {
     try {
-      const request = await api.get(`/tipo-antena/v1/${id}`, {
+      const request = await api.get(`/modelo/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
 
       if (request.length != 0) {
         setErro(false);
-        setTipoAntena(request.data);
+        setModelo(request.data);
         setValue("nome", request.data.nome);
       }
       setTimeout(() => {
@@ -121,7 +121,7 @@ export const UpdateTipoAntena = () => {
   };
 
   useEffect(() => {
-    getTipoAntenaById();
+    getLocalById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -165,7 +165,7 @@ export const UpdateTipoAntena = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados do tipo de antena
+            Falha ao obter dados do modelo
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
@@ -177,10 +177,10 @@ export const UpdateTipoAntena = () => {
           flex="1"
           borderRadius={8}
           p={["6", "8"]}
-          onSubmit={handleSubmit(handleUpdateTipoAntena)}
+          onSubmit={handleSubmit(handleUpdateModelo)}
         >
           <Heading size="lg" fontWeight="500">
-            Editar Tipo de Antena: {tipoAntena.nome}
+            Editar Modelo: {modelo.nome}
           </Heading>
 
           <Divider my="6" borderColor="gray.300" />
@@ -188,8 +188,8 @@ export const UpdateTipoAntena = () => {
           <VStack spacing="8">
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
               <CommonInput
-                placeholder="Tipo de Antena"
-                label="Nome do Tipo de Antena"
+                placeholder="Local"
+                label="Nome do Local"
                 {...register("nome")}
                 error={formState.errors.nome}
               />
@@ -201,7 +201,7 @@ export const UpdateTipoAntena = () => {
               <Box>
                 <Button
                   colorScheme="blackAlpha"
-                  onClick={() => navigate("/tipo-antena")}
+                  onClick={() => navigate("/modelo")}
                 >
                   Voltar
                 </Button>

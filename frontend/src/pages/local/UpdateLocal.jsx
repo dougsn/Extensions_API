@@ -63,7 +63,7 @@ export const UpdateLocal = () => {
           duration: 3000,
           isClosable: true,
         });
-        setTimeout(() => navigate("/antena/local"), 1000);
+        setTimeout(() => navigate("/local"), 1000);
       }
     } catch (error) {
       setIsLoadingBtn(false);
@@ -201,7 +201,7 @@ export const UpdateLocal = () => {
               <Box>
                 <Button
                   colorScheme="blackAlpha"
-                  onClick={() => navigate("/antena/local")}
+                  onClick={() => navigate("/local")}
                 >
                   Voltar
                 </Button>
