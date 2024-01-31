@@ -44,6 +44,18 @@ import { CreateImpressora } from "../pages/impressora/CreateImpressora";
 import { DeleteImpressora } from "../pages/impressora/DeleteImpressora";
 import { UpdateImpressora } from "../pages/impressora/UpdateImpressora";
 
+// Tipo de antena
+import { ListTipoAntena } from "../pages/tipoAntena/ListTipoAntena";
+import { CreateTipoAntena } from "../pages/tipoAntena/CreateTipoAntena";
+import { DeleteTipoAntena } from "../pages/tipoAntena/DeleteTipoAntena";
+import { UpdateTipoAntena } from "../pages/tipoAntena/UpdateTipoAntena";
+
+// Local
+import { ListLocal } from "../pages/local/ListLocal";
+import { CreateLocal } from "../pages/local/CreateLocal";
+import { DeleteLocal } from "../pages/local/DeleteLocal";
+import { UpdateLocal } from "../pages/local/UpdateLocal";
+
 const AppRoutes = () => {
   return (
     <>
@@ -224,6 +236,64 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteImpressora />
+                  </ProtectedRoute>
+                }
+              />
+
+               {/* Gerenciamento de Tipos de Antena */}
+               <Route
+                path="/antena/tipo-antena"
+                element={
+                  <ProtectedRoute>
+                    <ListTipoAntena />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/antena/tipo-antena/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateTipoAntena />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/antena/tipo-antena/update/:id" element={<UpdateTipoAntena />} />
+
+              <Route
+                path="/antena/tipo-antena/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteTipoAntena />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de Local */}
+              <Route
+                path="/antena/local"
+                element={
+                  <ProtectedRoute>
+                    <ListLocal />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/antena/local/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateLocal />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/antena/local/update/:id" element={<UpdateLocal />} />
+
+              <Route
+                path="/antena/local/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteLocal />
                   </ProtectedRoute>
                 }
               />

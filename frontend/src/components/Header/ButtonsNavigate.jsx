@@ -5,14 +5,26 @@ import {
   Stack,
   useMediaQuery,
   Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 
-import { MdEmail } from "react-icons/md";
-import { BsFillPeopleFill, BsPrinterFill, BsTelephoneFill } from "react-icons/bs";
+import { MdEmail, MdPlace } from "react-icons/md";
+import {
+  BsFillPeopleFill,
+  BsPrinterFill,
+  BsTelephoneFill,
+} from "react-icons/bs";
 import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
+import { FaSatelliteDish } from "react-icons/fa";
+import { MdSettingsInputAntenna } from "react-icons/md";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export const ButtonsNavigate = () => {
   const { isAuthenticated, userData } = useContext(AuthenticationContext);
@@ -116,6 +128,61 @@ export const ButtonsNavigate = () => {
               <Icon as={BsFillPeopleFill} fontSize="20" />
             </Box>
           </Link>
+
+          <Menu>
+            <MenuButton
+              px={4}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{ bg: "gray.200" }}
+              _expanded={{ bg: "gray.400" }}
+              _focus={{ boxShadow: "outline" }}
+            >
+              <Icon as={FaSatelliteDish} fontSize="20"/> <ChevronDownIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={Link} to={`/antena/tipo-antena`}>
+                <Box
+                  active={checkUrl(location.pathname, "tipo-antena")}
+                  bgColor={`${
+                    checkUrl(location.pathname, "tipo-antena") ? "gray.400" : ""
+                  }`}
+                  _hover={{ bgColor: "gray.200" }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Box display="flex" alignItems="center" paddingRight={2}>
+                    <Icon as={MdSettingsInputAntenna} fontSize="20" mr={6} />
+                    <Box>Tipo de Antena</Box>
+                  </Box>
+                </Box>
+              </MenuItem>
+              <MenuItem as={Link} to={`/antena/local`}>
+                <Box
+                  active={checkUrl(location.pathname, "local")}
+                  bgColor={`${
+                    checkUrl(location.pathname, "local") ? "gray.400" : ""
+                  }`}
+                  _hover={{ bgColor: "gray.200" }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Box display="flex" alignItems="center" paddingRight={2}>
+                    <Icon as={MdPlace} fontSize="20" mr={6} />
+                    <Box>Local</Box>
+                  </Box>
+                </Box>
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Stack>
       );
     }

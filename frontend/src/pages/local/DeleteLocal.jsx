@@ -23,8 +23,8 @@ import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 
-export const DeleteUsuario = () => {
-  const [usuario, setUsuario] = useState([]);
+export const DeleteLocal = () => {
+  const [local, setLocal] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
@@ -34,15 +34,15 @@ export const DeleteUsuario = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const getUsuarioById = async () => {
+  const getLocalById = async () => {
     try {
-      const request = await api.get(`/user/v1/${id}`, {
+      const request = await api.get(`/local/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {
         setIsLoading(false);
         setErro(false);
-        setUsuario(request.data);
+        setLocal(request.data);
       }
     } catch (error) {
       setErro(true);
@@ -52,7 +52,7 @@ export const DeleteUsuario = () => {
 
   useEffect(() => {
     onOpen();
-    getUsuarioById();
+    getLocalById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +61,7 @@ export const DeleteUsuario = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/user")}
+          onClose={() => navigate("/antena/local")}
           isCentered
           motionPreset="scale"
         >
@@ -108,7 +108,7 @@ export const DeleteUsuario = () => {
               >
                 <AlertIcon boxSize="40px" mr={0} />
                 <AlertTitle mt={4} mb={1} fontSize="xl">
-                  Falha ao obter dados do usuário
+                  Falha ao obter dados do local
                 </AlertTitle>
                 <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
                   Tente novamente mais tarde.
@@ -117,11 +117,11 @@ export const DeleteUsuario = () => {
             ) : (
               <>
                 <ModalHeader textAlign={"center"}>
-                  Deletar Usuário: {usuario.name}
+                  Deletar Local: {local.nome}
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Usuário: {usuario.name}</Text>
+                    <Text>Local: {local.nome}</Text>
                   </VStack>
                 </ModalBody>
 
@@ -130,7 +130,7 @@ export const DeleteUsuario = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/user")}
+                    onClick={() => navigate("/antena/local")}
                   >
                     Voltar
                   </Button>
@@ -138,8 +138,8 @@ export const DeleteUsuario = () => {
                   <ConfirmDelete
                     color="red"
                     id={id}
-                    name={"Usuário"}
-                    endpoint={"user"}
+                    name={"Local"}
+                    endpoint={"local"}
                   ></ConfirmDelete>
                 </ModalFooter>
               </>

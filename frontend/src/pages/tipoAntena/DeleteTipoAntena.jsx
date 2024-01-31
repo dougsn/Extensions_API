@@ -23,8 +23,8 @@ import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 
-export const DeleteUsuario = () => {
-  const [usuario, setUsuario] = useState([]);
+export const DeleteTipoAntena = () => {
+  const [tipoAntena, setTipoAntena] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
 
@@ -34,15 +34,15 @@ export const DeleteUsuario = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const getUsuarioById = async () => {
+  const getTipoAntenaById = async () => {
     try {
-      const request = await api.get(`/user/v1/${id}`, {
+      const request = await api.get(`/tipo-antena/v1/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (request.length != 0) {
         setIsLoading(false);
         setErro(false);
-        setUsuario(request.data);
+        setTipoAntena(request.data);
       }
     } catch (error) {
       setErro(true);
@@ -52,7 +52,7 @@ export const DeleteUsuario = () => {
 
   useEffect(() => {
     onOpen();
-    getUsuarioById();
+    getTipoAntenaById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +61,7 @@ export const DeleteUsuario = () => {
       {
         <Modal
           isOpen={isOpen}
-          onClose={() => navigate("/user")}
+          onClose={() => navigate("/antena/tipo-antena")}
           isCentered
           motionPreset="scale"
         >
@@ -108,7 +108,7 @@ export const DeleteUsuario = () => {
               >
                 <AlertIcon boxSize="40px" mr={0} />
                 <AlertTitle mt={4} mb={1} fontSize="xl">
-                  Falha ao obter dados do usuário
+                  Falha ao obter dados do tipo de antena
                 </AlertTitle>
                 <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
                   Tente novamente mais tarde.
@@ -117,11 +117,11 @@ export const DeleteUsuario = () => {
             ) : (
               <>
                 <ModalHeader textAlign={"center"}>
-                  Deletar Usuário: {usuario.name}
+                  Deletar Tipo de Antena: {tipoAntena.nome}
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Usuário: {usuario.name}</Text>
+                    <Text>Tipo de Antena: {tipoAntena.nome}</Text>
                   </VStack>
                 </ModalBody>
 
@@ -130,7 +130,7 @@ export const DeleteUsuario = () => {
                     fontSize={["12px", "16px"]}
                     mr={5}
                     colorScheme="blue"
-                    onClick={() => navigate("/user")}
+                    onClick={() => navigate("/antena/tipo-antena")}
                   >
                     Voltar
                   </Button>
@@ -138,8 +138,8 @@ export const DeleteUsuario = () => {
                   <ConfirmDelete
                     color="red"
                     id={id}
-                    name={"Usuário"}
-                    endpoint={"user"}
+                    name={"Tipo de Antena"}
+                    endpoint={"tipo-antena"}
                   ></ConfirmDelete>
                 </ModalFooter>
               </>
