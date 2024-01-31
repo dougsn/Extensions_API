@@ -7,7 +7,6 @@ create table computadores (
    disco varchar(15) NOT NULL,
    sistema_operacional varchar(15) NOT NULL,
    observacao LONGTEXT NOT NULL,
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    fk_id_setores char(36) NOT NULL,
    FOREIGN KEY (fk_id_setores)
         REFERENCES setores(id)

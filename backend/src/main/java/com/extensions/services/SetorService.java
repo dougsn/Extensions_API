@@ -124,7 +124,7 @@ public class SetorService {
     @Transactional(readOnly = true)
     public void validatingTheIntegrityOfTheRelationship(String id) {
         Setor setor = repository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Task ID: " + id + " not found."));
+                .orElseThrow(() -> new ObjectNotFoundException("Setor ID: " + id + " not found."));
 
         List<Funcionario> funcionarios = funcionarioRepository.findBySetor(setor);
 

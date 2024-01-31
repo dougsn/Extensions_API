@@ -3,10 +3,6 @@ spring:
     url: jdbc:mysql://${DEV_MYSQL_HOST}:${DEV_MYSQL_PORT}/ramal
     username: ${DEV_MYSQL_USER}
     password: ${DEV_MYSQL_PASSWORD}
-#    url: jdbc:mysql://192.168.0.160:3306/ramal
-#    username: root
-#    password: salvador1
-#    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
