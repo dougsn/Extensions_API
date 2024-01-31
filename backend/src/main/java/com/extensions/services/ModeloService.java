@@ -3,7 +3,9 @@ package com.extensions.services;
 import com.extensions.controller.ModeloController;
 import com.extensions.domain.dto.modelo.ModeloDTO;
 import com.extensions.domain.dto.modelo.ModeloDTOMapper;
+import com.extensions.domain.entity.Antena;
 import com.extensions.domain.entity.Modelo;
+import com.extensions.repository.IAntenaRepository;
 import com.extensions.repository.IModeloRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
@@ -26,6 +28,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class ModeloService {
     private final Logger logger = Logger.getLogger(ModeloService.class.getName());
+    @Autowired
+    private IAntenaRepository antenaRepository;
     @Autowired
     private IModeloRepository repository;
     @Autowired
@@ -92,7 +96,7 @@ public class ModeloService {
     @Transactional
     public Boolean delete(String id) {
         logger.info("Deletando modelo de id" + id);
-        //validatingTheIntegrityOfTheRelationship(id);
+        validatingTheIntegrityOfTheRelationship(id);
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
@@ -120,14 +124,14 @@ public class ModeloService {
     @Transactional(readOnly = true)
     public void validatingTheIntegrityOfTheRelationship(String id) {
         Modelo modelo = repository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("modelo ID: " + id + " not found."));
+                .orElseThrow(() -> new ObjectNotFoundException("Modelo ID: " + id + " not found."));
 
-//        List<Funcionario> funcionarios = funcionarioRepository.findBySetor(modelo);
-//
-//        funcionarios.forEach(funcionario -> {
-//            if (funcionario.getSetor().getId().equals(modelo.getId())) {
-//                throw new DataIntegratyViolationException("O modelo está vinculado a um funcionário.");
-//            }
-//        });
+        List<Antena> antenas = antenaRepository.findByModelo(modelo);
+
+        antenas.forEach(antena -> {
+            if (antena.getModelo().getId().equals(modelo.getId())) {
+                throw new DataIntegratyViolationException("O modelo está vinculado a uma antena.");
+            }
+        });
     }
 }

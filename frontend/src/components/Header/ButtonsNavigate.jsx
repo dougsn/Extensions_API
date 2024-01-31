@@ -138,6 +138,8 @@ export const ButtonsNavigate = () => {
                   ? "gray.400"
                   : "" || checkUrl(location.pathname, "modelo")
                   ? "gray.400"
+                  : "" || checkUrl(location.pathname, "antena")
+                  ? "gray.400"
                   : ""
               )}
               bgColor={`${
@@ -146,6 +148,8 @@ export const ButtonsNavigate = () => {
                   : "" || checkUrl(location.pathname, "tipo-antena")
                   ? "gray.400"
                   : "" || checkUrl(location.pathname, "modelo")
+                  ? "gray.400"
+                  : "" || checkUrl(location.pathname, "antena")
                   ? "gray.400"
                   : ""
               }`}
@@ -161,6 +165,25 @@ export const ButtonsNavigate = () => {
               <Icon as={FaSatelliteDish} fontSize="20" /> <ChevronDownIcon />
             </MenuButton>
             <MenuList>
+            <MenuItem as={Link} to={`/antena`}>
+                <Box
+                  active={checkUrl(location.pathname, "antena")}
+                  bgColor={`${
+                    checkUrl(location.pathname, "antena") ? "gray.400" : ""
+                  }`}
+                  _hover={{ bgColor: "gray.200" }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Box display="flex" alignItems="center" paddingRight={2}>
+                    <Icon as={FaSatelliteDish} fontSize="20" mr={6} />
+                    <Box>Antena</Box>
+                  </Box>
+                </Box>
+              </MenuItem>
               <MenuItem as={Link} to={`/tipo-antena`}>
                 <Box
                   active={checkUrl(location.pathname, "tipo-antena")}

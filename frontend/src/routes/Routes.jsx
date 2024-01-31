@@ -62,6 +62,12 @@ import { CreateModelo } from "../pages/modelo/CreateModelo";
 import { DeleteModelo } from "../pages/modelo/DeleteModelo";
 import { UpdateModelo } from "../pages/modelo/UpdateModelo";
 
+// Antena
+import { ListAntena } from "../pages/antena/ListAntena";
+import { CreateAntena } from "../pages/antena/CreateAntena";
+import { DeleteAntena } from "../pages/antena/DeleteAntena";
+import { UpdateAntena } from "../pages/antena/UpdateAntena";
+
 const AppRoutes = () => {
   return (
     <>
@@ -329,6 +335,35 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteModelo />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de Antena */}
+              <Route
+                path="/antena"
+                element={
+                  <ProtectedRoute>
+                    <ListAntena />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/antena/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateAntena />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/antena/update/:id" element={<UpdateAntena />} />
+
+              <Route
+                path="/antena/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteAntena />
                   </ProtectedRoute>
                 }
               />

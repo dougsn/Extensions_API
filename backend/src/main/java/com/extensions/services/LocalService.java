@@ -3,7 +3,9 @@ package com.extensions.services;
 import com.extensions.controller.LocalController;
 import com.extensions.domain.dto.local.LocalDTO;
 import com.extensions.domain.dto.local.LocalDTOMapper;
+import com.extensions.domain.entity.Antena;
 import com.extensions.domain.entity.Local;
+import com.extensions.repository.IAntenaRepository;
 import com.extensions.repository.ILocalRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
@@ -26,6 +28,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class LocalService {
     private final Logger logger = Logger.getLogger(LocalService.class.getName());
+    @Autowired
+    private IAntenaRepository antenaRepository;
     @Autowired
     private ILocalRepository repository;
     @Autowired
@@ -92,7 +96,7 @@ public class LocalService {
     @Transactional
     public Boolean delete(String id) {
         logger.info("Deletando local de id" + id);
-        //validatingTheIntegrityOfTheRelationship(id);
+        validatingTheIntegrityOfTheRelationship(id);
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
@@ -122,12 +126,12 @@ public class LocalService {
         Local local = repository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Local ID: " + id + " not found."));
 
-//        List<Funcionario> funcionarios = funcionarioRepository.findBySetor(local);
-//
-//        funcionarios.forEach(funcionario -> {
-//            if (funcionario.getSetor().getId().equals(local.getId())) {
-//                throw new DataIntegratyViolationException("O local está vinculado a um funcionário.");
-//            }
-//        });
+        List<Antena> antenas = antenaRepository.findByLocal(local);
+
+        antenas.forEach(antena -> {
+            if (antena.getLocal().getId().equals(local.getId())) {
+                throw new DataIntegratyViolationException("O local está vinculado a uma antena.");
+            }
+        });
     }
 }

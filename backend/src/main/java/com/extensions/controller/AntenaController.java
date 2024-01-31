@@ -185,7 +185,7 @@ public class AntenaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "/ssid", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/antena", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<AntenaDTO>> findAntenaBySsid(@RequestParam(value = "ssid", defaultValue = "") String ssid) {
         return ResponseEntity.ok().body(service.findAntenaBySsid(ssid));
     }

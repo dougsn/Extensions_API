@@ -3,7 +3,9 @@ package com.extensions.services;
 import com.extensions.controller.TipoAntenaController;
 import com.extensions.domain.dto.tipo_antena.TipoAntenaDTO;
 import com.extensions.domain.dto.tipo_antena.TipoAntenaDTOMapper;
+import com.extensions.domain.entity.Antena;
 import com.extensions.domain.entity.TipoAntena;
+import com.extensions.repository.IAntenaRepository;
 import com.extensions.repository.ITipoAntenaRepository;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
@@ -26,6 +28,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Service
 public class TipoAntenaService {
     private final Logger logger = Logger.getLogger(TipoAntenaService.class.getName());
+    @Autowired
+    private IAntenaRepository antenaRepository;
     @Autowired
     private ITipoAntenaRepository repository;
     @Autowired
@@ -92,7 +96,7 @@ public class TipoAntenaService {
     @Transactional
     public Boolean delete(String id) {
         logger.info("Deletando tipo de antena de id" + id);
-        //validatingTheIntegrityOfTheRelationship(id);
+        validatingTheIntegrityOfTheRelationship(id);
         if (repository.findById(id).isPresent()) {
             repository.deleteById(id);
             return true;
@@ -122,12 +126,12 @@ public class TipoAntenaService {
         TipoAntena tipoAntena = repository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("tipo de antena ID: " + id + " not found."));
 
-//        List<Funcionario> funcionarios = funcionarioRepository.findBySetor(TipoAntena);
-//
-//        funcionarios.forEach(funcionario -> {
-//            if (funcionario.getSetor().getId().equals(TipoAntena.getId())) {
-//                throw new DataIntegratyViolationException("O TipoAntena está vinculado a um funcionário.");
-//            }
-//        });
+        List<Antena> antenas = antenaRepository.findByTipoAntena(tipoAntena);
+
+        antenas.forEach(antena -> {
+            if (antena.getTipoAntena().getId().equals(tipoAntena.getId())) {
+                throw new DataIntegratyViolationException("O tipo de antena está vinculado a uma antena.");
+            }
+        });
     }
 }
