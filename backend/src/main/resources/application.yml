@@ -1,5 +1,5 @@
-#cors:
-#  originPatterns: ${CORS_URL}
+cors:
+  originPatterns: ${CORS_URL}
 spring:
   profiles:
     active: ${APP_PROFILE}
