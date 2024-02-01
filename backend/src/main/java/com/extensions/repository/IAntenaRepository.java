@@ -35,7 +35,7 @@ public interface IAntenaRepository extends JpaRepository<Antena, String> {
     List<Antena> findByTipoAntena(TipoAntena tipoAntena);
 
     @Transactional(readOnly = true)
-    Optional<Antena> findBySsid(String nome);
+    Optional<Antena> findByIp(String ip);
 
     @Query(value = "SELECT * FROM antenas a WHERE LOWER(a.ssid) LIKE LOWER(CONCAT('%', :ssid, '%'))", nativeQuery = true)
     List<Antena> findAntenaBySsid(@Param("ssid") String ssid);

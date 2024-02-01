@@ -127,7 +127,7 @@ public class AntenaService {
 
     public AntenaDTO add(AntenaDTO data) {
         logger.info("Adicionando um novo antena.");
-        checkingAntenaWithTheSameName(data);
+        checkingAntenaWithTheSameIp(data);
 
         Local local = localRepository.findById(data.getIdLocal())
                 .orElseThrow(() -> new ObjectNotFoundException("Local de ID: " + data.getIdLocal() + " não encontrado."));
@@ -149,7 +149,7 @@ public class AntenaService {
     @Transactional
     public AntenaDTO update(AntenaUpdateDTO data) {
         logger.info("Atualizando antena de id" + data.getId());
-        checkingAntenaWithTheSameNameDuringUpdate(data);
+        checkingAntenaWithTheSameIpDuringUpdate(data);
 
         Local local = localRepository.findById(data.getIdLocal())
                 .orElseThrow(() -> new ObjectNotFoundException("Local de ID: " + data.getIdLocal() + " não encontrado."));
@@ -186,19 +186,19 @@ public class AntenaService {
     }
 
     @Transactional(readOnly = true)
-    public void checkingAntenaWithTheSameNameDuringUpdate(AntenaUpdateDTO data) {
-        var antena = repository.findBySsid(data.getSsid());
+    public void checkingAntenaWithTheSameIpDuringUpdate(AntenaUpdateDTO data) {
+        var antena = repository.findByIp(data.getIp());
         if (antena.isPresent() && !antena.get().getId().equals(data.getId())) {
-            logger.info("A antena com de ssid: " + data.getSsid() + " já existe!");
-            throw new DataIntegratyViolationException("A antena com de ssid: " + data.getSsid() + " já existe!");
+            logger.info("A antena com de ip: " + data.getIp() + " já existe!");
+            throw new DataIntegratyViolationException("A antena com de ip: " + data.getIp() + " já existe!");
         }
     }
 
     @Transactional(readOnly = true)
-    public void checkingAntenaWithTheSameName(AntenaDTO data) {
-        if (repository.findBySsid(data.getSsid()).isPresent()) {
-            logger.info("A antena com de ssid: " + data.getSsid() + " já existe!");
-            throw new DataIntegratyViolationException("A antena com de ssid: " + data.getSsid() + " já existe!");
+    public void checkingAntenaWithTheSameIp(AntenaDTO data) {
+        if (repository.findByIp(data.getIp()).isPresent()) {
+            logger.info("A antena com de ip: " + data.getIp() + " já existe!");
+            throw new DataIntegratyViolationException("A antena com de ip: " + data.getIp() + " já existe!");
         }
 
     }
