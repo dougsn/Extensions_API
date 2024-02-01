@@ -15,8 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
         // Configurando CORS de forma global para os domínios que estão no application.yml
         //var allowedOrigins = corsOriginPatterns.split(",");
         registry.addMapping("/**")
-                .allowedMethods("*")
-                .allowedOrigins("*")
-                .allowCredentials(true);
+                .allowedMethods("*");
+//                .allowedOrigins("*")
+//                .allowCredentials(true);
     }
 }
