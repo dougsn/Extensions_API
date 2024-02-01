@@ -28,7 +28,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/setor/v1")
-@Tag(description = "Setores da aplicação", name = "Setor")
+@Tag(description = "Setores da aplicação", name = "Setores")
 public class SetorController {
 
 
@@ -36,7 +36,7 @@ public class SetorController {
     private SetorService service;
 
     @Operation(summary = "Buscando todos os setores, sem paginação", description = "Buscando todos os setores, sem paginação",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -58,7 +58,7 @@ public class SetorController {
 
 
     @Operation(summary = "Buscando todos os setores", description = "Buscando todos os setores",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -86,7 +86,7 @@ public class SetorController {
     }
 
     @Operation(summary = "Buscar tipo de setores pelo ID", description = "Buscar tipo de setores pelo ID",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -108,7 +108,7 @@ public class SetorController {
     }
 
     @Operation(summary = "Criar um setor", description = "Criar um setor",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "201",
                             content = {
@@ -138,7 +138,7 @@ public class SetorController {
     }
 
     @Operation(summary = "Atualizar um setor", description = "Atualizar um setor",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -168,7 +168,7 @@ public class SetorController {
     }
 
     @Operation(summary = "Deletar um setor", description = "Deletar um setor",
-            tags = {"Setor"},
+            tags = {"Setores"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

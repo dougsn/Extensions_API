@@ -28,14 +28,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/funcionario/v1")
-@Tag(description = "Funcionários da aplicação", name = "Funcionário")
+@Tag(description = "Funcionários da aplicação", name = "Funcionários")
 public class FuncionarioController {
 
     @Autowired
     private FuncionarioService service;
 
     @Operation(summary = "Buscando todos os funcionários", description = "Buscando todos os funcionários",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -49,6 +49,7 @@ public class FuncionarioController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PagedModel<EntityModel<FuncionarioDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -62,7 +63,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Buscando todos os funcionários de um setor", description = "Buscando todos os funcionários de um setor",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -91,7 +92,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Buscar funcionário pelo nome", description = "Buscar funcionário pelo nome",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -112,7 +113,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Buscar funcionário pelo ID", description = "Buscar funcionário pelo ID",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -134,7 +135,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Criar um funcionário", description = "Criar um funcionário",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -164,7 +165,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Atualizar um funcionário", description = "Atualizar um funcionário",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -194,7 +195,7 @@ public class FuncionarioController {
     }
 
     @Operation(summary = "Deletar um funcionário", description = "Deletar um funcionário",
-            tags = {"Funcionário"},
+            tags = {"Funcionários"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

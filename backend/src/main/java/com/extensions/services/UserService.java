@@ -114,8 +114,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     private void checkPermission(User userEntity, UserUpdateDTO request) {
+        if (!request.getId().equals(userEntity.getId()))
+            throw new AccessDeniedGenericException("Você não pode atualizar outro usuário!");
+
         userEntity.getPermissions().forEach(uAuth -> request.getPermissions().forEach(r -> {
-            if (!uAuth.getDescription().equals("ADMIN") && r.getId() == 1 && !userEntity.getPermissions().stream().anyMatch(uExisting ->
+            if (!uAuth.getDescription().equals("ADMIN") && r.getId() == 1 && userEntity.getPermissions().stream().noneMatch(uExisting ->
                     uExisting.getDescription().equals("ADMIN"))) {
                 throw new AccessDeniedGenericException("Você não possui permissão para atualizar um usuário com essa permissão.");
             }

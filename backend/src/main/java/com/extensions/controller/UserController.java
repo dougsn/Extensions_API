@@ -28,13 +28,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/user/v1")
-@Tag(description = "Usuários da aplicação", name = "Usuário")
+@Tag(description = "Usuários da aplicação", name = "Usuários")
 public class UserController {
     @Autowired
     private UserService service;
 
     @Operation(summary = "Buscando todos os usuários", description = "Buscando todos os usuários",
-            tags = {"Usuário"},
+            tags = {"Usuários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @Operation(summary = "Buscar tipo de usuário pelo ID", description = "Buscar tipo de usuário pelo ID",
-            tags = {"Usuário"},
+            tags = {"Usuários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @Operation(summary = "Atualizar um usuário", description = "Atualizar um usuário",
-            tags = {"Usuário"},
+            tags = {"Usuários"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -114,7 +114,7 @@ public class UserController {
     }
 
     @Operation(summary = "Deletar um usuário", description = "Deletar um usuário",
-            tags = {"Usuário"},
+            tags = {"Usuários"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

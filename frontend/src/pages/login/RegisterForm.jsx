@@ -15,54 +15,49 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CommonInput } from "../../components/Form/CommonInput";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { api } from "../../services/api";
-import { deleteToken, getToken, setToken } from "../../utils/localstorage";
-import { AuthenticationContext } from "../../provider/AuthenticationProvider";
+import { setToken } from "../../utils/localstorage";
 import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
 
-const LoginUser = yup.object().shape({
+const RegisterUser = yup.object().shape({
   username: yup.string().required("Nome obrigatório"),
   password: yup.string().required("Senha é obrigatória"),
 });
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(LoginUser),
+    resolver: yupResolver(RegisterUser),
   });
 
-  const { setUserData, setIsAuthenticated } = useContext(AuthenticationContext);
-
-  const loginUser = async (data) => {
-    const loginData = {
+  const registerUser = async (data) => {
+    const registerData = {
       username: data.username.trim(),
       password: data.password.trim(),
+      permissions: [{ id: 2 }], // Permissão de Manager para poderem manipular os dados no app.
     };
     setIsLoading(true);
 
     try {
-      const response = await api.post("/auth/v1/login", loginData, {
+      const response = await api.post("/auth/v1/register", registerData, {
         "Content-Type": "application/json",
       });
-      if (response.status == 200) {
+      if (response.status == 201) {
         toast({
-          title: "Login realizado com sucesso",
+          title: "Registro realizado com sucesso",
           status: "success",
           position: "top-right",
           duration: 1500,
           isClosable: true,
         });
 
-        setToken(response.data.token);
-
-        await getUserData();
         setTimeout(() => {
-          navigate("/ramal");
+          navigate("/");
         }, 1000);
       }
     } catch (error) {
@@ -102,37 +97,12 @@ export const LoginForm = () => {
       }
 
       toast({
-        title: error.response.data.error.errorMessage,
+        title: error.response.data.errorMessage,
         status: "error",
         position: "top-right",
         duration: 3000,
         isClosable: true,
       });
-    }
-  };
-
-  const getUserData = async () => {
-    const userToken = getToken();
-
-    if (userToken) {
-      try {
-        const response = await api.get("/auth/v1", {
-          headers: { Authorization: `Bearer ${userToken}` },
-        });
-
-        if (response.status == 200) {
-          setUserData(response.data);
-          setTimeout(() => {
-            setIsAuthenticated(true);
-          }, 1000);
-        }
-      } catch {
-        deleteToken();
-        setIsAuthenticated(false);
-      }
-    } else {
-      deleteToken();
-      setIsAuthenticated(false);
     }
   };
 
@@ -146,7 +116,7 @@ export const LoginForm = () => {
       mt="20"
       borderRadius={8}
       p={["10px", "8"]}
-      onSubmit={handleSubmit(loginUser)}
+      onSubmit={handleSubmit(registerUser)}
     >
       <Box
         alignContent={"center"}
@@ -160,7 +130,7 @@ export const LoginForm = () => {
         p={["6", "8"]}
       >
         <Heading size="lg" fontWeight="500">
-          Entrar no Sistema
+          Criar conta
         </Heading>
 
         <VStack spacing="8">
@@ -180,7 +150,9 @@ export const LoginForm = () => {
           </SimpleGrid>
         </VStack>
         <Box>
-          <Text as={Link} to={"/registrar"}>Criar conta</Text>
+          <Text as={Link} to={"/"}>
+            Entrar no sistema
+          </Text>
         </Box>
         <Flex mt="8">
           <HStack>
@@ -190,7 +162,7 @@ export const LoginForm = () => {
               colorScheme="messenger"
               isLoading={isLoading}
             >
-              Entrar
+              Registrar
             </Button>
           </HStack>
         </Flex>
