@@ -35,7 +35,7 @@ public class ImpressoraController {
     private ImpressoraService service;
 
     @Operation(summary = "Buscando todas as Impressoras", description = "Buscando todos os Impressoras",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -49,6 +49,7 @@ public class ImpressoraController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PagedModel<EntityModel<ImpressoraDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -62,7 +63,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Buscando todas as impressoras de um setor", description = "Buscando todos os impressoras de um setor",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -91,7 +92,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Buscar impressora pelo ID", description = "Buscar impressora pelo ID",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -112,7 +113,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Buscar impressora pelo nome", description = "Buscar impressora pelo nome",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -133,7 +134,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Criar uma impressora", description = "Criar uma impressora",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -164,7 +165,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Atualizar uma impressora", description = "Atualizar uma impressora",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -195,7 +196,7 @@ public class ImpressoraController {
     }
 
     @Operation(summary = "Deletar uma impressora", description = "Deletar uma impressora",
-            tags = {"Impressora"},
+            tags = {"Impressoras"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

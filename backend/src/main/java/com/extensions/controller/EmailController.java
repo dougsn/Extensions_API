@@ -35,7 +35,7 @@ public class EmailController {
     private EmailService service;
 
     @Operation(summary = "Buscando todos os emails", description = "Buscando todos os emails",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -49,6 +49,7 @@ public class EmailController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PagedModel<EntityModel<EmailDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -62,7 +63,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Buscando todos os emails de um setor", description = "Buscando todos os emails de um setor",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -91,7 +92,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Buscar E-mail pelo ID", description = "Buscar E-mail pelo ID",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -112,7 +113,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Buscar E-mail pelo nome", description = "Buscar E-mail pelo nome",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -133,7 +134,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Criar um E-mail", description = "Criar um E-mail",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -164,7 +165,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Atualizar um E-mail", description = "Atualizar um E-mail",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -195,7 +196,7 @@ public class EmailController {
     }
 
     @Operation(summary = "Deletar um E-mail", description = "Deletar um E-mail",
-            tags = {"E-mail"},
+            tags = {"E-mails"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

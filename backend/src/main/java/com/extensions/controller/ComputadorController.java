@@ -35,7 +35,7 @@ public class ComputadorController {
     private ComputadorService service;
 
     @Operation(summary = "Buscando todos os computadores", description = "Buscando todos os computadores",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -49,6 +49,7 @@ public class ComputadorController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<PagedModel<EntityModel<ComputadorDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -62,7 +63,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Buscando todos os computadores de um setor", description = "Buscando todos os computadores de um setor",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -91,7 +92,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Buscar Computador pelo ID", description = "Buscar Computador pelo ID",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -112,7 +113,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Buscar Computador pelo nome", description = "Buscar Computador pelo nome",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -133,7 +134,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Criar um Computador", description = "Criar um Computador",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -164,7 +165,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Atualizar um Computador", description = "Atualizar um Computador",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
@@ -195,7 +196,7 @@ public class ComputadorController {
     }
 
     @Operation(summary = "Deletar um Computador", description = "Deletar um Computador",
-            tags = {"Computador"},
+            tags = {"Computadores"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
