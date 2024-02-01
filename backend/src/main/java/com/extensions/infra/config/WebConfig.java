@@ -13,10 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // Configurando CORS de forma global para os domínios que estão no application.yml
-        var allowedOrigins = corsOriginPatterns.split(",");
+        //var allowedOrigins = corsOriginPatterns.split(",");
         registry.addMapping("/**")
                 .allowedMethods("*")
-                .allowedOrigins(allowedOrigins)
+                .allowedOrigins(corsOriginPatterns)
                 .allowCredentials(true);
     }
 }
