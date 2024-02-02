@@ -38,7 +38,7 @@ export const Profile = () => {
       duration: 1000,
       isClosable: true,
     });
-    navigate("/login");
+    navigate("/");
   };
 
   const getUserData = async () => {
@@ -72,7 +72,7 @@ export const Profile = () => {
       const response = await getUserData();
 
       if (response == false) {
-        if (isAuthenticated == false && location.pathname != "/ramal" && location.pathname != "/login") {
+        if (isAuthenticated == false && location.pathname != "/ramal" && location.pathname != "/" && location.pathname != "") {
           toast({
             title: "Você precisa estar autenticado para usar o sistema.",
             status: "error",
@@ -80,7 +80,7 @@ export const Profile = () => {
             duration: 3000,
             isClosable: true,
           });
-          navigate("/login");
+          navigate("/");
         }
       }
     } catch {
