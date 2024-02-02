@@ -1,9 +1,3 @@
-<!-- [JAVASCRIPT__BADGE]: https://img.shields.io/badge/Javascript-000?style=for-the-badge&logo=javascript
-[TYPESCRIPT__BADGE]: https://img.shields.io/badge/typescript-D4FAFF?style=for-the-badge&logo=typescript
-[EXPRESS__BADGE]: https://img.shields.io/badge/express-005CFE?style=for-the-badge&logo=express
-[VUE__BADGE]: https://img.shields.io/badge/VueJS-fff?style=for-the-badge&logo=vue
-[NEST__BADGE]: https://img.shields.io/badge/nest-7026b9?style=for-the-badge&logo=nest
-[GRAPHQL__BADGE]: https://img.shields.io/badge/GraphQL-e10098?style=for-the-badge&logo=graphql -->
 [JAVA_BADGE]:https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
 [SPRING_BADGE]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
 [MYSQL_BADGE]:https://img.shields.io/badge/MySQL-005CFE.svg?style=for-the-badge&logo=mysql&logoColor=white
@@ -28,8 +22,6 @@
 </p>
 
 <h2 id="started">🚀  Primeiros passos</h2>
-
-Here you describe how to run your project locally
 
 <h3>Pré-requisitos</h3>
 
@@ -147,7 +139,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
       <a href="#">
         <img src="https://avatars.githubusercontent.com/u/80468956?s=96&v=4" width="100px;" alt="Douglas Nascimento Profile Picture"/><br>
         <sub>
-          <b>Fernanda Kipper</b>
+          <b>Douglas Nascimento</b>
         </sub>
       </a>
     </td>
