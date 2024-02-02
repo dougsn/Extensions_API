@@ -1,15 +1,13 @@
-[JAVA_BADGE]:https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
-[SPRING_BADGE]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
-[MYSQL_BADGE]:https://img.shields.io/badge/MySQL-005CFE.svg?style=for-the-badge&logo=mysql&logoColor=white
-[REACT_BADGE]:https://img.shields.io/badge/react-000.svg?style=for-the-badge&logo=react&logoColor=blue
-
-
 <h1 align="center" style="font-weight: bold;">Extension 💻</h1>
 
-![spring][SPRING_BADGE]
-![java][JAVA_BADGE]
-![mysql][MYSQL_BADGE]
-![react][REACT_BADGE]
+
+<div align="center">
+ <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white">
+ <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white">
+ <img src="https://img.shields.io/badge/MySQL-005CFE.svg?style=for-the-badge&logo=mysql&logoColor=white">
+ <img src="https://img.shields.io/badge/react-000.svg?style=for-the-badge&logo=react&logoColor=blue">
+</div>
+
 
 <p align="center">
  <a href="#started">Primeiros passos</a> • 
