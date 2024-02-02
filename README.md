@@ -48,7 +48,7 @@ Crie as variáveis de ambiente no seu computador, e as referencie no `applicatio
 APP_PROFILE=dev;
 CORS_URL=http://localhost:8080,http://localhost:5173;
 DEV_MYSQL_HOST=localhost;
-DEV_MYSQL_PASSWORD=salvador1;
+DEV_MYSQL_PASSWORD=senha;
 DEV_MYSQL_PORT=3306;
 DEV_MYSQL_USER=root;
 JWT_SECRET=321D4B6150645367566B597033733676397924423F3328482B4D625985546222;
