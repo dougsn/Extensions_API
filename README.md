@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <b>Este projeto foi criado para praticar a implementação de tests end-to-end com JUnit5, Restassured e Testcontainers.</b>
+  <b>Este projeto foi criado para praticar a implementação de testes end-to-end com JUnit5, Restassured e Testcontainers.</b>
 </p>
 
 <h2 id="started">🚀  Primeiros passos</h2>
