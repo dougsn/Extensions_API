@@ -61,7 +61,7 @@ const AppRoutes = () => {
             justifyContent={"center"}
           >
             <Routes>
-              <Route path="" element={<LoginForm />} />
+              <Route path="/login" element={<LoginForm />} />
               <Route path="/registrar" element={<RegisterForm />} />
               <Route path="/ramal" element={<ListRamal />} />
 

@@ -57,7 +57,7 @@ export const RegisterForm = () => {
         });
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 1000);
       }
     } catch (error) {
@@ -150,7 +150,7 @@ export const RegisterForm = () => {
           </SimpleGrid>
         </VStack>
         <Box>
-          <Text as={Link} to={"/"}>
+          <Text as={Link} to={"/login"}>
             Entrar no sistema
           </Text>
         </Box>

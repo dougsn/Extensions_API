@@ -67,7 +67,7 @@ export const UpdateUsuario = () => {
       duration: 1000,
       isClosable: true,
     });
-    setTimeout(() => navigate("/"), 1000);
+    setTimeout(() => navigate("/login"), 1000);
   };
 
   const handleUpdateUser = async (data) => {
@@ -89,7 +89,7 @@ export const UpdateUsuario = () => {
       });
       if (request.status == 200 && userData.id == id) {
         logoutUserUpdate();
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => navigate("/login"), 1000);
       } else if (request.status == 200) {
         toast({
           title: "Usuário atualizado com sucesso!",
