@@ -92,9 +92,9 @@ mvn yarn dev
 
 <h2 id="routes">📍 API Endpoints</h2>
 
-Todos os endpoints se encontram no Swagger: 
+Todos os endpoints se encontram no Swagger, assim que iniciar o backend acesse: 
 
-- [Swagger](https://extension-api.up.railway.app/swagger-ui/index.html#/)
+- [Swagger](http://localhost:8080/swagger-ui/index.html#/)
 
 <h2 id="colab">🤝 Colaboradores</h2>
 
