@@ -19,6 +19,8 @@ import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 import { useEffect, useState } from "react";
 import { CommonSelect } from "../../components/Form/CommonSelect";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const CreateComputadorFormSchema = yup.object().shape({
   hostname: yup
@@ -227,16 +229,9 @@ export const CreateComputador = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button
-              colorScheme="blackAlpha"
-              onClick={() => navigate("/computador")}
-            >
-              Voltar
-            </Button>
+            <VoltarButtonPopUp endpoint={"/computador"} />
           </Box>
-          <Button type="submit" colorScheme="messenger" isLoading={isLoading}>
-            Salvar
-          </Button>
+          <CreateButtonWithSubmit isLoadingBtn={isLoading} />
         </HStack>
       </Flex>
     </Box>
