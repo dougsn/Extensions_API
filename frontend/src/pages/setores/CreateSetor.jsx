@@ -122,7 +122,7 @@ export const CreateSetor = () => {
       </VStack>
 
       <Flex mt="8" justify="flex-end">
-      <HStack spacing="4">
+        <HStack spacing="4">
           <Box>
             <VoltarButtonPopUp endpoint={"/setor"} />
           </Box>
