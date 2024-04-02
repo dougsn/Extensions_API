@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
 import { Box, Icon, Text } from "@chakra-ui/react";
 
-
 export const NavLink = ({ icon, children, active }) => {
   return (
     <Box
       display="flex"
       alignItems="center"
       padding={2}
-      bgColor={`${active ? "gray.300" : ""}`}
+      bgColor={`${
+        active ? (colorMode === "dark" ? "gray.900" : "gray.300") : ""
+      }`}
       borderRadius={"5"}
       transition={"all .5s ease"}
-      _hover={{backgroundColor: "gray.100"}}
+      _hover={{
+        backgroundColor: colorMode === "dark" ? "gray.700" : "gray.100",
+      }}
     >
       <Icon as={icon} fontSize="20" />
       <Text fontWeight="medium" ml="4">

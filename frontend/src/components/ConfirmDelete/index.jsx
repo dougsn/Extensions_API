@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   useToast,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import PropTypes from "prop-types";
@@ -22,6 +23,7 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
     AuthenticationContext
   );
 
+  const { colorMode } = useColorMode();
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -63,7 +65,13 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
 
         setTimeout(() => {
           setIsLoading(false);
-          navigate(`/${endpoint == "funcionario" ? endpoint = "ramal" : endpoint = endpoint}`);
+          navigate(
+            `/${
+              endpoint == "funcionario"
+                ? (endpoint = "ramal")
+                : (endpoint = endpoint)
+            }`
+          );
         }, 1000);
       }
     } catch (error) {
@@ -108,6 +116,11 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
         p={5}
         colorScheme={color}
         size="sm"
+        bgColor={colorMode === "dark" ? "red.800" : "red.500"}
+        color={colorMode === "dark" ? "" : "white"}
+        _hover={{
+          bgColor: colorMode === "dark" ? "red.900" : "red.600",
+        }}
         fontSize={["12px", "16px"]}
         onClick={onOpen}
       >
@@ -117,7 +130,15 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
       {/* Modal */}
       <Modal
         isOpen={isOpen}
-        onClose={() => navigate(`/${endpoint == "funcionario" ? endpoint = "ramal" : endpoint = endpoint}`)}
+        onClose={() =>
+          navigate(
+            `/${
+              endpoint == "funcionario"
+                ? (endpoint = "ramal")
+                : (endpoint = endpoint)
+            }`
+          )
+        }
         isCentered
         motionPreset="scale"
       >
@@ -135,14 +156,23 @@ export const ConfirmDelete = ({ name, endpoint, id, color }) => {
             <Button
               fontSize={["12px", "16px"]}
               mr={5}
-              colorScheme="blue"
+              bgColor={colorMode === "dark" ? "messenger.800" : "messenger.500"}
+              color={colorMode === "dark" ? "" : "white"}
+              _hover={{
+                bgColor:
+                  colorMode === "dark" ? "messenger.900" : "messenger.600",
+              }}
               onClick={onClose}
             >
               Não
             </Button>
             <Button
               fontSize={["12px", "16px"]}
-              colorScheme="red"
+              bgColor={colorMode === "dark" ? "red.800" : "red.500"}
+              color={colorMode === "dark" ? "" : "white"}
+              _hover={{
+                bgColor: colorMode === "dark" ? "red.900" : "red.600",
+              }}
               onClick={handleRemove}
               isLoading={isLoading}
             >

@@ -28,10 +28,13 @@ import {
   CardHeader,
   CardFooter,
 } from "@chakra-ui/react";
-import { RiAddLine, RiDeleteBinLine, RiEditLine } from "react-icons/ri";
+import { RiDeleteBinLine, RiEditLine } from "react-icons/ri";
 import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListUsuario = () => {
   const [page, setPage] = useState(0);
@@ -90,16 +93,7 @@ export const ListUsuario = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              onClick={() => navigate("/user/new/")}
-            >
-              <Icon as={RiAddLine} fontSize="20" />
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/user/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -108,17 +102,7 @@ export const ListUsuario = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/user/new/")}
-            >
-              Criar novo
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/user/new"} />}
         </Flex>
       )}
 
@@ -190,28 +174,12 @@ export const ListUsuario = () => {
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      color="white"
-                      onClick={() => navigate(`/user/update/${usuarioMap.id}`)}
-                    >
-                      <Icon as={RiEditLine} fontSize="20" />
-                    </Button>
+                    <UpdateButton endpoint={`/user/update/${usuarioMap.id}`} />
                   )}
                   {userData.permissions.some(
                     (p) => p.description === "ADMIN"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="red"
-                      color="white"
-                      onClick={() => navigate(`/user/delete/${usuarioMap.id}`)}
-                    >
-                      <Icon as={RiDeleteBinLine} fontSize="20" />
-                    </Button>
+                    <DeleteButton endpoint={`/user/delete/${usuarioMap.id}`} />
                   )}
                 </CardFooter>
               </Card>
@@ -244,33 +212,18 @@ export const ListUsuario = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="yellow"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/user/update/${usuarioMap.id}`)
-                          }
-                        >
-                          <Icon as={RiEditLine} fontSize="20" />
-                        </Button>
+                        <UpdateButton
+                          endpoint={`/user/update/${usuarioMap.id}`}
+                        />
                       )}
 
                       {userData.permissions.some(
                         (p) => p.description === "ADMIN"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="red"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/user/delete/${usuarioMap.id}`)
-                          }
-                        >
-                          <Icon as={RiDeleteBinLine} fontSize="20" />
-                        </Button>
+                        
+                        <DeleteButton
+                          endpoint={`/user/delete/${usuarioMap.id}`}
+                        />
                       )}
                     </HStack>
                   </Td>

@@ -16,6 +16,7 @@ import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { api } from "../../services/api";
 import { deleteToken, getToken } from "../../utils/localstorage";
 import { IoLogOut } from "react-icons/io5";
+import { ButtonToggle } from "../Toggle/ButtonToggle";
 
 export const Profile = () => {
   const { isAuthenticated, userData, setIsAuthenticated, setUserData } =
@@ -119,6 +120,12 @@ export const Profile = () => {
                   >
                     <Icon as={IoLogOut} fontSize="25" />
                   </Box>
+                  <Divider
+                    orientation="vertical"
+                    borderColor="gray.300"
+                    m="0 10px"
+                  />
+                  <ButtonToggle />
                 </Stack>
               ) : (
                 <Stack direction="row">
@@ -147,6 +154,12 @@ export const Profile = () => {
                   >
                     <Icon as={IoLogOut} fontSize="25" />
                   </Box>
+                  <Divider
+                    orientation="vertical"
+                    borderColor="gray.300"
+                    m="0 10px"
+                  />
+                  <ButtonToggle />
                 </Stack>
               )}
             </Box>
