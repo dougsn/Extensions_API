@@ -34,6 +34,9 @@ import { RxMagnifyingGlass } from "react-icons/rx";
 import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
 
 export const ListSetor = () => {
   const [page, setPage] = useState(0);
@@ -92,16 +95,7 @@ export const ListSetor = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              onClick={() => navigate("/setor/new/")}
-            >
-              <Icon as={RiAddLine} fontSize="20" />
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/setor/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -110,17 +104,7 @@ export const ListSetor = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/setor/new/")}
-            >
-              Criar novo
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/setor/new"} />}
         </Flex>
       )}
 
@@ -192,29 +176,13 @@ export const ListSetor = () => {
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      color="white"
-                      onClick={() => navigate(`/setor/update/${setorMap.id}`)}
-                    >
-                      <Icon as={RiEditLine} fontSize="20" />
-                    </Button>
+                    <UpdateButton endpoint={`/setor/update/${setorMap.id}`} />
                   )}
                   {userData.permissions.some(
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="red"
-                      color="white"
-                      onClick={() => navigate(`/setor/delete/${setorMap.id}`)}
-                    >
-                      <Icon as={RiDeleteBinLine} fontSize="20" />
-                    </Button>
+                    <DeleteButton endpoint={`/setor/delete/${setorMap.id}`} />
                   )}
                 </CardFooter>
               </Card>
@@ -247,17 +215,9 @@ export const ListSetor = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="yellow"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/setor/update/${setorMap.id}`)
-                          }
-                        >
-                          <Icon as={RiEditLine} fontSize="20" />
-                        </Button>
+                        <UpdateButton
+                          endpoint={`/setor/update/${setorMap.id}`}
+                        />
                       )}
 
                       {userData.permissions.some(
@@ -265,17 +225,9 @@ export const ListSetor = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="red"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/setor/delete/${setorMap.id}`)
-                          }
-                        >
-                          <Icon as={RiDeleteBinLine} fontSize="20" />
-                        </Button>
+                        <DeleteButton
+                          endpoint={`/setor/delete/${setorMap.id}`}
+                        />
                       )}
                     </HStack>
                   </Td>
