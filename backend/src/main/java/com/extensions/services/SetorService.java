@@ -3,10 +3,8 @@ package com.extensions.services;
 import com.extensions.controller.SetorController;
 import com.extensions.domain.dto.setor.SetorDTO;
 import com.extensions.domain.dto.setor.SetorDTOMapper;
-import com.extensions.domain.entity.Funcionario;
-import com.extensions.domain.entity.Setor;
-import com.extensions.repository.IFuncionarioRepository;
-import com.extensions.repository.ISetorRepository;
+import com.extensions.domain.entity.*;
+import com.extensions.repository.*;
 import com.extensions.services.exceptions.DataIntegratyViolationException;
 import com.extensions.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,12 @@ public class SetorService {
     private final Logger logger = Logger.getLogger(SetorService.class.getName());
     @Autowired
     private IFuncionarioRepository funcionarioRepository;
+    @Autowired
+    private IComputadorRepository computadorRepository;
+    @Autowired
+    private IEmailRepository emailRepository;
+    @Autowired
+    private IImpressoraRepository impressoraRepository;
     @Autowired
     private ISetorRepository repository;
     @Autowired
@@ -127,10 +131,28 @@ public class SetorService {
                 .orElseThrow(() -> new ObjectNotFoundException("Task ID: " + id + " not found."));
 
         List<Funcionario> funcionarios = funcionarioRepository.findBySetor(setor);
+        List<Computador> computadores = computadorRepository.findBySetor(setor);
+        List<Email> emails = emailRepository.findBySetor(setor);
+        List<Impressora> impressoras = impressoraRepository.findBySetor(setor);
 
         funcionarios.forEach(funcionario -> {
             if (funcionario.getSetor().getId().equals(setor.getId())) {
                 throw new DataIntegratyViolationException("O setor está vinculado a um funcionário.");
+            }
+        });
+        computadores.forEach(computador -> {
+            if (computador.getSetor().getId().equals(setor.getId())) {
+                throw new DataIntegratyViolationException("O setor está vinculado a um computador.");
+            }
+        });
+        emails.forEach(email -> {
+            if (email.getSetor().getId().equals(setor.getId())) {
+                throw new DataIntegratyViolationException("O setor está vinculado a um email.");
+            }
+        });
+        impressoras.forEach(impressora -> {
+            if (impressora.getSetor().getId().equals(setor.getId())) {
+                throw new DataIntegratyViolationException("O setor está vinculado a uma impressora.");
             }
         });
     }
