@@ -35,6 +35,9 @@ import { Pagination } from "../../components/Pagination";
 import { CommonSelectChange } from "../../components/Form/CommonSelectChange";
 import { CommonInputChange } from "../../components/Form/CommonInputChange";
 import { getToken } from "../../utils/localstorage";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListEmail = () => {
   const [page, setPage] = useState(0);
@@ -137,16 +140,7 @@ export const ListEmail = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                onClick={() => navigate("/email/new/")}
-              >
-                <Icon as={RiAddLine} fontSize="20" />
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/email/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -158,17 +152,7 @@ export const ListEmail = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/email/new/")}
-              >
-                Criar novo
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/email/new"} />}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
@@ -263,30 +247,14 @@ export const ListEmail = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="yellow"
-                        color="white"
-                        onClick={() => navigate(`/email/update/${emailMap.id}`)}
-                      >
-                        <Icon as={RiEditLine} fontSize="20" />
-                      </Button>
+                      <UpdateButton endpoint={`/email/update/${emailMap.id}`} />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        color="white"
-                        onClick={() => navigate(`/email/delete/${emailMap.id}`)}
-                      >
-                        <Icon as={RiDeleteBinLine} fontSize="20" />
-                      </Button>
+                      <DeleteButton endpoint={`/email/delete/${emailMap.id}`} />
                     )}
                 </CardFooter>
               </Card>
@@ -338,17 +306,9 @@ export const ListEmail = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="yellow"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/email/update/${emailMap.id}`)
-                            }
-                          >
-                            <Icon as={RiEditLine} fontSize="20" />
-                          </Button>
+                          <UpdateButton
+                            endpoint={`/email/update/${emailMap.id}`}
+                          />
                         )}
 
                       {Object.keys(userData).length != 0 &&
@@ -359,17 +319,9 @@ export const ListEmail = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="red"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/email/delete/${emailMap.id}`)
-                            }
-                          >
-                            <Icon as={RiDeleteBinLine} fontSize="20" />
-                          </Button>
+                          <DeleteButton
+                            endpoint={`/email/delete/${emailMap.id}`}
+                          />
                         )}
                     </HStack>
                   </Td>
