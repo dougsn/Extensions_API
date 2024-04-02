@@ -5,17 +5,24 @@ import {
   Stack,
   useMediaQuery,
   Icon,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 
 import { MdEmail } from "react-icons/md";
-import { BsFillPeopleFill, BsPrinterFill, BsTelephoneFill } from "react-icons/bs";
+import {
+  BsFillPeopleFill,
+  BsPrinterFill,
+  BsTelephoneFill,
+} from "react-icons/bs";
 import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
 
 export const ButtonsNavigate = () => {
   const { isAuthenticated, userData } = useContext(AuthenticationContext);
+
+  const { colorMode } = useColorMode();
 
   const location = useLocation();
   const [isLargerThan1001] = useMediaQuery("(min-width: 1001px)");
@@ -40,9 +47,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "setor")}
               bgColor={`${
-                checkUrl(location.pathname, "setor") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "setor")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "setor")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -56,9 +69,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "email")}
               bgColor={`${
-                checkUrl(location.pathname, "email") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "email")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "email")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -72,9 +91,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "computador")}
               bgColor={`${
-                checkUrl(location.pathname, "computador") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "computador")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "computador")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -88,9 +113,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "impressora")}
               bgColor={`${
-                checkUrl(location.pathname, "impressora") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "impressora")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "impressora")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -104,9 +135,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "user")}
               bgColor={`${
-                checkUrl(location.pathname, "user") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "user")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "user")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -131,9 +168,15 @@ export const ButtonsNavigate = () => {
                 <Box
                   active={checkUrl(location.pathname, "ramal")}
                   bgColor={`${
-                    checkUrl(location.pathname, "ramal") ? "gray.400" : ""
+                    colorMode === "dark" && checkUrl(location.pathname, "ramal")
+                      ? "gray.700"
+                      : colorMode === "light" && checkUrl(location.pathname, "ramal")
+                      ? "gray.400"
+                      : ""
                   }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  _hover={{
+                    bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}

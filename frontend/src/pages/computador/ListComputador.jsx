@@ -35,6 +35,9 @@ import { Pagination } from "../../components/Pagination";
 import { CommonSelectChange } from "../../components/Form/CommonSelectChange";
 import { CommonInputChange } from "../../components/Form/CommonInputChange";
 import { getToken } from "../../utils/localstorage";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListComputador = () => {
   const [page, setPage] = useState(0);
@@ -137,16 +140,7 @@ export const ListComputador = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                onClick={() => navigate("/computador/new/")}
-              >
-                <Icon as={RiAddLine} fontSize="20" />
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/computador/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -158,17 +152,7 @@ export const ListComputador = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/computador/new/")}
-              >
-                Criar novo
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/computador/new"} />}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
@@ -273,34 +257,18 @@ export const ListComputador = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="yellow"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/computador/update/${computadorMap.id}`)
-                        }
-                      >
-                        <Icon as={RiEditLine} fontSize="20" />
-                      </Button>
+                      <UpdateButton
+                        endpoint={`/computador/update/${computadorMap.id}`}
+                      />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/computador/delete/${computadorMap.id}`)
-                        }
-                      >
-                        <Icon as={RiDeleteBinLine} fontSize="20" />
-                      </Button>
+                      <DeleteButton
+                        endpoint={`/computador/delete/${computadorMap.id}`}
+                      />
                     )}
                 </CardFooter>
               </Card>
@@ -372,7 +340,9 @@ export const ListComputador = () => {
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{computadorMap.sistema_operacional}</Text>
+                        <Text fontWeight="bold">
+                          {computadorMap.sistema_operacional}
+                        </Text>
                       </ChakraLink>
                     </Box>
                   </Td>
@@ -386,17 +356,9 @@ export const ListComputador = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="yellow"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/computador/update/${computadorMap.id}`)
-                            }
-                          >
-                            <Icon as={RiEditLine} fontSize="20" />
-                          </Button>
+                          <UpdateButton
+                            endpoint={`/computador/update/${computadorMap.id}`}
+                          />
                         )}
 
                       {Object.keys(userData).length != 0 &&
@@ -407,17 +369,9 @@ export const ListComputador = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="red"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/computador/delete/${computadorMap.id}`)
-                            }
-                          >
-                            <Icon as={RiDeleteBinLine} fontSize="20" />
-                          </Button>
+                          <DeleteButton
+                            endpoint={`/computador/delete/${computadorMap.id}`}
+                          />
                         )}
                     </HStack>
                   </Td>

@@ -24,6 +24,8 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
 import { CommonSelect } from "../../components/Form/CommonSelect";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const UpdateEmailFormSchema = yup.object().shape({
   conta: yup
@@ -239,20 +241,9 @@ export const UpdateEmail = () => {
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
               <Box>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => navigate("/email")}
-                >
-                  Voltar
-                </Button>
+                <VoltarButtonPopUp endpoint={"/email"} />
               </Box>
-              <Button
-                type="submit"
-                colorScheme="messenger"
-                isLoading={isLoadingBtn}
-              >
-                Salvar
-              </Button>
+              <CreateButtonWithSubmit isLoadingBtn={isLoadingBtn} />
             </HStack>
           </Flex>
         </Box>

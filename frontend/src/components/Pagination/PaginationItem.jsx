@@ -1,18 +1,19 @@
-import { Button } from "@chakra-ui/react";
+import { Button, useColorMode } from "@chakra-ui/react";
 
+export function PaginationItem({ isCurrent = false, number, onPageChange }) {
+  const { colorMode } = useColorMode();
 
-export function PaginationItem({
-  isCurrent = false,
-  number,
-  onPageChange
-}) {
   if (isCurrent) {
     return (
       <Button
         size="sm"
         fontSize="xs"
         width="4"
-        colorScheme="blue"
+        bgColor={colorMode === "dark" ? "messenger.800" : "messenger.500"}
+        color={colorMode === "dark" ? "" : "white"}
+        _hover={{
+          bgColor: colorMode === "dark" ? "messenger.900" : "messenger.600",
+        }}
         disabled
         _disabled={{
           bg: "blue.500",

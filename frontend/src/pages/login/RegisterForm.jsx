@@ -19,6 +19,7 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { setToken } from "../../utils/localstorage";
 import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
+import { LoginButton } from "../../components/Button/LoginButton";
 
 const RegisterUser = yup.object().shape({
   username: yup.string().required("Nome obrigatório"),
@@ -156,14 +157,7 @@ export const RegisterForm = () => {
         </Box>
         <Flex mt="8">
           <HStack>
-            <Button
-              type="submit"
-              p={"0 100px"}
-              colorScheme="messenger"
-              isLoading={isLoading}
-            >
-              Registrar
-            </Button>
+            <LoginButton isLoadingBtn={isLoading} value={"Registrar"} />
           </HStack>
         </Flex>
       </Box>

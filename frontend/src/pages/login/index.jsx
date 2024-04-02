@@ -20,6 +20,7 @@ import { api } from "../../services/api";
 import { deleteToken, getToken, setToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
+import { LoginButton } from "../../components/Button/LoginButton";
 
 const LoginUser = yup.object().shape({
   username: yup.string().required("Nome obrigatório"),
@@ -180,18 +181,13 @@ export const LoginForm = () => {
           </SimpleGrid>
         </VStack>
         <Box>
-          <Text as={Link} to={"/registrar"}>Criar conta</Text>
+          <Text as={Link} to={"/registrar"}>
+            Criar conta
+          </Text>
         </Box>
         <Flex mt="8">
           <HStack>
-            <Button
-              type="submit"
-              p={"0 100px"}
-              colorScheme="messenger"
-              isLoading={isLoading}
-            >
-              Entrar
-            </Button>
+            <LoginButton isLoadingBtn={isLoading} value={"Entrar"} />
           </HStack>
         </Flex>
       </Box>
