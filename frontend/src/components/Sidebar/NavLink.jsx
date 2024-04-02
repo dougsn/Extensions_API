@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
-import { Box, Icon, Text } from "@chakra-ui/react";
+import { Box, Icon, Text, useColorMode } from "@chakra-ui/react";
 
 export const NavLink = ({ icon, children, active }) => {
+  const { colorMode } = useColorMode();
   return (
     <Box
       display="flex"
