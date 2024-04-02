@@ -35,6 +35,9 @@ import { Pagination } from "../../components/Pagination";
 import { CommonSelectChange } from "../../components/Form/CommonSelectChange";
 import { CommonInputChange } from "../../components/Form/CommonInputChange";
 import { getToken } from "../../utils/localstorage";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListImpressora = () => {
   const [page, setPage] = useState(0);
@@ -137,16 +140,7 @@ export const ListImpressora = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                onClick={() => navigate("/impressora/new/")}
-              >
-                <Icon as={RiAddLine} fontSize="20" />
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/impressora/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -158,17 +152,7 @@ export const ListImpressora = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/impressora/new/")}
-              >
-                Criar novo
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/impressora/new"} />}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
@@ -267,34 +251,18 @@ export const ListImpressora = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="yellow"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/impressora/update/${impressoraMap.id}`)
-                        }
-                      >
-                        <Icon as={RiEditLine} fontSize="20" />
-                      </Button>
+                      <UpdateButton
+                        endpoint={`/impressora/update/${impressoraMap.id}`}
+                      />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/impressora/delete/${impressoraMap.id}`)
-                        }
-                      >
-                        <Icon as={RiDeleteBinLine} fontSize="20" />
-                      </Button>
+                      <DeleteButton
+                        endpoint={`/impressora/delete/${impressoraMap.id}`}
+                      />
                     )}
                 </CardFooter>
               </Card>
@@ -356,17 +324,9 @@ export const ListImpressora = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="yellow"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/impressora/update/${impressoraMap.id}`)
-                            }
-                          >
-                            <Icon as={RiEditLine} fontSize="20" />
-                          </Button>
+                          <UpdateButton
+                            endpoint={`/impressora/update/${impressoraMap.id}`}
+                          />
                         )}
 
                       {Object.keys(userData).length != 0 &&
@@ -377,17 +337,9 @@ export const ListImpressora = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="red"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/impressora/delete/${impressoraMap.id}`)
-                            }
-                          >
-                            <Icon as={RiDeleteBinLine} fontSize="20" />
-                          </Button>
+                          <DeleteButton
+                            endpoint={`/impressora/delete/${impressoraMap.id}`}
+                          />
                         )}
                     </HStack>
                   </Td>
