@@ -180,11 +180,6 @@ export const LoginForm = () => {
             />
           </SimpleGrid>
         </VStack>
-        <Box>
-          <Text as={Link} to={"/registrar"}>
-            Criar conta
-          </Text>
-        </Box>
         <Flex mt="8">
           <HStack>
             <LoginButton isLoadingBtn={isLoading} value={"Entrar"} />
