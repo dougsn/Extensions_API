@@ -122,6 +122,12 @@ export const Profile = () => {
                   >
                     <Icon as={IoLogOut} fontSize="25" />
                   </Box>
+                  <Divider
+                    orientation="vertical"
+                    borderColor="gray.300"
+                    m="0 10px"
+                  />
+                  <ButtonToggle />
                 </Stack>
               ) : (
                 <Stack direction="row">
@@ -162,6 +168,7 @@ export const Profile = () => {
               )}
             </Box>
           )}
+          {!isAuthenticated && <ButtonToggle />}
         </>
       </Box>
     </Flex>
