@@ -11,6 +11,7 @@ import {
   DrawerOverlay,
   Icon,
   Text,
+  useColorMode,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -26,9 +27,10 @@ import { BsTelephoneFill } from "react-icons/bs";
 export const Menu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLargerThan850] = useMediaQuery("(max-width: 850px)");
+  const { colorMode } = useColorMode();
 
   const { isAuthenticated, userData } = useContext(AuthenticationContext);
-  
+
   const checkUrl = (url, place) => {
     const part = url.split("/");
     if (part[1] === place) {
@@ -41,13 +43,19 @@ export const Menu = () => {
   return (
     <>
       <Button
-        color="blackAlpha.700"
+        bgColor={colorMode === "dark" ? "blackAlpha.300" : "white"}
+        color={colorMode === "dark" ? "" : "white"}
+        _hover={{
+          bgColor: colorMode === "dark" ? "blackAlpha.500" : "blackAlpha.100",
+        }}
         onClick={onOpen}
         marginRight={5}
-        bgColor={"gray.50"}
         transition={"all .5s ease"}
       >
-        <Icon as={AiOutlineMenu} />
+        <Icon
+          as={AiOutlineMenu}
+          color={colorMode === "dark" ? "white" : "black"}
+        />
       </Button>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
@@ -73,7 +81,9 @@ export const Menu = () => {
                   transition={"all .5s ease"}
                 >
                   <Icon as={BsTelephoneFill} fontSize="20" />
-                  <Text fontWeight="medium" ml="4">Ramais</Text>
+                  <Text fontWeight="medium" ml="4">
+                    Ramais
+                  </Text>
                 </Box>
               </Link>
             )}

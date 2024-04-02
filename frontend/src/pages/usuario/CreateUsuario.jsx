@@ -20,6 +20,8 @@ import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
 import { CommonSelectEnum } from "../../components/Form/CommonSelectEnum";
 import { getToken } from "../../utils/localstorage";
 import { useState } from "react";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
 
 const CreateUserFormSchema = yup.object().shape({
   username: yup.string().required("O nome do usuário é obrigatório"),
@@ -33,7 +35,8 @@ export const CreateUsuario = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const userLevel = [ // Criar 1 método para buscar as roles e popular automaticamente.
+  const userLevel = [
+    // Criar 1 método para buscar as roles e popular automaticamente.
     { value: 1, label: "Administrador" },
     { value: 2, label: "Gerente" },
     { value: 3, label: "Usuário" },
@@ -148,13 +151,9 @@ export const CreateUsuario = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button colorScheme="blackAlpha" onClick={() => navigate("/user")}>
-              Voltar
-            </Button>
+            <VoltarButtonPopUp endpoint={"/user"} />
           </Box>
-          <Button type="submit" colorScheme="messenger" isLoading={isLoading}>
-            Salvar
-          </Button>
+          <CreateButtonWithSubmit isLoadingBtn={isLoading} />
         </HStack>
       </Flex>
     </Box>

@@ -15,6 +15,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  useColorMode,
 } from "@chakra-ui/react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,6 +23,7 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { DeleteButtonPopUp } from "../../components/Button/DeleteButtonPopUp";
 
 export const DeleteUsuario = () => {
   const [usuario, setUsuario] = useState([]);
@@ -31,6 +33,7 @@ export const DeleteUsuario = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => setIsOpen(true);
 
+  const { colorMode } = useColorMode();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -121,19 +124,12 @@ export const DeleteUsuario = () => {
                 </ModalHeader>
                 <ModalBody textAlign={"center"}>
                   <VStack spacing={5}>
-                    <Text>Usuário: {usuario.name}</Text>
+                    <Text>Login: {usuario.name}</Text>
                   </VStack>
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/user")}
-                  >
-                    Voltar
-                  </Button>
+                  <DeleteButtonPopUp endpoint={"/user"} />
 
                   <ConfirmDelete
                     color="red"

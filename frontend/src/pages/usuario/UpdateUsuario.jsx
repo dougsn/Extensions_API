@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Spinner,
   VStack,
+  useColorMode,
   useToast,
 } from "@chakra-ui/react";
 
@@ -26,6 +27,8 @@ import { deleteToken, getToken } from "../../utils/localstorage";
 import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
 import { CommonSelectEnum } from "../../components/Form/CommonSelectEnum";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const UpdateUserFormSchema = yup.object().shape({
   name: yup.string().required("O nome do usuário é obrigatório"),
@@ -44,6 +47,7 @@ export const UpdateUsuario = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   const userLevel = [
     // Criar 1 método para buscar as roles e popular automaticamente.
@@ -251,20 +255,9 @@ export const UpdateUsuario = () => {
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
               <Box>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => navigate("/user")}
-                >
-                  Voltar
-                </Button>
+                <VoltarButtonPopUp endpoint={"/user"} />
               </Box>
-              <Button
-                type="submit"
-                colorScheme="messenger"
-                isLoading={isLoadingBtn}
-              >
-                Salvar
-              </Button>
+              <CreateButtonWithSubmit isLoadingBtn={isLoadingBtn} />
             </HStack>
           </Flex>
         </Box>

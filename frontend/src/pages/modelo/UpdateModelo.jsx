@@ -23,6 +23,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const UpdateLocalFormSchema = yup.object().shape({
   nome: yup
@@ -199,20 +201,9 @@ export const UpdateModelo = () => {
           <Flex mt="8" justify="flex-end">
             <HStack spacing="4">
               <Box>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => navigate("/modelo")}
-                >
-                  Voltar
-                </Button>
+                <VoltarButtonPopUp endpoint={"/modelo"} />
               </Box>
-              <Button
-                type="submit"
-                colorScheme="messenger"
-                isLoading={isLoadingBtn}
-              >
-                Salvar
-              </Button>
+              <CreateButtonWithSubmit isLoadingBtn={isLoadingBtn} />
             </HStack>
           </Flex>
         </Box>

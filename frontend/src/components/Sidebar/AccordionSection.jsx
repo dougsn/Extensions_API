@@ -7,9 +7,11 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  useColorMode,
 } from "@chakra-ui/react";
 
 export const AccordionSection = ({ title, children }) => {
+  const { colorMode } = useColorMode();
   return (
     <AccordionItem border={"none"} mb={"4"}>
       {({ isExpanded }) => (
@@ -21,8 +23,16 @@ export const AccordionSection = ({ title, children }) => {
                   ? "none"
                   : "2px solid rgba(0, 0, 0, 0.1)",
               }}
-              bgColor={isExpanded ? "gray.300" : ""}
-              _hover={{ bgColor: "gray.200" }}
+              bgColor={
+                isExpanded
+                  ? colorMode === "dark"
+                    ? "gray.900"
+                    : "gray.300"
+                  : ""
+              }
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.200",
+              }}
               borderRadius={"5"}
             >
               <Box flex="1" textAlign="left">

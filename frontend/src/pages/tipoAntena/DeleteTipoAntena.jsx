@@ -22,6 +22,8 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 export const DeleteTipoAntena = () => {
   const [tipoAntena, setTipoAntena] = useState([]);
@@ -126,14 +128,7 @@ export const DeleteTipoAntena = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/tipo-antena")}
-                  >
-                    Voltar
-                  </Button>
+                  <DeleteButtonPopUp endpoint={"/tipo-antena"} />
 
                   <ConfirmDelete
                     color="red"

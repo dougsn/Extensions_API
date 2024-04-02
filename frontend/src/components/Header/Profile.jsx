@@ -8,6 +8,7 @@ import {
   Stack,
   useMediaQuery,
   Icon,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
@@ -16,6 +17,7 @@ import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { api } from "../../services/api";
 import { deleteToken, getToken } from "../../utils/localstorage";
 import { IoLogOut } from "react-icons/io5";
+import { ButtonToggle } from "../Toggle/ButtonToggle";
 
 export const Profile = () => {
   const { isAuthenticated, userData, setIsAuthenticated, setUserData } =
@@ -24,6 +26,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
+  const { colorMode } = useColorMode();
 
   const [isLargerThan850] = useMediaQuery("(max-width: 850px)");
 
@@ -138,7 +141,9 @@ export const Profile = () => {
                   <Box
                     as="button"
                     onClick={() => logoutUser()}
-                    _hover={{ bgColor: "gray.200" }}
+                    _hover={{
+                      bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+                    }}
                     display="flex"
                     alignItems="center"
                     padding={2}
@@ -147,6 +152,12 @@ export const Profile = () => {
                   >
                     <Icon as={IoLogOut} fontSize="25" />
                   </Box>
+                  <Divider
+                    orientation="vertical"
+                    borderColor="gray.300"
+                    m="0 10px"
+                  />
+                  <ButtonToggle />
                 </Stack>
               )}
             </Box>

@@ -24,6 +24,8 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
 import { CommonSelect } from "../../components/Form/CommonSelect";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const UpdateAntenaFormSchema = yup.object().shape({
   ip: yup
@@ -310,22 +312,11 @@ export const UpdateAntena = () => {
             </SimpleGrid>
           </VStack>
           <Flex mt="8" justify="flex-end">
-            <HStack spacing="4">
+          <HStack spacing="4">
               <Box>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => navigate("/antena")}
-                >
-                  Voltar
-                </Button>
+                <VoltarButtonPopUp endpoint={"/antena"} />
               </Box>
-              <Button
-                type="submit"
-                colorScheme="messenger"
-                isLoading={isLoadingBtn}
-              >
-                Salvar
-              </Button>
+              <CreateButtonWithSubmit isLoadingBtn={isLoadingBtn} />
             </HStack>
           </Flex>
         </Box>

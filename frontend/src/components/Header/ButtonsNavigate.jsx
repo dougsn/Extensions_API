@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -32,6 +33,7 @@ export const ButtonsNavigate = () => {
 
   const location = useLocation();
   const [isLargerThan1001] = useMediaQuery("(min-width: 1001px)");
+  const { colorMode } = useColorMode();
 
   const checkUrl = (url, place) => {
     const part = url.split("/");
@@ -43,19 +45,23 @@ export const ButtonsNavigate = () => {
   };
 
   const renderLinksBasedOnPermissions = () => {
-    if (
-      userData.permissions.some((p) => p.description === "ADMIN") ||
-      userData.permissions.some((p) => p.description === "MANAGER")
-    ) {
+    if (userData.permissions.some((p) => p.description === "ADMIN")) {
       return (
         <Stack direction="row">
           <Link to={`/setor`}>
             <Box
               active={checkUrl(location.pathname, "setor")}
               bgColor={`${
-                checkUrl(location.pathname, "setor") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "setor")
+                  ? "gray.700"
+                  : colorMode === "light" &&
+                    checkUrl(location.pathname, "setor")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -69,9 +75,16 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "email")}
               bgColor={`${
-                checkUrl(location.pathname, "email") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "email")
+                  ? "gray.700"
+                  : colorMode === "light" &&
+                    checkUrl(location.pathname, "email")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -85,9 +98,17 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "computador")}
               bgColor={`${
-                checkUrl(location.pathname, "computador") ? "gray.400" : ""
+                colorMode === "dark" &&
+                checkUrl(location.pathname, "computador")
+                  ? "gray.700"
+                  : colorMode === "light" &&
+                    checkUrl(location.pathname, "computador")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -101,9 +122,17 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "impressora")}
               bgColor={`${
-                checkUrl(location.pathname, "impressora") ? "gray.400" : ""
+                colorMode === "dark" &&
+                checkUrl(location.pathname, "impressora")
+                  ? "gray.700"
+                  : colorMode === "light" &&
+                    checkUrl(location.pathname, "impressora")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -117,9 +146,15 @@ export const ButtonsNavigate = () => {
             <Box
               active={checkUrl(location.pathname, "user")}
               bgColor={`${
-                checkUrl(location.pathname, "user") ? "gray.400" : ""
+                colorMode === "dark" && checkUrl(location.pathname, "user")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "user")
+                  ? "gray.400"
+                  : ""
               }`}
-              _hover={{ bgColor: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               display="flex"
               alignItems="center"
               padding={2}
@@ -129,49 +164,59 @@ export const ButtonsNavigate = () => {
               <Icon as={BsFillPeopleFill} fontSize="20" />
             </Box>
           </Link>
-
           <Menu>
             <MenuButton
-              active={checkUrl(
-                location.pathname,
-                "local" || checkUrl(location.pathname, "tipo-antena")
-                  ? "gray.400"
-                  : "" || checkUrl(location.pathname, "modelo")
-                  ? "gray.400"
-                  : "" || checkUrl(location.pathname, "antena")
-                  ? "gray.400"
+              active={
+                checkUrl(location.pathname, "local") ||
+                checkUrl(location.pathname, "tipo-antena") ||
+                checkUrl(location.pathname, "modelo") ||
+                checkUrl(location.pathname, "antena")
+                  ? colorMode === "dark"
+                    ? "gray.700"
+                    : "gray.400"
                   : ""
-              )}
-              bgColor={`${
-                checkUrl(location.pathname, "local")
-                  ? "gray.400"
-                  : "" || checkUrl(location.pathname, "tipo-antena")
-                  ? "gray.400"
-                  : "" || checkUrl(location.pathname, "modelo")
-                  ? "gray.400"
-                  : "" || checkUrl(location.pathname, "antena")
-                  ? "gray.400"
+              }
+              bgColor={
+                checkUrl(location.pathname, "local") ||
+                checkUrl(location.pathname, "tipo-antena") ||
+                checkUrl(location.pathname, "modelo") ||
+                checkUrl(location.pathname, "antena")
+                  ? colorMode === "dark"
+                    ? "gray.700"
+                    : "gray.400"
                   : ""
-              }`}
+              }
               px={4}
               py={2}
               transition="all 0.2s"
               borderRadius="md"
               borderWidth="1px"
-              _hover={{ bg: "gray.200" }}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
               _expanded={{ bg: "gray.400" }}
               _focus={{ boxShadow: "outline" }}
             >
               <Icon as={FaSatelliteDish} fontSize="20" /> <ChevronDownIcon />
             </MenuButton>
             <MenuList>
-            <MenuItem as={Link} to={`/antena`}>
+              <MenuItem as={Link} to={`/antena`}>
                 <Box
                   active={checkUrl(location.pathname, "antena")}
-                  bgColor={`${
-                    checkUrl(location.pathname, "antena") ? "gray.400" : ""
-                  }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  bgColor={
+                    checkUrl(location.pathname, "antena")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "antena") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}
@@ -187,10 +232,20 @@ export const ButtonsNavigate = () => {
               <MenuItem as={Link} to={`/tipo-antena`}>
                 <Box
                   active={checkUrl(location.pathname, "tipo-antena")}
-                  bgColor={`${
-                    checkUrl(location.pathname, "tipo-antena") ? "gray.400" : ""
-                  }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  bgColor={
+                    checkUrl(location.pathname, "tipo-antena")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "tipo-antena") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}
@@ -206,10 +261,20 @@ export const ButtonsNavigate = () => {
               <MenuItem as={Link} to={`/local`}>
                 <Box
                   active={checkUrl(location.pathname, "local")}
-                  bgColor={`${
-                    checkUrl(location.pathname, "local") ? "gray.400" : ""
-                  }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  bgColor={
+                    checkUrl(location.pathname, "local")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "local") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}
@@ -225,10 +290,20 @@ export const ButtonsNavigate = () => {
               <MenuItem as={Link} to={`/modelo`}>
                 <Box
                   active={checkUrl(location.pathname, "modelo")}
-                  bgColor={`${
-                    checkUrl(location.pathname, "modelo") ? "gray.400" : ""
-                  }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  bgColor={
+                    checkUrl(location.pathname, "modelo")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "modelo") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}
@@ -258,9 +333,16 @@ export const ButtonsNavigate = () => {
                 <Box
                   active={checkUrl(location.pathname, "ramal")}
                   bgColor={`${
-                    checkUrl(location.pathname, "ramal") ? "gray.400" : ""
+                    colorMode === "dark" && checkUrl(location.pathname, "ramal")
+                      ? "gray.700"
+                      : colorMode === "light" &&
+                        checkUrl(location.pathname, "ramal")
+                      ? "gray.400"
+                      : ""
                   }`}
-                  _hover={{ bgColor: "gray.200" }}
+                  _hover={{
+                    bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+                  }}
                   display="flex"
                   alignItems="center"
                   padding={2}

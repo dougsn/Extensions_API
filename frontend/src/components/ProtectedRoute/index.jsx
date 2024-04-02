@@ -11,8 +11,7 @@ export const ProtectedRoute = (props) => {
   if (
     userData &&
     userData.permissions &&
-    (userData.permissions.some((p) => p.description === "ADMIN") ||
-      userData.permissions.some((p) => p.description === "MANAGER"))
+    (userData.permissions.some((p) => p.description === "ADMIN"))
   ) {
     return props.children;
   } else {

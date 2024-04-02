@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { DeleteButtonPopUp } from "../../components/Button/DeleteButtonPopUp";
 
 export const DeleteImpressora = () => {
   const [impressora, setImpressora] = useState([]);
@@ -131,14 +132,7 @@ export const DeleteImpressora = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/impressora")}
-                  >
-                    Voltar
-                  </Button>
+                  <DeleteButtonPopUp endpoint={"/impressora"} />
 
                   <ConfirmDelete
                     color="red"

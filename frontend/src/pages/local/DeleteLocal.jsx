@@ -22,6 +22,8 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { DeleteButtonPopUp } from "../../components/Button/DeleteButtonPopUp";
+
 
 export const DeleteLocal = () => {
   const [local, setLocal] = useState([]);
@@ -126,14 +128,7 @@ export const DeleteLocal = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/local")}
-                  >
-                    Voltar
-                  </Button>
+                <DeleteButtonPopUp endpoint={"/local"} />
 
                   <ConfirmDelete
                     color="red"

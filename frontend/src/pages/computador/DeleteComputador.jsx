@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { DeleteButtonPopUp } from "../../components/Button/DeleteButtonPopUp";
 
 export const DeleteComputador = () => {
   const [computador, setComputador] = useState([]);
@@ -127,20 +128,15 @@ export const DeleteComputador = () => {
                     <Text>Disco: {computador.disco}</Text>
                     <Text>Modelo: {computador.modelo}</Text>
                     <Text>Observação: {computador.observacao}</Text>
-                    <Text>Sistema Operacional: {computador.sistema_operacional}</Text>
+                    <Text>
+                      Sistema Operacional: {computador.sistema_operacional}
+                    </Text>
                     <Text>Setor: {computador.nome_setor}</Text>
                   </VStack>
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/computador")}
-                  >
-                    Voltar
-                  </Button>
+                  <DeleteButtonPopUp endpoint={"/computador"} />
 
                   <ConfirmDelete
                     color="red"

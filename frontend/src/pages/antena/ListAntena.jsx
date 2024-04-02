@@ -35,6 +35,9 @@ import { Pagination } from "../../components/Pagination";
 import { CommonInputChange } from "../../components/Form/CommonInputChange";
 import { CommonSelectChangeUtils } from "../../components/Form/CommonSelectChangeUtils";
 import { getToken } from "../../utils/localstorage";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListAntena = () => {
   const [page, setPage] = useState(0);
@@ -160,16 +163,7 @@ export const ListAntena = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                onClick={() => navigate("/antena/new/")}
-              >
-                <Icon as={RiAddLine} fontSize="20" />
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/antena/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -181,17 +175,7 @@ export const ListAntena = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/antena/new/")}
-              >
-                Criar novo
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/antena/new"} />}
         </Flex>
       )}
 
@@ -358,34 +342,18 @@ export const ListAntena = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="yellow"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/antena/update/${antenaMap.id}`)
-                        }
-                      >
-                        <Icon as={RiEditLine} fontSize="20" />
-                      </Button>
+                      <UpdateButton
+                        endpoint={`/antena/update/${antenaMap.id}`}
+                      />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        color="white"
-                        onClick={() =>
-                          navigate(`/antena/delete/${antenaMap.id}`)
-                        }
-                      >
-                        <Icon as={RiDeleteBinLine} fontSize="20" />
-                      </Button>
+                      <DeleteButton
+                        endpoint={`/antena/delete/${antenaMap.id}`}
+                      />
                     )}
                 </CardFooter>
               </Card>
@@ -471,17 +439,9 @@ export const ListAntena = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="yellow"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/antena/update/${antenaMap.id}`)
-                            }
-                          >
-                            <Icon as={RiEditLine} fontSize="20" />
-                          </Button>
+                          <UpdateButton
+                            endpoint={`/antena/update/${antenaMap.id}`}
+                          />
                         )}
 
                       {Object.keys(userData).length != 0 &&
@@ -492,17 +452,9 @@ export const ListAntena = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="red"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/antena/delete/${antenaMap.id}`)
-                            }
-                          >
-                            <Icon as={RiDeleteBinLine} fontSize="20" />
-                          </Button>
+                          <DeleteButton
+                            endpoint={`/antena/delete/${antenaMap.id}`}
+                          />
                         )}
                     </HStack>
                   </Td>

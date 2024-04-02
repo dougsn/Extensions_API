@@ -34,6 +34,9 @@ import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
 import { CommonSelectChangeWithoutToken } from "../../components/Form/CommonSelectChangeWithoutToken";
 import { CommonInputChangeWithoutToken } from "../../components/Form/CommonInputChangeWithoutToken";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListRamal = () => {
   const [page, setPage] = useState(0);
@@ -133,16 +136,7 @@ export const ListRamal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                onClick={() => navigate("/ramal/new/")}
-              >
-                <Icon as={RiAddLine} fontSize="20" />
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/ramal/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -154,17 +148,7 @@ export const ListRamal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && (
-              <Button
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-                onClick={() => navigate("/ramal/new/")}
-              >
-                Criar novo
-              </Button>
-            )}
+            ) && <CreateButton endpoint={"/ramal/new"} />}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
@@ -260,30 +244,14 @@ export const ListRamal = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="yellow"
-                        color="white"
-                        onClick={() => navigate(`/ramal/update/${ramalMap.id}`)}
-                      >
-                        <Icon as={RiEditLine} fontSize="20" />
-                      </Button>
+                      <UpdateButton endpoint={`/ramal/update/${ramalMap.id}`} />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <Button
-                        size="sm"
-                        fontSize="sm"
-                        colorScheme="red"
-                        color="white"
-                        onClick={() => navigate(`/ramal/delete/${ramalMap.id}`)}
-                      >
-                        <Icon as={RiDeleteBinLine} fontSize="20" />
-                      </Button>
+                      <DeleteButton endpoint={`/ramal/delete/${ramalMap.id}`} />
                     )}
                 </CardFooter>
               </Card>
@@ -343,17 +311,9 @@ export const ListRamal = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="yellow"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/ramal/update/${ramalMap.id}`)
-                            }
-                          >
-                            <Icon as={RiEditLine} fontSize="20" />
-                          </Button>
+                          <UpdateButton
+                            endpoint={`/ramal/update/${ramalMap.id}`}
+                          />
                         )}
 
                       {Object.keys(userData).length != 0 &&
@@ -364,17 +324,9 @@ export const ListRamal = () => {
                             p.description === "ADMIN" ||
                             p.description === "MANAGER"
                         ) && (
-                          <Button
-                            size="sm"
-                            fontSize="sm"
-                            colorScheme="red"
-                            color="white"
-                            onClick={() =>
-                              navigate(`/ramal/delete/${ramalMap.id}`)
-                            }
-                          >
-                            <Icon as={RiDeleteBinLine} fontSize="20" />
-                          </Button>
+                          <DeleteButton
+                            endpoint={`/ramal/delete/${ramalMap.id}`}
+                          />
                         )}
                     </HStack>
                   </Td>

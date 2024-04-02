@@ -5,6 +5,7 @@ import {
   HStack,
   Heading,
   SimpleGrid,
+  Text,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -13,12 +14,13 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CommonInput } from "../../components/Form/CommonInput";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { api } from "../../services/api";
 import { deleteToken, getToken, setToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { CommonInputPassword } from "../../components/Form/CommonInputPassword";
+import { LoginButton } from "../../components/Button/LoginButton";
 
 const LoginUser = yup.object().shape({
   username: yup.string().required("Nome obrigatório"),
@@ -178,16 +180,14 @@ export const LoginForm = () => {
             />
           </SimpleGrid>
         </VStack>
+        <Box>
+          <Text as={Link} to={"/registrar"}>
+            Criar conta
+          </Text>
+        </Box>
         <Flex mt="8">
           <HStack>
-            <Button
-              type="submit"
-              p={"0 100px"}
-              colorScheme="messenger"
-              isLoading={isLoading}
-            >
-              Entrar
-            </Button>
+            <LoginButton isLoadingBtn={isLoading} value={"Entrar"} />
           </HStack>
         </Flex>
       </Box>

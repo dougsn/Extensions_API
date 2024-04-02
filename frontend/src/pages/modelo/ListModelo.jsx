@@ -34,6 +34,9 @@ import { RxMagnifyingGlass } from "react-icons/rx";
 import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListModelo = () => {
   const [page, setPage] = useState(0);
@@ -92,16 +95,7 @@ export const ListModelo = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              onClick={() => navigate("/modelo/new/")}
-            >
-              <Icon as={RiAddLine} fontSize="20" />
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/modelo/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -110,17 +104,7 @@ export const ListModelo = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/modelo/new/")}
-            >
-              Criar novo
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/modelo/new"} />}
         </Flex>
       )}
 
@@ -192,33 +176,13 @@ export const ListModelo = () => {
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      color="white"
-                      onClick={() =>
-                        navigate(`/modelo/update/${modeloMap.id}`)
-                      }
-                    >
-                      <Icon as={RiEditLine} fontSize="20" />
-                    </Button>
+                    <UpdateButton endpoint={`/modelo/update/${modeloMap.id}`} />
                   )}
                   {userData.permissions.some(
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="red"
-                      color="white"
-                      onClick={() =>
-                        navigate(`/modelo/delete/${modeloMap.id}`)
-                      }
-                    >
-                      <Icon as={RiDeleteBinLine} fontSize="20" />
-                    </Button>
+                    <DeleteButton endpoint={`/modelo/delete/${modeloMap.id}`} />
                   )}
                 </CardFooter>
               </Card>
@@ -251,17 +215,9 @@ export const ListModelo = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="yellow"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/modelo/update/${modeloMap.id}`)
-                          }
-                        >
-                          <Icon as={RiEditLine} fontSize="20" />
-                        </Button>
+                        <UpdateButton
+                          endpoint={`/modelo/update/${modeloMap.id}`}
+                        />
                       )}
 
                       {userData.permissions.some(
@@ -269,17 +225,9 @@ export const ListModelo = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="red"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/modelo/delete/${modeloMap.id}`)
-                          }
-                        >
-                          <Icon as={RiDeleteBinLine} fontSize="20" />
-                        </Button>
+                        <DeleteButton
+                          endpoint={`/modelo/delete/${modeloMap.id}`}
+                        />
                       )}
                     </HStack>
                   </Td>

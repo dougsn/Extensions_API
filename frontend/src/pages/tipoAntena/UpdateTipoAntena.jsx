@@ -23,6 +23,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getToken } from "../../utils/localstorage";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const UpdateSetorFormSchema = yup.object().shape({
   nome: yup
@@ -197,22 +199,11 @@ export const UpdateTipoAntena = () => {
           </VStack>
 
           <Flex mt="8" justify="flex-end">
-            <HStack spacing="4">
+          <HStack spacing="4">
               <Box>
-                <Button
-                  colorScheme="blackAlpha"
-                  onClick={() => navigate("/tipo-antena")}
-                >
-                  Voltar
-                </Button>
+                <VoltarButtonPopUp endpoint={"/tipo-antena"} />
               </Box>
-              <Button
-                type="submit"
-                colorScheme="messenger"
-                isLoading={isLoadingBtn}
-              >
-                Salvar
-              </Button>
+              <CreateButtonWithSubmit isLoadingBtn={isLoadingBtn} />
             </HStack>
           </Flex>
         </Box>

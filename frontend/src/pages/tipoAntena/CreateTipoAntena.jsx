@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 import { useState } from "react";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const CreateTipoAntenaFormSchema = yup.object().shape({
   nome: yup
@@ -122,13 +124,9 @@ export const CreateTipoAntena = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button colorScheme="blackAlpha" onClick={() => navigate("/tipo-antena")}>
-              Voltar
-            </Button>
+            <VoltarButtonPopUp endpoint={"/tipo-antena"} />
           </Box>
-          <Button type="submit" colorScheme="messenger" isLoading={isLoading}>
-            Salvar
-          </Button>
+          <CreateButtonWithSubmit isLoadingBtn={isLoading} />
         </HStack>
       </Flex>
     </Box>

@@ -19,6 +19,8 @@ import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 import { useEffect, useState } from "react";
 import { CommonSelect } from "../../components/Form/CommonSelect";
+import { VoltarButtonPopUp } from "../../components/Button/VoltarButtonPopUp";
+import { CreateButtonWithSubmit } from "../../components/Button/CreateButtonWithSubmit";
 
 const CreateRamalFormSchema = yup.object().shape({
   nome: yup
@@ -31,7 +33,7 @@ const CreateRamalFormSchema = yup.object().shape({
     .max(7, "O ramal deve ter no máximo 7 caracteres"),
   email: yup
     .string()
-    .required("O email é obrigatório")    
+    .required("O email é obrigatório")
     .email("Digite um e-mail válido")
     .max(100, "O e-mail deve ter no máximo 100 caracteres"),
   id_setor: yup.string().required("O setor é obrigatório"),
@@ -173,13 +175,9 @@ export const CreateRamal = () => {
       <Flex mt="8" justify="flex-end">
         <HStack spacing="4">
           <Box>
-            <Button colorScheme="blackAlpha" onClick={() => navigate("/ramal")}>
-              Voltar
-            </Button>
+            <VoltarButtonPopUp endpoint={"/ramal"} />
           </Box>
-          <Button type="submit" colorScheme="messenger" isLoading={isLoading}>
-            Salvar
-          </Button>
+          <CreateButtonWithSubmit isLoadingBtn={isLoading} />
         </HStack>
       </Flex>
     </Box>

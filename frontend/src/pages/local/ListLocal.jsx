@@ -34,6 +34,9 @@ import { RxMagnifyingGlass } from "react-icons/rx";
 import { getToken } from "../../utils/localstorage";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
+import { CreateButton } from "../../components/Button/CreateButton";
+import { UpdateButton } from "../../components/Button/UpdateButton";
+import { DeleteButton } from "../../components/Button/DeleteButton";
 
 export const ListLocal = () => {
   const [page, setPage] = useState(0);
@@ -92,16 +95,7 @@ export const ListLocal = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              onClick={() => navigate("/local/new/")}
-            >
-              <Icon as={RiAddLine} fontSize="20" />
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/local/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -110,17 +104,7 @@ export const ListLocal = () => {
           </Heading>
           {userData.permissions.some(
             (p) => p.description === "ADMIN" || p.description === "MANAGER"
-          ) && (
-            <Button
-              size="sm"
-              fontSize="sm"
-              colorScheme="blue"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              onClick={() => navigate("/local/new/")}
-            >
-              Criar novo
-            </Button>
-          )}
+          ) && <CreateButton endpoint={"/local/new"} />}
         </Flex>
       )}
 
@@ -192,33 +176,13 @@ export const ListLocal = () => {
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      color="white"
-                      onClick={() =>
-                        navigate(`/local/update/${localMap.id}`)
-                      }
-                    >
-                      <Icon as={RiEditLine} fontSize="20" />
-                    </Button>
+                    <UpdateButton endpoint={`/local/update/${localMap.id}`} />
                   )}
                   {userData.permissions.some(
                     (p) =>
                       p.description === "ADMIN" || p.description === "MANAGER"
                   ) && (
-                    <Button
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="red"
-                      color="white"
-                      onClick={() =>
-                        navigate(`/local/delete/${localMap.id}`)
-                      }
-                    >
-                      <Icon as={RiDeleteBinLine} fontSize="20" />
-                    </Button>
+                    <DeleteButton endpoint={`/local/delete/${localMap.id}`} />
                   )}
                 </CardFooter>
               </Card>
@@ -251,17 +215,9 @@ export const ListLocal = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="yellow"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/local/update/${localMap.id}`)
-                          }
-                        >
-                          <Icon as={RiEditLine} fontSize="20" />
-                        </Button>
+                        <UpdateButton
+                          endpoint={`/local/update/${localMap.id}`}
+                        />
                       )}
 
                       {userData.permissions.some(
@@ -269,17 +225,9 @@ export const ListLocal = () => {
                           p.description === "ADMIN" ||
                           p.description === "MANAGER"
                       ) && (
-                        <Button
-                          size="sm"
-                          fontSize="sm"
-                          colorScheme="red"
-                          color="white"
-                          onClick={() =>
-                            navigate(`/local/delete/${localMap.id}`)
-                          }
-                        >
-                          <Icon as={RiDeleteBinLine} fontSize="20" />
-                        </Button>
+                        <DeleteButton
+                          endpoint={`/local/delete/${localMap.id}`}
+                        />
                       )}
                     </HStack>
                   </Td>

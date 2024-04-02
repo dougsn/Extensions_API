@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../../components/ConfirmDelete";
 import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
+import { DeleteButtonPopUp } from "../../components/Button/DeleteButtonPopUp";
 
 export const DeleteRamal = () => {
   const [ramal, setRamal] = useState([]);
@@ -128,14 +129,7 @@ export const DeleteRamal = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button
-                    fontSize={["12px", "16px"]}
-                    mr={5}
-                    colorScheme="blue"
-                    onClick={() => navigate("/ramal")}
-                  >
-                    Voltar
-                  </Button>
+                  <DeleteButtonPopUp endpoint={"/ramal"} />
 
                   <ConfirmDelete
                     color="red"
