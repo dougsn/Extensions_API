@@ -1,8 +1,8 @@
 package com.extensions.controller;
 
-import com.extensions.domain.dto.catraca.CatracaDTO;
-import com.extensions.domain.dto.catraca.CatracaDTOSwagger;
-import com.extensions.services.CatracaService;
+import com.extensions.domain.dto.manutencao_catraca.ManutencaoCatracaDTO;
+import com.extensions.domain.dto.manutencao_catraca.ManutencaoCatracaDTOSwagger;
+import com.extensions.services.ManutencaoCatracaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,24 +22,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/catraca/v1")
-@Tag(description = "Catracas da aplicação", name = "Catracas")
-public class CatracaController {
+@RequestMapping("/api/manutencao-catraca/v1")
+@Tag(description = "Manutenção das Catracas da aplicação", name = "Manutenção Catraca")
+public class ManutencaoCatracaController {
 
     @Autowired
-    private CatracaService service;
+    private ManutencaoCatracaService service;
 
-    @Operation(summary = "Buscando todos as catracas", description = "Buscando todos as catracas",
-            tags = {"Catraca"},
+    @Operation(summary = "Buscando todas as manutenções das manutenção das catracas", description = "Buscando todas as manutenções das manutenção das catracas",
+            tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = CatracaDTO.class)
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -48,31 +49,76 @@ public class CatracaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PagedModel<EntityModel<CatracaDTO>>> findAll(
+    public ResponseEntity<PagedModel<EntityModel<ManutencaoCatracaDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "12") Integer size,
             @RequestParam(value = "direction", defaultValue = "asc") String direction
     ) {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "nome"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "dia"));
         return ResponseEntity.ok(service.findAll(pageable));
     }
-
-    @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<CatracaDTO>> findAll() {
-        return ResponseEntity.ok().body(service.findAllCatracas());
-    }
-
-    @Operation(summary = "Buscar catraca pelo ID", description = "Buscar catraca pelo ID",
-            tags = {"Catraca"},
+    @Operation(summary = "Buscar manutenção das catracas pelo nome da catraca", description = "Buscar manutenção das catracas pelo nome da catraca",
+            tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = CatracaDTO.class)
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping(value = "catraca/{nome}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<ManutencaoCatracaDTO>> findByNomeCatraca(@PathVariable String nomeCatraca) {
+        return ResponseEntity.ok().body(service.findByDefeitoLike(nomeCatraca));
+    }
+
+    @Operation(summary = "Buscar manutenção das catracas pelo defeito", description = "Buscar manutenção das catracas pelo defeito",
+            tags = {"Manutenção Catraca"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping(value = "/defeito/{defeito}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<ManutencaoCatracaDTO>> findByDefeito(@PathVariable String defeito) {
+        return ResponseEntity.ok().body(service.findByDefeitoLike(defeito));
+    }
+
+    @Operation(summary = "Buscar manutenção da catraca pelo intervalo de 2 dias. ")
+    @ApiResponse(responseCode = "200", description = "OK", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ManutencaoCatracaDTO.class))
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/dias")
+    public ResponseEntity<List<ManutencaoCatracaDTO>> findByDia(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+        return ResponseEntity.ok().body(service.findByDias(inicio, fim));
+    }
+
+    @Operation(summary = "Buscar manutenção das catracas pelo ID", description = "Buscar manutenção das catracas pelo ID",
+            tags = {"Manutenção Catraca"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -82,18 +128,18 @@ public class CatracaController {
             })
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CatracaDTO> findById(@PathVariable String id) {
+    public ResponseEntity<ManutencaoCatracaDTO> findById(@PathVariable String id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
-    @Operation(summary = "Criar uma catraca", description = "Criar uma catraca",
-            tags = {"Catraca"},
+    @Operation(summary = "Criar uma manutenção das catracas", description = "Criar uma manutenção das catracas",
+            tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = CatracaDTO.class)
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -102,29 +148,29 @@ public class CatracaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para criar uma catraca",
+                    description = "Exemplo de payload para criar uma manutenção das catracas",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = CatracaDTOSwagger.class)
+                            schema = @Schema(implementation = ManutencaoCatracaDTOSwagger.class)
                     )
             )
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CatracaDTO> add(@Valid @RequestBody CatracaDTO data) {
+    public ResponseEntity<ManutencaoCatracaDTO> add(@Valid @RequestBody ManutencaoCatracaDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.add(data));
     }
 
-    @Operation(summary = "Atualizar uma catraca", description = "Atualizar uma catraca",
-            tags = {"Catraca"},
+    @Operation(summary = "Atualizar uma manutenção das catracas", description = "Atualizar uma manutenção das catracas",
+            tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = CatracaDTO.class)
+                                            schema = @Schema(implementation = ManutencaoCatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -133,23 +179,23 @@ public class CatracaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para atualizar uma catraca",
+                    description = "Exemplo de payload para atualizar uma manutenção das catracas",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = CatracaDTOSwagger.class)
+                            schema = @Schema(implementation = ManutencaoCatracaDTOSwagger.class)
                     )
             )
     )
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CatracaDTO> update(@Valid @RequestBody CatracaDTO data) {
+    public ResponseEntity<ManutencaoCatracaDTO> update(@Valid @RequestBody ManutencaoCatracaDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(data));
     }
 
-    @Operation(summary = "Deletar uma catraca", description = "Deletar uma catraca",
-            tags = {"Catraca"},
+    @Operation(summary = "Deletar uma manutenção das catracas", description = "Deletar uma manutenção das catracas",
+            tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),

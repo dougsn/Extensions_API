@@ -34,7 +34,7 @@ public class CatracaService {
     PagedResourcesAssembler<CatracaDTO> assembler;
 
     @Transactional(readOnly = true)
-    public List<CatracaDTO> findAllLocais() {
+    public List<CatracaDTO> findAllCatracas() {
         return repository.findAll().stream().map(mapper)
                 .collect(Collectors.toList());
     }

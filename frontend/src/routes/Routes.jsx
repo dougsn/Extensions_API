@@ -32,6 +32,12 @@ import { CreateCatraca } from "../pages/catraca/CreateCatraca";
 import { DeleteCatraca } from "../pages/catraca/DeleteCatraca";
 import { UpdateCatraca } from "../pages/catraca/UpdateCatraca";
 
+// Manutenção das Catracas
+import { ListManutencaoCatraca } from "../pages/manutencao_catraca/ListManutencaoCatraca";
+import { CreateManutencaoCatraca } from "../pages/manutencao_catraca/CreateManutencaoCatraca";
+import { UpdateManutencaoCatraca } from "../pages/manutencao_catraca/UpdateManutencaoCatraca";
+import { DeleteManutencaoCatraca } from "../pages/manutencao_catraca/DeleteManutencaoCatraca";
+
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
 import { CreateEmail } from "../pages/email/CreateEmail";
@@ -218,7 +224,10 @@ const AppRoutes = () => {
                 }
               />
 
-              <Route path="/computador/update/:id" element={<UpdateComputador />} />
+              <Route
+                path="/computador/update/:id"
+                element={<UpdateComputador />}
+              />
 
               <Route
                 path="/computador/delete/:id"
@@ -247,7 +256,10 @@ const AppRoutes = () => {
                 }
               />
 
-              <Route path="/impressora/update/:id" element={<UpdateImpressora />} />
+              <Route
+                path="/impressora/update/:id"
+                element={<UpdateImpressora />}
+              />
 
               <Route
                 path="/impressora/delete/:id"
@@ -258,8 +270,8 @@ const AppRoutes = () => {
                 }
               />
 
-               {/* Gerenciamento de Tipos de Antena */}
-               <Route
+              {/* Gerenciamento de Tipos de Antena */}
+              <Route
                 path="/tipo-antena"
                 element={
                   <ProtectedRoute>
@@ -276,7 +288,10 @@ const AppRoutes = () => {
                 }
               />
 
-              <Route path="/tipo-antena/update/:id" element={<UpdateTipoAntena />} />
+              <Route
+                path="/tipo-antena/update/:id"
+                element={<UpdateTipoAntena />}
+              />
 
               <Route
                 path="/tipo-antena/delete/:id"
@@ -374,8 +389,6 @@ const AppRoutes = () => {
                 }
               />
 
-              
-
               {/* Gerenciamento de Catracas */}
               <Route
                 path="/catraca"
@@ -401,6 +414,38 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteCatraca />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento das Manutenções das Catracas */}
+              <Route
+                path="/manutencao-catraca"
+                element={
+                  <ProtectedRoute>
+                    <ListManutencaoCatraca />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/manutencao-catraca/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateManutencaoCatraca />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/manutencao-catraca/update/:id"
+                element={<UpdateManutencaoCatraca />}
+              />
+
+              <Route
+                path="/manutencao-catraca/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteManutencaoCatraca />
                   </ProtectedRoute>
                 }
               />

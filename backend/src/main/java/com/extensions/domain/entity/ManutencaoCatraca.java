@@ -19,20 +19,20 @@ public class ManutencaoCatraca implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_id_catracas")
     private Catraca catraca;
-    private LocalDate created_at;
+    private String created_by;
     private LocalDateTime updated_at;
     private String updated_by;
 
     public ManutencaoCatraca() {
     }
 
-    public ManutencaoCatraca(String id, LocalDate dia, String defeito, String observacao, Catraca catraca, LocalDate created_at, LocalDateTime updated_at, String updated_by) {
+    public ManutencaoCatraca(String id, LocalDate dia, String defeito, String observacao, Catraca catraca, String created_by, LocalDateTime updated_at, String updated_by) {
         this.id = id;
         this.dia = dia;
         this.defeito = defeito;
         this.observacao = observacao;
         this.catraca = catraca;
-        this.created_at = created_at;
+        this.created_by = created_by;
         this.updated_at = updated_at;
         this.updated_by = updated_by;
     }
@@ -77,12 +77,12 @@ public class ManutencaoCatraca implements Serializable {
         this.catraca = catraca;
     }
 
-    public LocalDate getCreated_at() {
-        return created_at;
+    public String getCreated_by() {
+        return created_by;
     }
 
-    public void setCreated_at(LocalDate created_at) {
-        this.created_at = created_at;
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
     }
 
     public LocalDateTime getUpdated_at() {
