@@ -69,7 +69,7 @@ public class CatracaService {
         logger.info("Adicionando uma nova catraca.");
         checkingCatracaWithTheSameName(data);
 
-        Catraca newCatraca = repository.save(new Catraca(null, data.getNome(), data.getIp(), data.getNumeroDoEquipamento(),
+        Catraca newCatraca = repository.save(new Catraca(null, data.getNome(), data.getIp(), data.getCom(), data.getMac(), data.getNumeroDoEquipamento(),
                 data.getNumeroDeSerie()));
 
         return mapper.apply(newCatraca)
@@ -81,7 +81,7 @@ public class CatracaService {
         logger.info("Atualizando catraca de id" + data.getId());
         checkingCatracaWithTheSameNameDuringUpdate(data);
 
-        Catraca newCatraca = new Catraca(data.getId(), data.getNome(), data.getIp(), data.getNumeroDoEquipamento(),
+        Catraca newCatraca = new Catraca(data.getId(), data.getNome(), data.getIp(), data.getCom(), data.getMac(), data.getNumeroDoEquipamento(),
                 data.getNumeroDeSerie());
 
         return mapper.apply(repository.save(newCatraca))
@@ -101,10 +101,15 @@ public class CatracaService {
 
     @Transactional(readOnly = true)
     public void checkingCatracaWithTheSameNameDuringUpdate(CatracaDTO data) {
-        var catraca = repository.findByNome(data.getNome());
-        if (catraca.isPresent() && !catraca.get().getId().equals(data.getId())) {
-            logger.info("A catraca com de nome: " + data.getNome() + " já existe!");
-            throw new DataIntegratyViolationException("O catraca com de nome: " + data.getNome() + " já existe!");
+        var catracaByNome = repository.findByNome(data.getNome());
+        var catracaByIp = repository.findByIp(data.getIp());
+        if (catracaByNome.isPresent() && !catracaByNome.get().getId().equals(data.getId())) {
+            logger.info("A catraca de nome: " + data.getNome() + " já existe!");
+            throw new DataIntegratyViolationException("O catraca de nome: " + data.getNome() + " já existe!");
+        }
+        if (catracaByIp.isPresent() && !catracaByIp.get().getId().equals(data.getId())) {
+            logger.info("A catraca de ip: " + data.getIp() + " já existe!");
+            throw new DataIntegratyViolationException("O catraca de ip: " + data.getIp() + " já existe!");
         }
     }
 
@@ -113,6 +118,10 @@ public class CatracaService {
         if (repository.findByNome(data.getNome()).isPresent()) {
             logger.info("O catraca com de nome: " + data.getNome() + " já existe!");
             throw new DataIntegratyViolationException("O catraca com de nome: " + data.getNome() + " já existe!");
+        }
+        if (repository.findByIp(data.getIp()).isPresent()) {
+            logger.info("O catraca de ip: " + data.getIp() + " já existe!");
+            throw new DataIntegratyViolationException("O catraca de ip: " + data.getIp() + " já existe!");
         }
     }
 }

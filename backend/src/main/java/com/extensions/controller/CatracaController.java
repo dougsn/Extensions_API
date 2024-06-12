@@ -1,10 +1,9 @@
 package com.extensions.controller;
 
-import com.extensions.domain.dto.local.LocalDTO;
-import com.extensions.domain.dto.local.LocalDTOSwagger;
-import com.extensions.services.LocalService;
+import com.extensions.domain.dto.catraca.CatracaDTO;
+import com.extensions.domain.dto.catraca.CatracaDTOSwagger;
+import com.extensions.services.CatracaService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,25 +22,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/local/v1")
-@Tag(description = "Locais da aplicação", name = "Local")
+@RequestMapping("/api/catraca/v1")
+@Tag(description = "Catracas da aplicação", name = "Catracas")
 public class CatracaController {
 
-
     @Autowired
-    private LocalService service;
+    private CatracaService service;
 
-    @Operation(summary = "Buscando todos os locais, sem paginação", description = "Buscando todos os locais, sem paginação",
-            tags = {"Local"},
+    @Operation(summary = "Buscando todos as catracas", description = "Buscando todos as catracas",
+            tags = {"Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = LocalDTO.class))
+                                            schema = @Schema(implementation = CatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -49,31 +45,8 @@ public class CatracaController {
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
-    @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<LocalDTO>> findAllLocais() {
-        return ResponseEntity.ok(service.findAllLocais());
-    }
-
-
-    @Operation(summary = "Buscando todos os locais", description = "Buscando todos os locais",
-            tags = {"Local"},
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "200",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = LocalDTO.class))
-                                    )
-                            }),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
-            })
-    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PagedModel<EntityModel<LocalDTO>>> findAll(
+    public ResponseEntity<PagedModel<EntityModel<CatracaDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "12") Integer size,
             @RequestParam(value = "direction", defaultValue = "asc") String direction
@@ -84,17 +57,16 @@ public class CatracaController {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
-    @Operation(summary = "Buscar tipo de locais pelo ID", description = "Buscar tipo de locais pelo ID",
-            tags = {"Local"},
+    @Operation(summary = "Buscar catraca pelo ID", description = "Buscar catraca pelo ID",
+            tags = {"Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = LocalDTO.class)
+                                            schema = @Schema(implementation = CatracaDTO.class)
                                     )
                             }),
-                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
                     @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
@@ -102,48 +74,18 @@ public class CatracaController {
             })
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LocalDTO> findById(@PathVariable String id) {
+    public ResponseEntity<CatracaDTO> findById(@PathVariable String id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
-    @Operation(summary = "Criar um local", description = "Criar um local",
-            tags = {"Local"},
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "201",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = LocalDTO.class)
-                                    )
-                            }),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para criar um local",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = LocalDTOSwagger.class)
-                    )
-            ))
-    @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LocalDTO> add(@Valid @RequestBody LocalDTO data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(data));
-    }
-
-    @Operation(summary = "Atualizar um local", description = "Atualizar um local",
-            tags = {"Local"},
+    @Operation(summary = "Criar uma catraca", description = "Criar uma catraca",
+            tags = {"Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            schema = @Schema(implementation = LocalDTO.class)
+                                            schema = @Schema(implementation = CatracaDTO.class)
                                     )
                             }),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -152,22 +94,54 @@ public class CatracaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Exemplo de payload para atualizar um local",
+                    description = "Exemplo de payload para criar uma catraca",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = LocalDTOSwagger.class)
+                            schema = @Schema(implementation = CatracaDTOSwagger.class)
                     )
-            ))
+            )
+    )
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<CatracaDTO> add(@Valid @RequestBody CatracaDTO data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(data));
+    }
+
+    @Operation(summary = "Atualizar uma catraca", description = "Atualizar uma catraca",
+            tags = {"Catraca"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = CatracaDTO.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Exemplo de payload para atualizar uma catraca",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CatracaDTOSwagger.class)
+                    )
+            )
+    )
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<LocalDTO> update(@Valid @RequestBody LocalDTO data) {
+    public ResponseEntity<CatracaDTO> update(@Valid @RequestBody CatracaDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(data));
     }
 
-    @Operation(summary = "Deletar um local", description = "Deletar um local",
-            tags = {"Local"},
+    @Operation(summary = "Deletar uma catraca", description = "Deletar uma catraca",
+            tags = {"Catraca"},
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -177,7 +151,7 @@ public class CatracaController {
             })
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

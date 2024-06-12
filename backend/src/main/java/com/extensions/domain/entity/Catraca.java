@@ -14,6 +14,8 @@ public class Catraca implements Serializable {
     private String id;
     private String nome;
     private String ip;
+    private String com;
+    private String mac;
     @Column(name = "numero_do_equipamento")
     private String numeroDoEquipamento;
     @Column(name = "numero_de_serie")
@@ -22,10 +24,12 @@ public class Catraca implements Serializable {
     public Catraca() {
     }
 
-    public Catraca(String id, String nome, String ip, String numeroDoEquipamento, String numeroDeSerie) {
+    public Catraca(String id, String nome, String ip, String com, String mac, String numeroDoEquipamento, String numeroDeSerie) {
         this.id = id;
         this.nome = nome;
         this.ip = ip;
+        this.com = com;
+        this.mac = mac;
         this.numeroDoEquipamento = numeroDoEquipamento;
         this.numeroDeSerie = numeroDeSerie;
     }
@@ -68,5 +72,21 @@ public class Catraca implements Serializable {
 
     public void setNumeroDeSerie(String numeroDeSerie) {
         this.numeroDeSerie = numeroDeSerie;
+    }
+
+    public String getCom() {
+        return com;
+    }
+
+    public void setCom(String com) {
+        this.com = com;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 }

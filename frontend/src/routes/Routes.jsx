@@ -26,6 +26,12 @@ import { CreateSetor } from "../pages/setores/CreateSetor";
 import { DeleteSetor } from "../pages/setores/DeleteSetor";
 import { UpdateSetor } from "../pages/setores/UpdateSetor";
 
+// Catraca
+import { ListCatraca } from "../pages/catraca/ListCatraca";
+import { CreateCatraca } from "../pages/catraca/CreateCatraca";
+import { DeleteCatraca } from "../pages/catraca/DeleteCatraca";
+import { UpdateCatraca } from "../pages/catraca/UpdateCatraca";
+
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
 import { CreateEmail } from "../pages/email/CreateEmail";
@@ -364,6 +370,37 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteAntena />
+                  </ProtectedRoute>
+                }
+              />
+
+              
+
+              {/* Gerenciamento de Catracas */}
+              <Route
+                path="/catraca"
+                element={
+                  <ProtectedRoute>
+                    <ListCatraca />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/catraca/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateCatraca />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/catraca/update/:id" element={<UpdateCatraca />} />
+
+              <Route
+                path="/catraca/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteCatraca />
                   </ProtectedRoute>
                 }
               />

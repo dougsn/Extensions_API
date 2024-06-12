@@ -17,6 +17,12 @@ public class CatracaDTO extends RepresentationModel<CatracaDTO> implements Seria
     @NotEmpty(message = "O campo [ip] é obrigatório.")
     private String ip;
     @Schema(type = "string", example = "23X13B")
+    @NotEmpty(message = "O campo [COM] é obrigatório.")
+    private String com;
+    @Schema(type = "string", example = "23X13B")
+    @NotEmpty(message = "O campo [MAC] é obrigatório.")
+    private String mac;
+    @Schema(type = "string", example = "23X13B")
     @NotEmpty(message = "O campo [numero_do_equipamento é obrigatório.")
     @JsonProperty("numero_do_equipamento")
     private String numeroDoEquipamento;
@@ -28,10 +34,12 @@ public class CatracaDTO extends RepresentationModel<CatracaDTO> implements Seria
     public CatracaDTO() {
     }
 
-    public CatracaDTO(String id, String nome, String ip, String numeroDoEquipamento, String numeroDeSerie) {
+    public CatracaDTO(String id, String nome, String ip, String com, String mac, String numeroDoEquipamento, String numeroDeSerie) {
         this.id = id;
         this.nome = nome;
         this.ip = ip;
+        this.com = com;
+        this.mac = mac;
         this.numeroDoEquipamento = numeroDoEquipamento;
         this.numeroDeSerie = numeroDeSerie;
     }
@@ -74,5 +82,21 @@ public class CatracaDTO extends RepresentationModel<CatracaDTO> implements Seria
 
     public void setNumeroDeSerie(String numeroDeSerie) {
         this.numeroDeSerie = numeroDeSerie;
+    }
+
+    public String getCom() {
+        return com;
+    }
+
+    public void setCom(String com) {
+        this.com = com;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 }

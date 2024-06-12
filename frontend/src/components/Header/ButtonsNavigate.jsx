@@ -23,10 +23,11 @@ import {
   BsTelephoneFill,
 } from "react-icons/bs";
 import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
-import { FaSatelliteDish } from "react-icons/fa";
+import { FaRunning, FaSatelliteDish } from "react-icons/fa";
 import { MdSettingsInputAntenna } from "react-icons/md";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { TiPointOfInterest } from "react-icons/ti";
+import { IoHardwareChip } from "react-icons/io5";
 
 export const ButtonsNavigate = () => {
   const { isAuthenticated, userData } = useContext(AuthenticationContext);
@@ -313,6 +314,67 @@ export const ButtonsNavigate = () => {
                   <Box display="flex" alignItems="center" paddingRight={2}>
                     <Icon as={TiPointOfInterest} fontSize="20" mr={6} />
                     <Box>Modelo</Box>
+                  </Box>
+                </Box>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          <Menu>
+            <MenuButton
+              active={
+                checkUrl(location.pathname, "catraca")
+                  ? colorMode === "dark"
+                    ? "gray.700"
+                    : "gray.400"
+                  : ""
+              }
+              bgColor={
+                checkUrl(location.pathname, "catraca")
+                  ? colorMode === "dark"
+                    ? "gray.700"
+                    : "gray.400"
+                  : ""
+              }
+              px={4}
+              py={2}
+              transition="all 0.2s"
+              borderRadius="md"
+              borderWidth="1px"
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
+              _expanded={{ bg: "gray.400" }}
+              _focus={{ boxShadow: "outline" }}
+            >
+              <Icon as={FaRunning} fontSize="20" /> <ChevronDownIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={Link} to={`/catraca`}>
+                <Box
+                  active={checkUrl(location.pathname, "catraca")}
+                  bgColor={
+                    checkUrl(location.pathname, "catraca")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "catraca") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Box display="flex" alignItems="center" paddingRight={2}>
+                    <Icon as={IoHardwareChip} fontSize="20" mr={6} />
+                    <Box>Catraca</Box>
                   </Box>
                 </Box>
               </MenuItem>

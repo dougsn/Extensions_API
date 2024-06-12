@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ICatracaRepository extends JpaRepository<Catraca, String> {
     @Transactional(readOnly = true)
     Optional<Catraca> findByNome(String nome);
+    @Transactional(readOnly = true)
+    Optional<Catraca> findByIp(String ip);
 }

@@ -13,6 +13,8 @@ public class CatracaDTOMapper implements Function<Catraca, CatracaDTO> {
                 catraca.getId(),
                 catraca.getNome(),
                 catraca.getIp(),
+                catraca.getCom(),
+                catraca.getMac(),
                 catraca.getNumeroDoEquipamento(),
                 catraca.getNumeroDeSerie()
         );
