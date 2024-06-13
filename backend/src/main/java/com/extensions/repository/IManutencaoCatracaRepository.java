@@ -2,6 +2,8 @@ package com.extensions.repository;
 
 
 import com.extensions.domain.entity.ManutencaoCatraca;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,4 +20,6 @@ public interface IManutencaoCatracaRepository extends JpaRepository<ManutencaoCa
 
     @Transactional(readOnly = true)
     List<ManutencaoCatraca> findByCatracaId(String idCatraca);
+    @Transactional(readOnly = true)
+    Page<ManutencaoCatraca> findAllByDiaBetweenAndCatracaId(LocalDate dia, LocalDate fim, String idCatraca, Pageable pageable);
 }

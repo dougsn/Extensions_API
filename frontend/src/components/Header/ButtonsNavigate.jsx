@@ -323,15 +323,17 @@ export const ButtonsNavigate = () => {
             <MenuButton
               active={
                 checkUrl(location.pathname, "catraca") ||
-                checkUrl(location.pathname, "manutencao-catraca") 
+                checkUrl(location.pathname, "manutencao-catraca") ||
+                checkUrl(location.pathname, "relatorio-por-dia-e-catraca")
                   ? colorMode === "dark"
                     ? "gray.700"
                     : "gray.400"
                   : ""
               }
               bgColor={
-                checkUrl(location.pathname, "catraca")||
-                checkUrl(location.pathname, "manutencao-catraca") 
+                checkUrl(location.pathname, "catraca") ||
+                checkUrl(location.pathname, "manutencao-catraca") ||
+                checkUrl(location.pathname, "relatorio-por-dia-e-catraca")
                   ? colorMode === "dark"
                     ? "gray.700"
                     : "gray.400"
@@ -406,6 +408,35 @@ export const ButtonsNavigate = () => {
                   <Box display="flex" alignItems="center" paddingRight={2}>
                     <Icon as={IoHardwareChip} fontSize="20" mr={6} />
                     <Box>Manutenção das Catracas</Box>
+                  </Box>
+                </Box>
+              </MenuItem>
+              <MenuItem as={Link} to={`/relatorio-por-dia-e-catraca`}>
+                <Box
+                  active={checkUrl(location.pathname, "relatorio-por-dia-e-catraca")}
+                  bgColor={
+                    checkUrl(location.pathname, "relatorio-por-dia-e-catraca")
+                      ? colorMode === "dark"
+                        ? "gray.400"
+                        : ""
+                      : ""
+                  }
+                  _hover={{
+                    bgColor:
+                      checkUrl(location.pathname, "relatorio-por-dia-e-catraca") &&
+                      colorMode !== "dark"
+                        ? "gray.200"
+                        : "",
+                  }}
+                  display="flex"
+                  alignItems="center"
+                  padding={2}
+                  borderRadius={"5"}
+                  transition={"all .5s ease"}
+                >
+                  <Box display="flex" alignItems="center" paddingRight={2}>
+                    <Icon as={IoHardwareChip} fontSize="20" mr={6} />
+                    <Box>Relatório por Dia e Catraca</Box>
                   </Box>
                 </Box>
               </MenuItem>

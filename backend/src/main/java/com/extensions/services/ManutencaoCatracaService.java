@@ -63,6 +63,21 @@ public class ManutencaoCatracaService {
     }
 
     @Transactional(readOnly = true)
+    public PagedModel<EntityModel<ManutencaoCatracaDTO>> findByDiasAndCatraca(LocalDate inicio, LocalDate fim, String catracaId, Pageable pageable) {
+
+        logger.info("Buscando todas as manutenções das catracas pelos dias: " + inicio + " " + fim);
+        var manutencoes = repository.findAllByDiaBetweenAndCatracaId(inicio, fim, catracaId, pageable);
+        var dtoList = manutencoes.map(s -> mapper.apply(s));
+        dtoList.forEach(s -> s.add(linkTo(methodOn(ManutencaoCatracaController.class).findById(s.getId())).withSelfRel()));
+
+        Link link = linkTo(methodOn(ManutencaoCatracaController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+
+        return assembler.toModel(dtoList, link);
+    }
+
+
+    @Transactional(readOnly = true)
     public PagedModel<EntityModel<ManutencaoCatracaDTO>> findAll(Pageable pageable) {
         logger.info("Buscando todas as manutenções das catracas!");
         var manutencaoCatracas = repository.findAll(pageable);

@@ -37,6 +37,7 @@ import { ListManutencaoCatraca } from "../pages/manutencao_catraca/ListManutenca
 import { CreateManutencaoCatraca } from "../pages/manutencao_catraca/CreateManutencaoCatraca";
 import { UpdateManutencaoCatraca } from "../pages/manutencao_catraca/UpdateManutencaoCatraca";
 import { DeleteManutencaoCatraca } from "../pages/manutencao_catraca/DeleteManutencaoCatraca";
+import { ListManutencaoCatracaByDiaAndCatraca } from "../pages/manutencao_catraca/ListManutencaoCatracaByDiaAndCatraca ";
 
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
@@ -424,6 +425,14 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <ListManutencaoCatraca />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/relatorio-por-dia-e-catraca"
+                element={
+                  <ProtectedRoute>
+                    <ListManutencaoCatracaByDiaAndCatraca />
                   </ProtectedRoute>
                 }
               />

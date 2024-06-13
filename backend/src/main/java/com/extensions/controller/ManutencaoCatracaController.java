@@ -59,6 +59,7 @@ public class ManutencaoCatracaController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "dia"));
         return ResponseEntity.ok(service.findAll(pageable));
     }
+
     @Operation(summary = "Buscar manutenção das catracas pelo id da catraca", description = "Buscar manutenção das catracas pelo id da catraca",
             tags = {"Manutenção Catraca"},
             responses = {
@@ -107,8 +108,28 @@ public class ManutencaoCatracaController {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/dias")
-    public ResponseEntity<List<ManutencaoCatracaDTO>> findByDia(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+    public ResponseEntity<List<ManutencaoCatracaDTO>> findByDias(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
         return ResponseEntity.ok().body(service.findByDias(inicio, fim));
+    }
+
+    @Operation(summary = "Buscar manutenção da catraca pelo intervalo de 2 dias e pelo id da catraca. ")
+    @ApiResponse(responseCode = "200", description = "OK", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ManutencaoCatracaDTO.class))
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @GetMapping("/dias-e-catraca")
+    public ResponseEntity<PagedModel<EntityModel<ManutencaoCatracaDTO>>> findByDiasAndCatraca(
+            @RequestParam LocalDate inicio,
+            @RequestParam LocalDate fim,
+            @RequestParam String catracaId,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+    ) {
+        var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "dia"));
+        return ResponseEntity.ok().body(service.findByDiasAndCatraca(inicio, fim, catracaId, pageable));
     }
 
     @Operation(summary = "Buscar manutenção das catracas pelo ID", description = "Buscar manutenção das catracas pelo ID",
