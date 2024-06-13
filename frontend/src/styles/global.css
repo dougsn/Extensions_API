@@ -1,0 +1,17 @@
+.react-daterange-picker__wrapper {
+  display: none;
+}
+
+.react-calendar {
+  border-radius: 7px;
+  border: 1px solid #a0a096;
+  font-family: "Poppins";
+}
+
+.react-calendar--selectRange {
+  color: black;
+}
+
+.react-calendar__month-view__weekdays__weekday{
+  text-decoration: underline;
+}

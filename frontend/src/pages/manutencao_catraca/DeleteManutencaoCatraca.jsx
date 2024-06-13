@@ -124,7 +124,7 @@ export const DeleteManutencaoCatraca = () => {
                   <VStack spacing={5}>
                     <Text>Dia: {manutencaoCatraca.dia}</Text>
                     <Text>Defeito: {manutencaoCatraca.defeito}</Text>
-                    <Text>Observação: {manutencaoCatraca.observacao}</Text>
+                    <Text>Procedimento: {manutencaoCatraca.observacao}</Text>
                     <Text>Catraca: {manutencaoCatraca.nome_catraca}</Text>
                   </VStack>
                 </ModalBody>

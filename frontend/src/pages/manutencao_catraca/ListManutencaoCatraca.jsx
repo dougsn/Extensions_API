@@ -38,12 +38,16 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { CommonInputChangeDefeitoManutencao } from "../../components/Form/CommonInputChangeDefeitoManutencao";
+import { CommonSelectChangeUtilsManutencao } from "../../components/Form/CommonSelectChangeUtilsManutencao";
+import DatePicker from "../../components/Calendar/DatePicker";
 
 export const ListManutencaoCatraca = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
   const [manutencaoCatraca, setManutencaoCatraca] = useState([]);
+  const [catraca, setCatraca] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -56,7 +60,7 @@ export const ListManutencaoCatraca = () => {
   const getManutencaoCatraca = async () => {
     try {
       const request = await api.get(
-        `/manutencao-catraca/v1?page=${page}&size=${5}`,
+        `/manutencao-catraca/v1?page=${page}&size=${5}&direction=desc`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -81,8 +85,53 @@ export const ListManutencaoCatraca = () => {
     }
   };
 
+  const getCatraca = async () => {
+    try {
+      const request = await api.get(`/catraca/v1/all`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      setIsLoading(false);
+      setCatraca(request.data);
+    } catch (error) {
+      setIsLoading(false);
+      setErro(true);
+      toast({
+        title: error.response.data.errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 2000,
+        isClosable: true,
+      });
+      return null;
+    }
+  };
+
+  const handleInputChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    if (
+      newEntity._embedded &&
+      newEntity._embedded.manutencaoCatracaDTOList &&
+      newEntity._embedded.manutencaoCatracaDTOList.length !== 0
+    ) {
+      setManutencaoCatraca(newEntity._embedded.manutencaoCatracaDTOList);
+    } else {
+      setManutencaoCatraca(newEntity);
+    }
+    handleSelectIsLoading(false);
+  };
+  const handleSelectChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    setManutencaoCatraca(newEntity);
+    handleSelectIsLoading(false);
+  };
+
+  const handleSelectIsLoading = (loading) => {
+    setIsLoading(loading);
+  };
+
   useEffect(() => {
     getManutencaoCatraca();
+    getCatraca();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -116,6 +165,58 @@ export const ListManutencaoCatraca = () => {
             ) && <CreateButton endpoint={"/manutencao-catraca/new"} />}
         </Flex>
       )}
+      {isLargerThan800 ? (
+        <>
+          <Flex mb="8" justify="space-between" align="center" gap={50}>
+            <DatePicker
+              handleLoading={handleSelectIsLoading}
+              handleChange={handleInputChange}
+              endpoint={"manutencao-catraca"}
+            />
+            <CommonInputChangeDefeitoManutencao
+              handleLoading={handleSelectIsLoading}
+              handleChange={handleInputChange}
+              endpoint={"manutencao-catraca"}
+              placeholder="Filtrar Defeito"
+              label="Defeito"
+            />
+            <CommonSelectChangeUtilsManutencao
+              handleLoading={handleSelectIsLoading}
+              handleChange={handleSelectChange}
+              entity={catraca}
+              subEndpoint={"catraca"}
+              endpoint={"manutencao-catraca"}
+              placeholder="Selecione uma catraca"
+              label={"Catraca"}
+            />
+          </Flex>
+        </>
+      ) : (
+        <Flex mb="8" justify="space-between" align="center" gap={50}>
+          <DatePicker
+            handleLoading={handleSelectIsLoading}
+            handleChange={handleInputChange}
+            endpoint={"manutencao-catraca"}
+          />
+          <CommonInputChangeDefeitoManutencao
+            handleLoading={handleSelectIsLoading}
+            handleChange={handleInputChange}
+            endpoint={"manutencao-catraca"}
+            placeholder="Filtrar Defeito"
+            label="Defeito"
+          />
+          <CommonSelectChangeUtilsManutencao
+            handleLoading={handleSelectIsLoading}
+            handleChange={handleSelectChange}
+            entity={catraca}
+            subEndpoint={"catraca"}
+            endpoint={"manutencao-catraca"}
+            placeholder="Selecione uma catraca"
+            label={"Catraca"}
+          />
+        </Flex>
+      )}
+
       {isLoading ? (
         <Flex
           flexDirection="column"
@@ -185,7 +286,7 @@ export const ListManutencaoCatraca = () => {
                 </CardHeader>
                 <CardBody>
                   <Text>Defeito: {manutencaoCatracaMap.defeito}</Text>
-                  <Text>Observação: {manutencaoCatracaMap.observacao}</Text>
+                  <Text>Procedimento: {manutencaoCatracaMap.observacao}</Text>
                   <Text>Catraca: {manutencaoCatracaMap.nome_catraca}</Text>
                 </CardBody>
                 <CardFooter justify="space-around">
@@ -195,7 +296,7 @@ export const ListManutencaoCatraca = () => {
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
                       <UpdateButton
-                        endpoint={`/catraca/update/${manutencaoCatracaMap.id}`}
+                        endpoint={`/manutencao-catraca/update/${manutencaoCatracaMap.id}`}
                       />
                     )}
                   {Object.keys(userData).length != 0 &&
@@ -204,7 +305,7 @@ export const ListManutencaoCatraca = () => {
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
                       <DeleteButton
-                        endpoint={`/catraca/delete/${manutencaoCatracaMap.id}`}
+                        endpoint={`/manutencao-catraca/delete/${manutencaoCatracaMap.id}`}
                       />
                     )}
                 </CardFooter>
@@ -218,7 +319,7 @@ export const ListManutencaoCatraca = () => {
             <Tr>
               <Th>Dia</Th>
               <Th>Defeito</Th>
-              <Th>Observação</Th>
+              <Th>Procedimento</Th>
               <Th>Catraca</Th>
               <Th></Th>
             </Tr>
@@ -230,7 +331,9 @@ export const ListManutencaoCatraca = () => {
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">{manutencaoCatracaMap.dia}</Text>
+                        <Text fontWeight="bold">
+                          {manutencaoCatracaMap.dia}
+                        </Text>
                       </ChakraLink>
                     </Box>
                   </Td>

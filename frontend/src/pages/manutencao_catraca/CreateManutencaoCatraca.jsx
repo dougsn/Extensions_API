@@ -159,8 +159,8 @@ export const CreateManutencaoCatraca = () => {
       <VStack pt={5} spacing="8">
         <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
           <CommonInput
-            placeholder="Observação"
-            label="Observação"
+            placeholder="Procedimento"
+            label="Procedimento"
             {...register("observacao")}
             error={formState.errors.observacao}
           />

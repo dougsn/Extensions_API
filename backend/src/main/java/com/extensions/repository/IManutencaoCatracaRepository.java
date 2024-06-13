@@ -17,5 +17,5 @@ public interface IManutencaoCatracaRepository extends JpaRepository<ManutencaoCa
     List<ManutencaoCatraca> findByDefeitoLike(String defeito);
 
     @Transactional(readOnly = true)
-    List<ManutencaoCatraca> findByCatracaNome(String nomeCatraca);
+    List<ManutencaoCatraca> findByCatracaId(String idCatraca);
 }

@@ -59,7 +59,7 @@ public class ManutencaoCatracaController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "dia"));
         return ResponseEntity.ok(service.findAll(pageable));
     }
-    @Operation(summary = "Buscar manutenção das catracas pelo nome da catraca", description = "Buscar manutenção das catracas pelo nome da catraca",
+    @Operation(summary = "Buscar manutenção das catracas pelo id da catraca", description = "Buscar manutenção das catracas pelo id da catraca",
             tags = {"Manutenção Catraca"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
@@ -75,9 +75,9 @@ public class ManutencaoCatracaController {
                     @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
             })
     @SecurityRequirement(name = "Bearer Authentication")
-    @GetMapping(value = "catraca/{nome}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<ManutencaoCatracaDTO>> findByNomeCatraca(@PathVariable String nomeCatraca) {
-        return ResponseEntity.ok().body(service.findByDefeitoLike(nomeCatraca));
+    @GetMapping(value = "catraca/{idCatraca}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<ManutencaoCatracaDTO>> findByIdCatraca(@PathVariable String idCatraca) {
+        return ResponseEntity.ok().body(service.findByIdCatraca(idCatraca));
     }
 
     @Operation(summary = "Buscar manutenção das catracas pelo defeito", description = "Buscar manutenção das catracas pelo defeito",

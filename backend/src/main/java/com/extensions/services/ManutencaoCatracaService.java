@@ -56,8 +56,8 @@ public class ManutencaoCatracaService {
     }
 
     @Transactional(readOnly = true)
-    public List<ManutencaoCatracaDTO> findByNomeDaCatraca(String nomeDaCatraca) {
-        return repository.findByCatracaNome(nomeDaCatraca).stream()
+    public List<ManutencaoCatracaDTO> findByIdCatraca(String catracaId) {
+        return repository.findByCatracaId(catracaId).stream()
                 .map(mapper)
                 .collect(Collectors.toList());
     }
