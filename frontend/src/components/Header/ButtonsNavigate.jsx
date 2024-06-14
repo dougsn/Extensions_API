@@ -23,7 +23,7 @@ import {
   BsTelephoneFill,
 } from "react-icons/bs";
 import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
-import { FaRunning, FaSatelliteDish } from "react-icons/fa";
+import { FaRunning, FaSatelliteDish, FaWifi } from "react-icons/fa";
 import { MdSettingsInputAntenna } from "react-icons/md";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { TiPointOfInterest } from "react-icons/ti";
@@ -163,6 +163,28 @@ export const ButtonsNavigate = () => {
               transition={"all .5s ease"}
             >
               <Icon as={BsFillPeopleFill} fontSize="20" />
+            </Box>
+          </Link>
+          <Link to={`/wifi`}>
+            <Box
+              active={checkUrl(location.pathname, "wifi")}
+              bgColor={`${
+                colorMode === "dark" && checkUrl(location.pathname, "wifi")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "wifi")
+                  ? "gray.400"
+                  : ""
+              }`}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
+              display="flex"
+              alignItems="center"
+              padding={2}
+              borderRadius={"5"}
+              transition={"all .5s ease"}
+            >
+              <Icon as={FaWifi} fontSize="20" />
             </Box>
           </Link>
           <Menu>
@@ -413,7 +435,10 @@ export const ButtonsNavigate = () => {
               </MenuItem>
               <MenuItem as={Link} to={`/relatorio-por-dia-e-catraca`}>
                 <Box
-                  active={checkUrl(location.pathname, "relatorio-por-dia-e-catraca")}
+                  active={checkUrl(
+                    location.pathname,
+                    "relatorio-por-dia-e-catraca"
+                  )}
                   bgColor={
                     checkUrl(location.pathname, "relatorio-por-dia-e-catraca")
                       ? colorMode === "dark"
@@ -423,8 +448,10 @@ export const ButtonsNavigate = () => {
                   }
                   _hover={{
                     bgColor:
-                      checkUrl(location.pathname, "relatorio-por-dia-e-catraca") &&
-                      colorMode !== "dark"
+                      checkUrl(
+                        location.pathname,
+                        "relatorio-por-dia-e-catraca"
+                      ) && colorMode !== "dark"
                         ? "gray.200"
                         : "",
                   }}

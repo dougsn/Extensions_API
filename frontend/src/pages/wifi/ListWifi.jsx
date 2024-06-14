@@ -29,25 +29,21 @@ import {
   CardBody,
   CardFooter,
 } from "@chakra-ui/react";
-import { RiAddLine, RiDeleteBinLine, RiEditLine } from "react-icons/ri";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { Pagination } from "../../components/Pagination";
-import { CommonSelectChange } from "../../components/Form/CommonSelectChange";
-import { CommonInputChange } from "../../components/Form/CommonInputChange";
+import { CommonSelectChangeUtilsList } from "../../components/Form/CommonSelectChangeUtilsList";
+import { CommonInputChangeLike } from "../../components/Form/CommonInputChangeLike";
 import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
-import { CommonInputChangeLike } from "../../components/Form/CommonInputChangeLike";
-import { CommonSelectChangeUtilsList } from "../../components/Form/CommonSelectChangeUtilsList";
-import DatePicker from "../../components/Calendar/DatePicker";
 
-export const ListManutencaoCatraca = () => {
+export const ListWifi = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
-  const [manutencaoCatraca, setManutencaoCatraca] = useState([]);
-  const [catraca, setCatraca] = useState([]);
+  const [wifi, setWifi] = useState([]);
+  const [setor, setSetor] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -57,20 +53,17 @@ export const ListManutencaoCatraca = () => {
 
   const toast = useToast();
 
-  const getManutencaoCatraca = async () => {
+  const getWifi = async () => {
     try {
-      const request = await api.get(
-        `/manutencao-catraca/v1?page=${page}&size=${5}&direction=desc`,
-        {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        }
-      );
+      const request = await api.get(`/wifi/v1?page=${page}&size=${5}`, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       setInfopage(request.data.page);
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
       setIsLoading(false);
-      setManutencaoCatraca(request.data._embedded.manutencaoCatracaDTOList);
+      setWifi(request.data._embedded.wifiDTOList);
     } catch (error) {
       setIsLoading(false);
       setErro(true);
@@ -84,17 +77,11 @@ export const ListManutencaoCatraca = () => {
       return null;
     }
   };
-
-  const getCatraca = async () => {
+  const getSetor = async () => {
     try {
-      const request = await api.get(`/catraca/v1/all`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      setIsLoading(false);
-      setCatraca(request.data);
+      const request = await api.get(`/setor/v1/all`, {});
+      setSetor(request.data);
     } catch (error) {
-      setIsLoading(false);
-      setErro(true);
       toast({
         title: error.response.data.errorMessage,
         status: "error",
@@ -104,24 +91,25 @@ export const ListManutencaoCatraca = () => {
       });
       return null;
     }
+  };
+  const handleSelectChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    setWifi(newEntity);
+    handleSelectIsLoading(false);
   };
 
   const handleInputChange = (newEntity) => {
     handleSelectIsLoading(true);
     if (
       newEntity._embedded &&
-      newEntity._embedded.manutencaoCatracaDTOList &&
-      newEntity._embedded.manutencaoCatracaDTOList.length !== 0
+      newEntity._embedded.wifiDTOList &&
+      newEntity._embedded.wifiDTOList.length !== 0
     ) {
-      setManutencaoCatraca(newEntity._embedded.manutencaoCatracaDTOList);
+      setWifi(newEntity._embedded.wifiDTOList);
     } else {
-      setManutencaoCatraca(newEntity);
+      setWifi(newEntity);
     }
-    handleSelectIsLoading(false);
-  };
-  const handleSelectChange = (newEntity) => {
-    handleSelectIsLoading(true);
-    setManutencaoCatraca(newEntity);
+
     handleSelectIsLoading(false);
   };
 
@@ -130,8 +118,8 @@ export const ListManutencaoCatraca = () => {
   };
 
   useEffect(() => {
-    getManutencaoCatraca();
-    getCatraca();
+    getWifi();
+    getSetor();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -143,81 +131,48 @@ export const ListManutencaoCatraca = () => {
       {isLargerThan800 ? (
         <Flex mb="8" justify="space-around" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Manutenções
+            Lista de WI-FI
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/manutencao-catraca/new"} />}
+            ) && <CreateButton endpoint={"/wifi/new"} />}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
           <Heading size="lg" fontWeight="500">
-            Lista de Manutenções
+            Lista de WI-FI
           </Heading>
           {Object.keys(userData).length != 0 &&
             userData &&
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/manutencao-catraca/new"} />}
+            ) && <CreateButton endpoint={"/wifi/new"} />}
         </Flex>
       )}
-      {isLargerThan800 ? (
-        <>
-          <Flex mb="8" justify="space-between" align="center" gap={50}>
-            <DatePicker
-              handleLoading={handleSelectIsLoading}
-              handleChange={handleInputChange}
-              endpoint={"manutencao-catraca"}
-            />
-            <CommonInputChangeLike
-              subEndopoint={"defeito"}
-              handleLoading={handleSelectIsLoading}
-              handleChange={handleInputChange}
-              endpoint={"manutencao-catraca"}
-              placeholder="Filtrar Defeito"
-              label="Defeito"
-            />
-            <CommonSelectChangeUtilsList
-              handleLoading={handleSelectIsLoading}
-              handleChange={handleSelectChange}
-              entity={catraca}
-              subEndpoint={"catraca"}
-              endpoint={"manutencao-catraca"}
-              placeholder="Selecione uma catraca"
-              label={"Catraca"}
-            />
-          </Flex>
-        </>
-      ) : (
-        <Flex mb="8" justify="space-between" align="center" gap={50}>
-          <DatePicker
-            handleLoading={handleSelectIsLoading}
-            handleChange={handleInputChange}
-            endpoint={"manutencao-catraca"}
-          />
-          <CommonInputChangeLike
-            subEndopoint={"defeito"}
-            handleLoading={handleSelectIsLoading}
-            handleChange={handleInputChange}
-            endpoint={"manutencao-catraca"}
-            placeholder="Filtrar Defeito"
-            label="Defeito"
-          />
-          <CommonSelectChangeUtilsList
-            handleLoading={handleSelectIsLoading}
-            handleChange={handleSelectChange}
-            entity={catraca}
-            subEndpoint={"catraca"}
-            endpoint={"manutencao-catraca"}
-            placeholder="Selecione uma catraca"
-            label={"Catraca"}
-          />
-        </Flex>
-      )}
+      <Flex mb="8" justify="space-between" align="center" gap={50}>
+        <CommonInputChangeLike
+          handleLoading={handleSelectIsLoading}
+          handleChange={handleInputChange}
+          endpoint={"wifi"}
+          subEndpoint={"ssid"}
+          sortPropertie={"ssid"}
+          placeholder="Filtrar SSID"
+          label="SSID"
+        />
+        <CommonSelectChangeUtilsList
+          handleLoading={handleSelectIsLoading}
+          handleChange={handleSelectChange}
+          entity={setor}
+          endpoint={"wifi"}
+          subEndpoint={"setor"}
+          placeholder="Selecione um setor"
+          label={"Setor"}
+        />
+      </Flex>
 
       {isLoading ? (
         <Flex
@@ -251,7 +206,7 @@ export const ListManutencaoCatraca = () => {
             Não há dados
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
-            Cadastre uma nova manutenção
+            Cadastre um novo WI-FI
           </AlertDescription>
         </Alert>
       ) : erro ? (
@@ -268,28 +223,27 @@ export const ListManutencaoCatraca = () => {
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
-            Falha ao obter dados das manutenções
+            Falha ao obter dados dos wifi's
           </AlertTitle>
           <AlertDescription maxWidth="sm" fontSize="lg" fontWeight="500">
             Tente novamente mais tarde.
           </AlertDescription>
         </Alert>
       ) : isLargerThan800 ? (
-        <Box display={"flex"} flexDirection={"column"} gap={10} zIndex={"hide"}>
-          {manutencaoCatraca.map((manutencaoCatracaMap) => {
+        <Box display={"flex"} flexDirection={"column"} gap={10}>
+          {wifi.map((wifiMap) => {
             return (
-              <Card
-                textAlign={"center"}
-                w={"auto"}
-                key={manutencaoCatracaMap.id}
-              >
+              <Card textAlign={"center"} w={"auto"} key={wifiMap.id}>
                 <CardHeader>
-                  <Heading size="md">Dia: {manutencaoCatracaMap.dia}</Heading>
+                  <Heading size="md">SSID: {wifiMap.ssid}</Heading>
                 </CardHeader>
                 <CardBody>
-                  <Text>Defeito: {manutencaoCatracaMap.defeito}</Text>
-                  <Text>Procedimento: {manutencaoCatracaMap.observacao}</Text>
-                  <Text>Catraca: {manutencaoCatracaMap.nome_catraca}</Text>
+                  <Text>Usuário: {wifiMap.usuario}</Text>
+                  <Text>IP: {wifiMap.ip}</Text>
+                  <Text>SSID: {wifiMap.ssid}</Text>
+                  <Text>Senha do Browser: {wifiMap.senha_browser}</Text>
+                  <Text>Senha do WIFI: {wifiMap.senha_wifi}</Text>
+                  <Text>Setor: {wifiMap.nome_setor}</Text>
                 </CardBody>
                 <CardFooter justify="space-around">
                   {Object.keys(userData).length != 0 &&
@@ -297,18 +251,14 @@ export const ListManutencaoCatraca = () => {
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <UpdateButton
-                        endpoint={`/manutencao-catraca/update/${manutencaoCatracaMap.id}`}
-                      />
+                      <UpdateButton endpoint={`/wifi/update/${wifiMap.id}`} />
                     )}
                   {Object.keys(userData).length != 0 &&
                     userData.permissions.some(
                       (p) =>
                         p.description === "ADMIN" || p.description === "MANAGER"
                     ) && (
-                      <DeleteButton
-                        endpoint={`/manutencao-catraca/delete/${manutencaoCatracaMap.id}`}
-                      />
+                      <DeleteButton endpoint={`/wifi/delete/${wifiMap.id}`} />
                     )}
                 </CardFooter>
               </Card>
@@ -319,50 +269,58 @@ export const ListManutencaoCatraca = () => {
         <Table colorScheme="blackAlpha">
           <Thead>
             <Tr>
-              <Th>Dia</Th>
-              <Th>Defeito</Th>
-              <Th>Procedimento</Th>
-              <Th>Catraca</Th>
+              <Th>IP</Th>
+              <Th>Usuário</Th>
+              <Th>Senha do Browser</Th>
+              <Th>SSID</Th>
+              <Th>Senha do WIFI</Th>
+              <Th>Setor</Th>
               <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
-            {manutencaoCatraca.map((manutencaoCatracaMap) => {
+            {wifi.map((wifiMap) => {
               return (
-                <Tr key={manutencaoCatracaMap.id}>
+                <Tr key={wifiMap.id}>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {manutencaoCatracaMap.dia}
-                        </Text>
+                        <Text fontWeight="bold">{wifiMap.ip}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {manutencaoCatracaMap.defeito}
-                        </Text>
+                        <Text fontWeight="bold">{wifiMap.usuario}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {manutencaoCatracaMap.observacao}
-                        </Text>
+                        <Text fontWeight="bold">{wifiMap.senha_browser}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {manutencaoCatracaMap.nome_catraca}
-                        </Text>
+                        <Text fontWeight="bold">{wifiMap.ssid}</Text>
+                      </ChakraLink>
+                    </Box>
+                  </Td>
+                  <Td>
+                    <Box>
+                      <ChakraLink>
+                        <Text fontWeight="bold">{wifiMap.senha_wifi}</Text>
+                      </ChakraLink>
+                    </Box>
+                  </Td>
+                  <Td>
+                    <Box>
+                      <ChakraLink>
+                        <Text fontWeight="bold">{wifiMap.nome_setor}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
@@ -377,7 +335,7 @@ export const ListManutencaoCatraca = () => {
                             p.description === "MANAGER"
                         ) && (
                           <UpdateButton
-                            endpoint={`/manutencao-catraca/update/${manutencaoCatracaMap.id}`}
+                            endpoint={`/wifi/update/${wifiMap.id}`}
                           />
                         )}
 
@@ -390,7 +348,7 @@ export const ListManutencaoCatraca = () => {
                             p.description === "MANAGER"
                         ) && (
                           <DeleteButton
-                            endpoint={`/manutencao-catraca/delete/${manutencaoCatracaMap.id}`}
+                            endpoint={`/wifi/delete/${wifiMap.id}`}
                           />
                         )}
                     </HStack>

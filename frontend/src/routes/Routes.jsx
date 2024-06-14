@@ -39,6 +39,12 @@ import { UpdateManutencaoCatraca } from "../pages/manutencao_catraca/UpdateManut
 import { DeleteManutencaoCatraca } from "../pages/manutencao_catraca/DeleteManutencaoCatraca";
 import { ListManutencaoCatracaByDiaAndCatraca } from "../pages/manutencao_catraca/ListManutencaoCatracaByDiaAndCatraca ";
 
+// Wifi
+import { ListWifi } from "../pages/wifi/ListWifi";
+import { CreateWifi } from "../pages/wifi/CreateWifi";
+import { DeleteWifi } from "../pages/wifi/DeleteWifi";
+import { UpdateWifi } from "../pages/wifi/UpdateWifi";
+
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
 import { CreateEmail } from "../pages/email/CreateEmail";
@@ -455,6 +461,34 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteManutencaoCatraca />
+                  </ProtectedRoute>
+                }
+              />
+              {/* Gerenciamento de WIFI */}
+              <Route
+                path="/wifi"
+                element={
+                  <ProtectedRoute>
+                    <ListWifi />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/wifi/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateWifi />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/wifi/update/:id" element={<UpdateWifi />} />
+
+              <Route
+                path="/wifi/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteWifi />
                   </ProtectedRoute>
                 }
               />

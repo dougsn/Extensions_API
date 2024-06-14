@@ -110,4 +110,4 @@ const Select = (
   );
 };
 
-export const CommonSelectChangeUtilsManutencao = forwardRef(Select);
+export const CommonSelectChangeUtilsList = forwardRef(Select);

@@ -25,6 +25,7 @@ const Input = (
     handleLoading,
     readOnly,
     endpoint,
+    subEndpoint,
     ...rest
   },
   ref
@@ -38,7 +39,7 @@ const Input = (
       handleLoading(true);
       if (data) {
         const request = await api.get(
-          `/${endpoint}/v1/defeito/${data}`,
+          `/${endpoint}/v1/${subEndpoint}/${data}`,
           {
             headers: { Authorization: `Bearer ${getToken()}` },
           }
@@ -121,7 +122,7 @@ const Input = (
   );
 };
 
-export const CommonInputChangeDefeitoManutencao = forwardRef(Input);
+export const CommonInputChangeLike = forwardRef(Input);
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
