@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Input,
   InputGroup,
@@ -61,6 +61,7 @@ const DatePickerByDiaAndCatraca = ({
             headers: { Authorization: `Bearer ${getToken()}` },
           }
         );
+
         if (request.data.length != 0) {
           setTimeout(() => {
             handleChange(request.data, formattedDates);
@@ -91,6 +92,10 @@ const DatePickerByDiaAndCatraca = ({
       return null;
     }
   };
+
+  useEffect(() => {
+    handleInputChange();
+  }, [page]);
 
   return (
     <>

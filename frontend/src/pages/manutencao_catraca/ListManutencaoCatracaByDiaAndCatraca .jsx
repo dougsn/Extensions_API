@@ -83,15 +83,23 @@ export const ListManutencaoCatracaByDiaAndCatraca = () => {
     ) {
       setErro(false)
       setManutencaoCatraca(newEntity._embedded.manutencaoCatracaDTOList);
+      setInfopage(newEntity.page)
     } else {
       setDateError(dates)
       setErro(true)
     }
     handleSelectIsLoading(false);
   };
+
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
     setIdCatraca(newEntity);
+    handleSelectIsLoading(false);
+  };
+  
+  const handleChangePage = (page) => {
+    handleSelectIsLoading(true);
+    setPage(page);
     handleSelectIsLoading(false);
   };
 
@@ -108,7 +116,7 @@ export const ListManutencaoCatracaByDiaAndCatraca = () => {
       top: 0,
       behavior: "smooth",
     });
-  }, [page]);
+  }, []);
 
   return (
     <Box display={"flex"} flexDirection={"column"} p="8" w={"100%"}>
