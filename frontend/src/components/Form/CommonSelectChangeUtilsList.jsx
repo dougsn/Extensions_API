@@ -28,33 +28,31 @@ const Select = (
   const toast = useToast();
   const handleSelectChange = async (event) => {
     const entityId = event.target.value;
-    try {
-      handleLoading(true);
-      if (entityId != 0) {
-        const request = await api.get(
-          `/${endpoint}/v1/${subEndpoint}/${entityId}`,
-          {
-            headers: { Authorization: `Bearer ${getToken()}` },
-          }
-        );
-        if (request.data.length != 0) {
-          handleChange(request.data);
-          handleLoading(false);
+    handleLoading(true);
+    if (entityId != 0) {
+      const request = await api.get(
+        `/${endpoint}/v1/${subEndpoint}/${entityId}`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
         }
+      );
+      if (request.data.length != 0) {
+        handleChange(request.data);
+        handleLoading(false);
+      } else {
+        toast({
+          title: "Não foi encontrado nenhum dado no banco de dados",
+          status: "error",
+          position: "top-right",
+          duration: 2000,
+          isClosable: true,
+        });
+        const request = await api.get(`/${endpoint}/v1?page=${0}&size=${5}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        handleChange(request.data);
+        handleLoading(false);
       }
-    } catch (error) {
-      toast({
-        title: `${entityId} não foi encontrado(a) na base de dados.`,
-        status: "error",
-        position: "top-right",
-        duration: 2000,
-        isClosable: true,
-      });
-      const request = await api.get(`/${endpoint}/v1?page=${0}&size=${5}`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
-      handleChange(request.data);
-      handleLoading(false);
     }
   };
 

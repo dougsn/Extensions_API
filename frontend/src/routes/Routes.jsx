@@ -45,6 +45,12 @@ import { CreateWifi } from "../pages/wifi/CreateWifi";
 import { DeleteWifi } from "../pages/wifi/DeleteWifi";
 import { UpdateWifi } from "../pages/wifi/UpdateWifi";
 
+// Wifi
+import { ListTerminal } from "../pages/terminal/ListTerminal";
+import { CreateTerminal } from "../pages/terminal/CreateTerminal";
+import { DeleteTerminal } from "../pages/terminal/DeleteTerminal";
+import { UpdateTerminal } from "../pages/terminal/UpdateTerminal";
+
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
 import { CreateEmail } from "../pages/email/CreateEmail";
@@ -464,6 +470,7 @@ const AppRoutes = () => {
                   </ProtectedRoute>
                 }
               />
+
               {/* Gerenciamento de WIFI */}
               <Route
                 path="/wifi"
@@ -489,6 +496,35 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteWifi />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de Terminais */}
+              <Route
+                path="/terminal"
+                element={
+                  <ProtectedRoute>
+                    <ListTerminal />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/terminal/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateTerminal />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/terminal/update/:id" element={<UpdateTerminal />} />
+
+              <Route
+                path="/terminal/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteTerminal />
                   </ProtectedRoute>
                 }
               />
