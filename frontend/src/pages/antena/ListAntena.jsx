@@ -62,10 +62,13 @@ export const ListAntena = () => {
       const request = await api.get(`/antena/v1?page=${page}&size=${5}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-      setInfopage(request.data.page);
+      if (request.data.page == 0) {
+        setIsEmpty(true);
+      }
       if (request.data.page.totalElements == 0) {
         setIsEmpty(true);
       }
+      setInfopage(request.data.page);
       setIsLoading(false);
       setAntena(request.data._embedded.antenaDTOList);
     } catch (error) {
@@ -118,7 +121,15 @@ export const ListAntena = () => {
 
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
-    setAntena(newEntity._embedded.antenaDTOList);
+    if (
+      newEntity._embedded &&
+      newEntity._embedded.antenaDTOList &&
+      newEntity._embedded.antenaDTOList.length !== 0
+    ) {
+      setAntena(newEntity._embedded.antenaDTOList);
+    } else {
+      setAntena(newEntity);
+    }
     handleSelectIsLoading(false);
   };
 

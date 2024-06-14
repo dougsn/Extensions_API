@@ -37,8 +37,7 @@ const Select = (
             headers: { Authorization: `Bearer ${getToken()}` },
           }
         );
-
-        if (request.data.length != 0) {
+        if (request.data._embedded.length != 0) {
           handleChange(request.data);
           handleLoading(false);
         }

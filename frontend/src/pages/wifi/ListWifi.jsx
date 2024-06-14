@@ -94,7 +94,15 @@ export const ListWifi = () => {
   };
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
-    setWifi(newEntity);
+    if (
+      newEntity._embedded &&
+      newEntity._embedded.wifiDTOList &&
+      newEntity._embedded.wifiDTOList.length !== 0
+    ) {
+      setWifi(newEntity._embedded.wifiDTOList);
+    } else {
+      setWifi(newEntity);
+    }
     handleSelectIsLoading(false);
   };
 
