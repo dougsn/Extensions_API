@@ -245,6 +245,7 @@ export const ListManutencaoCatraca = () => {
           height="400px"
           borderRadius={"xl"}
           colorScheme="blue"
+          zIndex={"hide"}
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">
@@ -265,6 +266,7 @@ export const ListManutencaoCatraca = () => {
           height="400px"
           borderRadius={"xl"}
           colorScheme="blue"
+          zIndex={"hide"}
         >
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="xl">

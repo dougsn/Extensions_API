@@ -18,6 +18,7 @@ import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 
 import { MdEmail, MdPlace } from "react-icons/md";
 import {
+  BsCalendarCheckFill,
   BsFillPeopleFill,
   BsPrinterFill,
   BsTelephoneFill,
@@ -484,7 +485,7 @@ export const ButtonsNavigate = () => {
                   transition={"all .5s ease"}
                 >
                   <Box display="flex" alignItems="center" paddingRight={2}>
-                    <Icon as={IoHardwareChip} fontSize="20" mr={6} />
+                    <Icon as={BsCalendarCheckFill} fontSize="20" mr={6} />
                     <Box>Relatório por Dia e Catraca</Box>
                   </Box>
                 </Box>
