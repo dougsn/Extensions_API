@@ -45,11 +45,18 @@ import { CreateWifi } from "../pages/wifi/CreateWifi";
 import { DeleteWifi } from "../pages/wifi/DeleteWifi";
 import { UpdateWifi } from "../pages/wifi/UpdateWifi";
 
-// Wifi
+// Terminal
 import { ListTerminal } from "../pages/terminal/ListTerminal";
 import { CreateTerminal } from "../pages/terminal/CreateTerminal";
 import { DeleteTerminal } from "../pages/terminal/DeleteTerminal";
 import { UpdateTerminal } from "../pages/terminal/UpdateTerminal";
+
+// Projeto
+import { ListProjeto } from "../pages/projeto/ListProjeto";
+import { CreateProjeto } from "../pages/projeto/CreateProjeto";
+import { DeleteProjeto } from "../pages/projeto/DeleteProjeto";
+import { UpdateProjeto } from "../pages/projeto/UpdateProjeto";
+import { ModalDetailsProjeto } from "../pages/projeto/ModalDetailsProjeto";
 
 // Email
 import { ListEmail } from "../pages/email/ListEmail";
@@ -525,6 +532,43 @@ const AppRoutes = () => {
                 element={
                   <ProtectedRoute>
                     <DeleteTerminal />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Gerenciamento de Projetos */}
+              <Route
+                path="/projeto"
+                element={
+                  <ProtectedRoute>
+                    <ListProjeto />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projeto/detail/:id"
+                element={
+                  <ProtectedRoute>
+                    <ModalDetailsProjeto />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projeto/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateProjeto />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/projeto/update/:id" element={<UpdateProjeto />} />
+
+              <Route
+                path="/projeto/delete/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteProjeto />
                   </ProtectedRoute>
                 }
               />

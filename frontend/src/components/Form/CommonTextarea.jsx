@@ -6,14 +6,12 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
-const Textarea = (
-  { name, label, placeholder, error, ...rest },
-  ref
-) => {
+const Textarea = ({ name, label, placeholder, error, height, ...rest }, ref) => {
   return (
     <FormControl isInvalid={!!error}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
       <ChakraTextarea
+        height={height}
         placeholder={placeholder}
         _placeholder={{ textAlign: "center" }}
         id={name}

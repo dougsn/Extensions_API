@@ -24,7 +24,7 @@ import {
   BsTelephoneFill,
 } from "react-icons/bs";
 import { RiComputerFill, RiOrganizationChart } from "react-icons/ri";
-import { FaRaspberryPi, FaRunning, FaSatelliteDish, FaWifi } from "react-icons/fa";
+import { FaProjectDiagram, FaRaspberryPi, FaRunning, FaSatelliteDish, FaWifi } from "react-icons/fa";
 import { MdSettingsInputAntenna } from "react-icons/md";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { TiPointOfInterest } from "react-icons/ti";
@@ -208,6 +208,28 @@ export const ButtonsNavigate = () => {
               transition={"all .5s ease"}
             >
               <Icon as={FaRaspberryPi} fontSize="20" />
+            </Box>
+          </Link>
+          <Link to={`/projeto`}>
+            <Box
+              active={checkUrl(location.pathname, "projeto")}
+              bgColor={`${
+                colorMode === "dark" && checkUrl(location.pathname, "projeto")
+                  ? "gray.700"
+                  : colorMode === "light" && checkUrl(location.pathname, "projeto")
+                  ? "gray.400"
+                  : ""
+              }`}
+              _hover={{
+                bgColor: colorMode === "dark" ? "gray.700" : "gray.300",
+              }}
+              display="flex"
+              alignItems="center"
+              padding={2}
+              borderRadius={"5"}
+              transition={"all .5s ease"}
+            >
+              <Icon as={FaProjectDiagram} fontSize="20" />
             </Box>
           </Link>
           <Menu>
