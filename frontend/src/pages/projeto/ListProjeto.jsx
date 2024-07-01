@@ -38,16 +38,15 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
-import { IoCreate } from "react-icons/io5";
-import { FaCheckCircle, FaClock, FaSearch } from "react-icons/fa";
-import { FaPause } from "react-icons/fa6";
 import { DetailButton } from "../../components/Button/DetailButton";
+import { CommonInputChange } from "../../components/Form/CommonInputChange";
 
 export const ListProjeto = () => {
   const [page, setPage] = useState(0);
   const [infoPage, setInfopage] = useState(0);
 
   const [projeto, setProjeto] = useState([]);
+  const [status, setStatus] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -84,6 +83,46 @@ export const ListProjeto = () => {
       return null;
     }
   };
+
+  const getStatus = async () => {
+    try {
+      const request = await api.get("/status/v1", {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+      if (request.data.length === 0) {
+        setIsEmpty(true);
+      }
+      setIsLoading(false);
+      setStatus(request.data);
+    } catch (error) {
+      setIsLoading(false);
+      setErro(true);
+      toast({
+        title: error.response.data.errorMessage,
+        status: "error",
+        position: "top-right",
+        duration: 2000,
+        isClosable: true,
+      });
+      return null;
+    }
+  };
+
+  const handleInputChange = (newEntity) => {
+    handleSelectIsLoading(true);
+    if (
+      newEntity._embedded &&
+      newEntity._embedded.projetoDTOList &&
+      newEntity._embedded.projetoDTOList.length !== 0
+    ) {
+      setProjeto(newEntity._embedded.projetoDTOList);
+    } else {
+      setProjeto(newEntity);
+    }
+
+    handleSelectIsLoading(false);
+  };
+
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
     if (
@@ -132,6 +171,7 @@ export const ListProjeto = () => {
 
   useEffect(() => {
     getProjeto();
+    getStatus();
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -165,17 +205,26 @@ export const ListProjeto = () => {
             ) && <CreateButton endpoint={"/projeto/new"} />}
         </Flex>
       )}
-      {/* <Flex mb="8" justify="space-between" align="center" gap={50}>
+      <Flex mb="8" justify="space-between" align="center" gap={50}>
+        <CommonInputChangeLike
+          handleLoading={handleSelectIsLoading}
+          handleChange={handleInputChange}
+          endpoint={"projeto"}
+          subEndpoint={"nome"}
+          sortPropertie={"nome"}
+          placeholder="Filtrar nome"
+          label="Nome"
+        />
         <CommonSelectChangeUtilsList
           handleLoading={handleSelectIsLoading}
           handleChange={handleSelectChange}
-          entity={setor}
+          entity={status}
           endpoint={"projeto"}
-          subEndpoint={"setor"}
-          placeholder="Selecione um setor"
-          label={"Setor"}
+          subEndpoint={"status"}
+          placeholder="Selecione um status"
+          label={"Status"}
         />
-      </Flex> */}
+      </Flex>
 
       {isLoading ? (
         <Flex

@@ -161,6 +161,8 @@ export const ModalDetailsProjeto = () => {
                   <VStack spacing={5}>
                     <Text>Status: {renderStatus(projeto.nome_status)}</Text>
                     <CommonTextarea
+                      isReadOnly={true}
+                      cursor={"no-drop"}
                       label="Descrição"
                       {...register("descricao")}
                     />

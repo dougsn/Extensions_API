@@ -152,7 +152,7 @@ export const CreateComputador = () => {
       onSubmit={handleSubmit(handleCreateComputadorFormSchema)}
     >
       <Heading size="lg" fontWeight="500">
-        Criar E-mail
+        Criar Computador
       </Heading>
 
       <Divider my="6" borderColor="gray.300" />
