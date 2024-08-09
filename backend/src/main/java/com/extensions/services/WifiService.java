@@ -1,9 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.WifiController;
-import com.extensions.domain.dto.wifi.WifiDTO;
-import com.extensions.domain.dto.wifi.WifiDTOMapper;
-import com.extensions.domain.dto.wifi.WifiUpdateDTO;
+import com.extensions.domain.dto.wifi.*;
 import com.extensions.domain.entity.Setor;
 import com.extensions.domain.entity.Wifi;
 import com.extensions.repository.ISetorRepository;
@@ -32,6 +30,8 @@ public class WifiService {
     @Autowired
     private WifiDTOMapper mapper;
     @Autowired
+    private WifiDTOExportMapper exportMapper;
+    @Autowired
     private IWifiRepository repository;
     @Autowired
     private ISetorRepository setorRepository;
@@ -50,6 +50,14 @@ public class WifiService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<WifiDTOExport> findAllForExport() {
+        logger.info("Buscando todos os wifis para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     @Transactional(readOnly = true)

@@ -37,6 +37,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListWifi = () => {
   const [page, setPage] = useState(0);
@@ -146,7 +147,12 @@ export const ListWifi = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/wifi/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/wifi/new"} />
+                <ExcelButton endpoint={"/wifi/v1/export"} downloadName={"wifi"} sheetName={"Wifi"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -158,7 +164,12 @@ export const ListWifi = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/wifi/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/wifi/new"} />
+                <ExcelButton endpoint={"/wifi/v1/export"} downloadName={"wifi"} sheetName={"Wifi"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>

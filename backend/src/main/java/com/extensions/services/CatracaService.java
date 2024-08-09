@@ -2,6 +2,8 @@ package com.extensions.services;
 
 import com.extensions.controller.CatracaController;
 import com.extensions.domain.dto.catraca.CatracaDTO;
+import com.extensions.domain.dto.catraca.CatracaDTOExport;
+import com.extensions.domain.dto.catraca.CatracaDTOExportMapper;
 import com.extensions.domain.dto.catraca.CatracaDTOMapper;
 import com.extensions.domain.entity.Catraca;
 import com.extensions.repository.ICatracaRepository;
@@ -31,12 +33,22 @@ public class CatracaService {
     @Autowired
     private CatracaDTOMapper mapper;
     @Autowired
+    private CatracaDTOExportMapper exportMapper;
+    @Autowired
     PagedResourcesAssembler<CatracaDTO> assembler;
 
     @Transactional(readOnly = true)
     public List<CatracaDTO> findAllCatracas() {
         return repository.findAll().stream().map(mapper)
                 .collect(Collectors.toList());
+    }
+
+    public List<CatracaDTOExport> findAllForExport() {
+        logger.info("Buscando todos as catracas para exportação de dados.");
+        return repository.findAllOrderByNomeCatraca()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     @Transactional(readOnly = true)

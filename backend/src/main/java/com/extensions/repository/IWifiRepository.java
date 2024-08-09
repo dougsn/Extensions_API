@@ -1,7 +1,9 @@
 package com.extensions.repository;
 
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Wifi;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,5 +24,8 @@ public interface IWifiRepository extends JpaRepository<Wifi, String> {
 
     @Transactional(readOnly = true)
     List<Wifi> findBySsidLike(String ssid);
+
+    @Query(value = "SELECT w.* FROM wifi w JOIN setores s ON w.fk_id_setores = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Wifi> findAllOrderByNomeSetor();
 }
 

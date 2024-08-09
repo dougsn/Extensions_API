@@ -1,8 +1,10 @@
 package com.extensions.repository;
 
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Projeto;
 import com.extensions.domain.entity.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,5 +19,8 @@ public interface IProjetoRepository extends JpaRepository<Projeto, String> {
 
     @Transactional(readOnly = true)
     Optional<Projeto> findByNome(String nome);
+
+    @Query(value = "SELECT p.* FROM projeto p JOIN status s ON p.fk_id_status = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Projeto> findAllOrderByNomeStatus();
 }
 

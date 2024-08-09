@@ -1,9 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.ProjetoController;
-import com.extensions.domain.dto.projeto.ProjetoDTO;
-import com.extensions.domain.dto.projeto.ProjetoDTOMapper;
-import com.extensions.domain.dto.projeto.ProjetoUpdateDTO;
+import com.extensions.domain.dto.projeto.*;
 import com.extensions.domain.entity.Projeto;
 import com.extensions.domain.entity.User;
 import com.extensions.repository.IProjetoRepository;
@@ -35,6 +33,8 @@ public class ProjetoService {
     @Autowired
     private ProjetoDTOMapper mapper;
     @Autowired
+    private ProjetoDTOExportMapper exportMapper;
+    @Autowired
     private IProjetoRepository repository;
     @Autowired
     private IUserRepository userRepository;
@@ -55,6 +55,14 @@ public class ProjetoService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<ProjetoDTOExport> findAllForExport() {
+        logger.info("Buscando todos os projetos para exportação de dados.");
+        return repository.findAllOrderByNomeStatus()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     @Transactional(readOnly = true)

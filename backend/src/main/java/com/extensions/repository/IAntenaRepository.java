@@ -1,9 +1,6 @@
 package com.extensions.repository;
 
-import com.extensions.domain.entity.Antena;
-import com.extensions.domain.entity.Local;
-import com.extensions.domain.entity.Modelo;
-import com.extensions.domain.entity.TipoAntena;
+import com.extensions.domain.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,5 +36,8 @@ public interface IAntenaRepository extends JpaRepository<Antena, String> {
 
     @Query(value = "SELECT * FROM antenas a WHERE LOWER(a.ssid) LIKE LOWER(CONCAT('%', :ssid, '%'))", nativeQuery = true)
     List<Antena> findAntenaBySsid(@Param("ssid") String ssid);
+
+    @Query(value = "SELECT a.* FROM antenas a JOIN locais l ON a.fk_id_locais = l.id ORDER BY l.nome ASC", nativeQuery = true)
+    List<Antena> findAllOrderByNomeLocal();
 }
 

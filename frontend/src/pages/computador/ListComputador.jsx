@@ -146,7 +146,7 @@ export const ListComputador = () => {
             ) && (
               <>
                 <CreateButton endpoint={"/computador/new"} />
-                <ExcelButton endpoint={"/computador/v1/export"} />
+                <ExcelButton endpoint={"/computador/v1/export"} downloadName={"computadores"} sheetName={"Computadores"} />
               </>
             )}
         </Flex>
@@ -163,7 +163,7 @@ export const ListComputador = () => {
             ) && (
               <Flex gap={10}>
                 <CreateButton endpoint={"/computador/new"} />
-                <ExcelButton endpoint={"/computador/v1/export"} />
+                <ExcelButton endpoint={"/computador/v1/export"} downloadName={"computadores"} sheetName={"Computadores"} />
               </Flex>
             )}
         </Flex>

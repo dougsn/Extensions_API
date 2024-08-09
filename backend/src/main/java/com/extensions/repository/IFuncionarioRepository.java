@@ -21,5 +21,8 @@ public interface IFuncionarioRepository extends JpaRepository<Funcionario, Strin
     Optional<Funcionario> findByNome(String nome);
     @Query(value = "SELECT * FROM funcionarios f WHERE LOWER(f.nome) LIKE LOWER(CONCAT('%', :nome, '%'))", nativeQuery = true)
     List<Funcionario> findFuncionarioByNome(@Param("nome") String nome);
+
+    @Query(value = "SELECT f.* FROM funcionarios f JOIN setores s ON f.fk_id_setores = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Funcionario> findAllOrderByNomeSetor();
 }
 

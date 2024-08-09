@@ -38,6 +38,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListCatraca = () => {
   const [page, setPage] = useState(0);
@@ -102,7 +103,12 @@ export const ListCatraca = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/catraca/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/catraca/new"} />
+                <ExcelButton endpoint={"/catraca/v1/export"} downloadName={"catracas"} sheetName={"Catracas"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -114,7 +120,12 @@ export const ListCatraca = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/catraca/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/catraca/new"} />
+                <ExcelButton endpoint={"/catraca/v1/export"} downloadName={"catracas"} sheetName={"Catracas"} />
+              </Flex>
+            )}
         </Flex>
       )}
       {isLoading ? (
@@ -265,18 +276,14 @@ export const ListCatraca = () => {
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {catracaMap.com}
-                        </Text>
+                        <Text fontWeight="bold">{catracaMap.com}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>
                   <Td>
                     <Box>
                       <ChakraLink>
-                        <Text fontWeight="bold">
-                          {catracaMap.mac}
-                        </Text>
+                        <Text fontWeight="bold">{catracaMap.mac}</Text>
                       </ChakraLink>
                     </Box>
                   </Td>

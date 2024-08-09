@@ -1,6 +1,7 @@
 package com.extensions.controller;
 
 import com.extensions.domain.dto.antena.AntenaDTO;
+import com.extensions.domain.dto.antena.AntenaDTOExport;
 import com.extensions.domain.dto.antena.AntenaDTOSwagger;
 import com.extensions.domain.dto.antena.AntenaUpdateDTO;
 import com.extensions.services.AntenaService;
@@ -59,6 +60,26 @@ public class AntenaController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "ssid"));
         return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @Operation(summary = "Buscando todos as antenas para exportação de dados", description = "Buscando todos as antenas para exportação de dados",
+            tags = {"Antenas"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = AntenaDTOExport.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            })
+    @GetMapping(value = "/export", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<AntenaDTOExport>> findAllForExport() {
+        return ResponseEntity.ok(service.findAllForExport());
     }
 
     @Operation(summary = "Buscando todas as antenas de um local", description = "Buscando todas as antenas de um local",

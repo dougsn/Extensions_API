@@ -37,6 +37,7 @@ import { CommonInputChangeWithoutToken } from "../../components/Form/CommonInput
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListRamal = () => {
   const [page, setPage] = useState(0);
@@ -136,7 +137,12 @@ export const ListRamal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/ramal/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/ramal/new"} />
+                <ExcelButton endpoint={"/funcionario/v1/export"} downloadName={"ramais"} sheetName={"Ramais"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -148,7 +154,12 @@ export const ListRamal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/ramal/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/ramal/new"} />
+                <ExcelButton endpoint={"/funcionario/v1/export"} downloadName={"ramais"} sheetName={"Ramais"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>

@@ -1,6 +1,7 @@
 package com.extensions.repository;
 
 import com.extensions.domain.entity.Email;
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,5 +25,8 @@ public interface IEmailRepository extends JpaRepository<Email, String> {
 
     @Query(value = "SELECT * FROM caixa_email c WHERE LOWER(c.conta) LIKE LOWER(CONCAT('%', :conta, '%'))", nativeQuery = true)
     List<Email> findEmailByConta(@Param("conta") String conta);
+
+    @Query(value = "SELECT cx.* FROM caixa_email cx JOIN setores s ON cx.fk_id_setores = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Email> findAllOrderByNomeSetor();
 }
 

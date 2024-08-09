@@ -1,10 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.EmailController;
-import com.extensions.domain.dto.email.EmailDTO;
-import com.extensions.domain.dto.email.EmailDTOMapper;
-import com.extensions.domain.dto.email.EmailDTOMapperList;
-import com.extensions.domain.dto.email.EmailUpdateDTO;
+import com.extensions.domain.dto.email.*;
 import com.extensions.domain.entity.Email;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.IEmailRepository;
@@ -34,6 +31,8 @@ public class EmailService {
     @Autowired
     private EmailDTOMapperList listMapper;
     @Autowired
+    private EmailDTOExportMapper exportMapper;
+    @Autowired
     private IEmailRepository repository;
     @Autowired
     private ISetorRepository setorRepository;
@@ -52,6 +51,14 @@ public class EmailService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<EmailDTOExport> findAllForExport() {
+        logger.info("Buscando todos os e-mails para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     public PagedModel<EntityModel<EmailDTO>> findEmailBySetor(Pageable pageable, String idSetor) {

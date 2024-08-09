@@ -40,6 +40,7 @@ import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
 import { DetailButton } from "../../components/Button/DetailButton";
 import { CommonInputChange } from "../../components/Form/CommonInputChange";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListProjeto = () => {
   const [page, setPage] = useState(0);
@@ -190,7 +191,12 @@ export const ListProjeto = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/projeto/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/projeto/new"} />
+                <ExcelButton endpoint={"/projeto/v1/export"} downloadName={"projetos"} sheetName={"Projetos"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -202,7 +208,12 @@ export const ListProjeto = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/projeto/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/projeto/new"} />
+                <ExcelButton endpoint={"/projeto/v1/export"} downloadName={"projetos"} sheetName={"Projetos"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
@@ -356,7 +367,7 @@ export const ListProjeto = () => {
                             endpoint={`/projeto/update/${projetoMap.id}`}
                           />
                         )}
-                        {Object.keys(userData).length != 0 &&
+                      {Object.keys(userData).length != 0 &&
                         userData &&
                         userData.permissions &&
                         userData.permissions.some(

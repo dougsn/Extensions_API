@@ -1,10 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.FuncionarioController;
-import com.extensions.domain.dto.funcionario.FuncionarioDTO;
-import com.extensions.domain.dto.funcionario.FuncionarioDTOMapper;
-import com.extensions.domain.dto.funcionario.FuncionarioDTOMapperList;
-import com.extensions.domain.dto.funcionario.FuncionarioUpdateDTO;
+import com.extensions.domain.dto.funcionario.*;
 import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.IFuncionarioRepository;
@@ -22,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -34,6 +30,8 @@ public class FuncionarioService {
     private FuncionarioDTOMapper mapper;
     @Autowired
     private FuncionarioDTOMapperList listMapper;
+    @Autowired
+    private FuncionarioExportDTOMapper exportMapper;
     @Autowired
     private IFuncionarioRepository repository;
     @Autowired
@@ -53,6 +51,14 @@ public class FuncionarioService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<FuncionarioDTOExport> findAllForExport() {
+        logger.info("Buscando todos os computadores para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     public PagedModel<EntityModel<FuncionarioDTO>> findFuncionarioBySetor(Pageable pageable, String idSetor) {

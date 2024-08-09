@@ -1,6 +1,8 @@
 package com.extensions.controller;
 
+import com.extensions.domain.dto.funcionario.FuncionarioDTOExport;
 import com.extensions.domain.dto.terminal.TerminalDTO;
+import com.extensions.domain.dto.terminal.TerminalDTOExport;
 import com.extensions.domain.dto.terminal.TerminalDTOSwagger;
 import com.extensions.domain.dto.terminal.TerminalUpdateDTO;
 import com.extensions.services.TerminalService;
@@ -59,6 +61,26 @@ public class TerminalController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "usuario"));
         return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @Operation(summary = "Buscando todos os terminais para exportação de dados", description = "Buscando todos os terminais para exportação de dados",
+            tags = {"Terminal"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = TerminalDTOExport.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            })
+    @GetMapping(value = "/export", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<TerminalDTOExport>> findAllForExport() {
+        return ResponseEntity.ok(service.findAllForExport());
     }
 
     @Operation(summary = "Buscando todos os terminais de um setor", description = "Buscando todos os terminais de um setor",

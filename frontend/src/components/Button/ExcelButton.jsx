@@ -4,7 +4,7 @@ import { api } from "../../services/api";
 import { getToken } from "../../utils/localstorage";
 import * as XLSX from "xlsx";
 
-export const ExcelButton = ({ endpoint }) => {
+export const ExcelButton = ({ endpoint, downloadName, sheetName }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
 
@@ -36,8 +36,8 @@ export const ExcelButton = ({ endpoint }) => {
 
       // Cria o arquivo Excel e o salva
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Computadores");
-      XLSX.writeFile(workbook, "computadores.xlsx");
+      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      XLSX.writeFile(workbook, `${downloadName}.xlsx`);
     } catch (error) {
       toast({
         title: error.response.data.errorMessage,

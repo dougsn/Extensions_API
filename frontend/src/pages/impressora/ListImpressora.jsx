@@ -38,6 +38,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListImpressora = () => {
   const [page, setPage] = useState(0);
@@ -140,7 +141,12 @@ export const ListImpressora = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/impressora/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/impressora/new"} />
+                <ExcelButton endpoint={"/impressora/v1/export"} downloadName={"impressoras"} sheetName={"Impressoras"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -152,7 +158,12 @@ export const ListImpressora = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/impressora/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/impressora/new"} />
+                <ExcelButton endpoint={"/impressora/v1/export"} downloadName={"impressoras"} sheetName={"Impressoras"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>

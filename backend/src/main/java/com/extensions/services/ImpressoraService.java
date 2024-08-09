@@ -1,10 +1,8 @@
 package com.extensions.services;
 
 import com.extensions.controller.ImpressoraController;
-import com.extensions.domain.dto.impressora.ImpressoraDTO;
-import com.extensions.domain.dto.impressora.ImpressoraDTOMapper;
-import com.extensions.domain.dto.impressora.ImpressoraDTOMapperList;
-import com.extensions.domain.dto.impressora.ImpressoraUpdateDTO;
+import com.extensions.domain.dto.funcionario.FuncionarioDTOExport;
+import com.extensions.domain.dto.impressora.*;
 import com.extensions.domain.entity.Impressora;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.IImpressoraRepository;
@@ -34,6 +32,8 @@ public class ImpressoraService {
     @Autowired
     private ImpressoraDTOMapperList listMapper;
     @Autowired
+    private ImpressoraDTOExportMapper exportMapper;
+    @Autowired
     private IImpressoraRepository repository;
     @Autowired
     private ISetorRepository setorRepository;
@@ -52,6 +52,14 @@ public class ImpressoraService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<ImpressoraDTOExport> findAllForExport() {
+        logger.info("Buscando todos as impressoras para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     public PagedModel<EntityModel<ImpressoraDTO>> findImpressoraBySetor(Pageable pageable, String idSetor) {

@@ -1,6 +1,7 @@
 package com.extensions.controller;
 
 import com.extensions.domain.dto.wifi.WifiDTO;
+import com.extensions.domain.dto.wifi.WifiDTOExport;
 import com.extensions.domain.dto.wifi.WifiDTOSwagger;
 import com.extensions.domain.dto.wifi.WifiUpdateDTO;
 import com.extensions.services.WifiService;
@@ -59,6 +60,26 @@ public class WifiController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "ip"));
         return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @Operation(summary = "Buscando todos os wifis para exportação de dados", description = "Buscando todos os wifis para exportação de dados",
+            tags = {"Wi-fi"},
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = WifiDTOExport.class)
+                                    )
+                            }),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+            })
+    @GetMapping(value = "/export", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<WifiDTOExport>> findAllForExport() {
+        return ResponseEntity.ok(service.findAllForExport());
     }
 
     @Operation(summary = "Buscando todos os wifi's de um setor", description = "Buscando todos os wifi's de um setor",

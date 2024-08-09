@@ -1,9 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.TerminalController;
-import com.extensions.domain.dto.terminal.TerminalDTO;
-import com.extensions.domain.dto.terminal.TerminalDTOMapper;
-import com.extensions.domain.dto.terminal.TerminalUpdateDTO;
+import com.extensions.domain.dto.terminal.*;
 import com.extensions.domain.entity.Setor;
 import com.extensions.domain.entity.Terminal;
 import com.extensions.repository.ISetorRepository;
@@ -31,6 +29,8 @@ public class TerminalService {
     @Autowired
     private TerminalDTOMapper mapper;
     @Autowired
+    private TerminalDTOExportMapper exportMapper;
+    @Autowired
     private ITerminalRepository repository;
     @Autowired
     private ISetorRepository setorRepository;
@@ -49,6 +49,15 @@ public class TerminalService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+
+    public List<TerminalDTOExport> findAllForExport() {
+        logger.info("Buscando todos os terminais para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     @Transactional(readOnly = true)

@@ -37,6 +37,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListTerminal = () => {
   const [page, setPage] = useState(0);
@@ -131,7 +132,12 @@ export const ListTerminal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/terminal/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/terminal/new"} />
+                <ExcelButton endpoint={"/terminal/v1/export"} downloadName={"terminais"} sheetName={"Terminais"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -143,7 +149,12 @@ export const ListTerminal = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/terminal/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/terminal/new"} />
+                <ExcelButton endpoint={"/terminal/v1/export"} downloadName={"terminais"} sheetName={"Terminais"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>

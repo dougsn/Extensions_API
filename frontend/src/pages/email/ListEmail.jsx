@@ -38,6 +38,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListEmail = () => {
   const [page, setPage] = useState(0);
@@ -140,7 +141,12 @@ export const ListEmail = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/email/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/email/new"} />
+                <ExcelButton endpoint={"/email/v1/export"} downloadName={"emails"} sheetName={"E-mails"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -152,7 +158,12 @@ export const ListEmail = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/email/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/email/new"} />
+                <ExcelButton endpoint={"/email/v1/export"} downloadName={"emails"} sheetName={"E-mails"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>

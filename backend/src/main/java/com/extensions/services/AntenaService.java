@@ -1,10 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.AntenaController;
-import com.extensions.domain.dto.antena.AntenaDTO;
-import com.extensions.domain.dto.antena.AntenaDTOMapper;
-import com.extensions.domain.dto.antena.AntenaDTOMapperList;
-import com.extensions.domain.dto.antena.AntenaUpdateDTO;
+import com.extensions.domain.dto.antena.*;
 import com.extensions.domain.entity.Antena;
 import com.extensions.domain.entity.Local;
 import com.extensions.domain.entity.Modelo;
@@ -38,6 +35,8 @@ public class AntenaService {
     @Autowired
     private AntenaDTOMapperList listMapper;
     @Autowired
+    private AntenaDTOExportMapper exportMapper;
+    @Autowired
     private IAntenaRepository repository;
     @Autowired
     private ILocalRepository localRepository;
@@ -60,6 +59,14 @@ public class AntenaService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<AntenaDTOExport> findAllForExport() {
+        logger.info("Buscando todos as antenas para exportação de dados.");
+        return repository.findAllOrderByNomeLocal()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     public PagedModel<EntityModel<AntenaDTO>> findAntenaByLocal(Pageable pageable, String idLocal) {

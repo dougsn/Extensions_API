@@ -38,6 +38,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListAntena = () => {
   const [page, setPage] = useState(0);
@@ -174,7 +175,12 @@ export const ListAntena = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/antena/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/antena/new"} />
+                <ExcelButton endpoint={"/antena/v1/export"} downloadName={"antenas"} sheetName={"Antenas"}/>
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -186,7 +192,14 @@ export const ListAntena = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/antena/new"} />}
+            ) && (
+              <>
+                <Flex gap={10}>
+                  <CreateButton endpoint={"/antena/new"} />
+                  <ExcelButton endpoint={"/antena/v1/export"} downloadName={"antenas"} sheetName={"Antenas"}/>
+                </Flex>
+              </>
+            )}
         </Flex>
       )}
 

@@ -1,5 +1,6 @@
 package com.extensions.repository;
 
+import com.extensions.domain.entity.Funcionario;
 import com.extensions.domain.entity.Impressora;
 import com.extensions.domain.entity.Setor;
 import org.springframework.data.domain.Page;
@@ -24,5 +25,8 @@ public interface IImpressoraRepository extends JpaRepository<Impressora, String>
 
     @Query(value = "SELECT * FROM impressoras i WHERE LOWER(i.marca) LIKE LOWER(CONCAT('%', :marca, '%'))", nativeQuery = true)
     List<Impressora> findImpressoraByMarca(@Param("marca") String marca);
+
+    @Query(value = "SELECT i.* FROM impressoras i JOIN setores s ON i.fk_id_setores = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Impressora> findAllOrderByNomeSetor();
 }
 
