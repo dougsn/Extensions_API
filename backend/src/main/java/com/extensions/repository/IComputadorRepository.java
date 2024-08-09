@@ -24,5 +24,9 @@ public interface IComputadorRepository extends JpaRepository<Computador, String>
 
     @Query(value = "SELECT * FROM computadores c WHERE LOWER(c.hostname) LIKE LOWER(CONCAT('%', :hostname, '%'))", nativeQuery = true)
     List<Computador> findComputadorByHostname(@Param("hostname") String hostname);
+
+//    @Query(value = "SELECT * FROM computadores c JOIN c.setor s ORDER BY s.nome ASC", nativeQuery = true)
+    @Query(value = "SELECT c.* FROM computadores c JOIN setores s ON c.fk_id_setores = s.id ORDER BY s.nome ASC", nativeQuery = true)
+    List<Computador> findAllOrderByNomeSetor();
 }
 

@@ -1,10 +1,7 @@
 package com.extensions.services;
 
 import com.extensions.controller.ComputadorController;
-import com.extensions.domain.dto.computador.ComputadorDTO;
-import com.extensions.domain.dto.computador.ComputadorDTOMapper;
-import com.extensions.domain.dto.computador.ComputadorDTOMapperList;
-import com.extensions.domain.dto.computador.ComputadorUpdateDTO;
+import com.extensions.domain.dto.computador.*;
 import com.extensions.domain.entity.Computador;
 import com.extensions.domain.entity.Setor;
 import com.extensions.repository.IComputadorRepository;
@@ -32,6 +29,8 @@ public class ComputadorService {
     @Autowired
     private ComputadorDTOMapper mapper;
     @Autowired
+    private ComputadorExportDTOMapper exportMapper;
+    @Autowired
     private ComputadorDTOMapperList listMapper;
     @Autowired
     private IComputadorRepository repository;
@@ -52,6 +51,14 @@ public class ComputadorService {
                 .findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
 
         return assembler.toModel(dtoList, link);
+    }
+
+    public List<ComputadorDTOExport> findAllForExport() {
+        logger.info("Buscando todos os computadores para exportação de dados.");
+        return repository.findAllOrderByNomeSetor()
+                .stream()
+                .map(exportMapper)
+                .toList();
     }
 
     public PagedModel<EntityModel<ComputadorDTO>> findComputadorBySetor(Pageable pageable, String idSetor) {
