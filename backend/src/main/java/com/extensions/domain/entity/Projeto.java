@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name = "projeto")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,9 +20,9 @@ public class Projeto implements Serializable {
     @Column(name = "updated_by")
     private String updatedBy;
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_id_status")
@@ -30,7 +31,7 @@ public class Projeto implements Serializable {
     public Projeto() {
     }
 
-    public Projeto(String id, String nome, String descricao, String createdBy, String updatedBy, LocalDate createdAt, LocalDate updatedAt, Status status) {
+    public Projeto(String id, String nome, String descricao, String createdBy, String updatedBy, LocalDateTime createdAt, LocalDateTime updatedAt, Status status) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -81,19 +82,19 @@ public class Projeto implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

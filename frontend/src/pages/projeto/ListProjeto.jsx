@@ -356,6 +356,18 @@ export const ListProjeto = () => {
                             endpoint={`/projeto/update/${projetoMap.id}`}
                           />
                         )}
+                        {Object.keys(userData).length != 0 &&
+                        userData &&
+                        userData.permissions &&
+                        userData.permissions.some(
+                          (p) =>
+                            p.description === "ADMIN" ||
+                            p.description === "MANAGER"
+                        ) && (
+                          <DeleteButton
+                            endpoint={`/projeto/delete/${projetoMap.id}`}
+                          />
+                        )}
                     </HStack>
                   </Td>
                 </Tr>

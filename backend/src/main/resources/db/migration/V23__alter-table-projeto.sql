@@ -1,0 +1,3 @@
+ALTER TABLE projeto
+MODIFY created_at DATETIME,
+MODIFY updated_at DATETIME;

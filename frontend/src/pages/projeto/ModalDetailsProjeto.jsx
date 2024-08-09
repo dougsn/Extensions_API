@@ -15,6 +15,8 @@ import {
   AlertTitle,
   AlertDescription,
   Badge,
+  ModalCloseButton,
+  Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -166,6 +168,22 @@ export const ModalDetailsProjeto = () => {
                       label="Descrição"
                       {...register("descricao")}
                     />
+                    <Text>
+                      Criado em:{" "}
+                      <b>
+                        {projeto.criado_as} por {projeto.criado_por}
+                      </b>
+                    </Text>
+                    {projeto.atualizado_as && projeto.atualizado_por ? (
+                      <Text>
+                        Atualizado em:{" "}
+                        <b>
+                          {projeto.atualizado_as} por {projeto.atualizado_por}
+                        </b>
+                      </Text>
+                    ) : (
+                      <></>
+                    )}
                   </VStack>
                 </ModalBody>
 

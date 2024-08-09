@@ -15,6 +15,10 @@ public class ProjetoDTOMapper implements Function<Projeto, ProjetoDTO> {
                 projeto.getId(),
                 projeto.getNome(),
                 projeto.getDescricao(),
+                projeto.getCreatedBy(),
+                projeto.getCreatedAt(),
+                projeto.getUpdatedBy(),
+                projeto.getUpdatedAt(),
                 projeto.getStatus().getId(),
                 projeto.getStatus().getNome()
         );

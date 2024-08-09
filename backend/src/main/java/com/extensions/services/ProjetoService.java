@@ -21,7 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -96,7 +96,7 @@ public class ProjetoService {
                 .orElseThrow(() -> new ObjectNotFoundException("Status de ID: " + data.getIdStatus() + " não encontrado."));
 
         Projeto newProjeto = repository.save(new Projeto(null, data.getNome(), data.getDescricao(),
-                usuarioLogado.getUsername(), null, LocalDate.now(), null, status));
+                usuarioLogado.getUsername(), null, LocalDateTime.now(), null, status));
 
         return mapper.apply(newProjeto)
                 .add(linkTo(methodOn(ProjetoController.class).findById(newProjeto.getId())).withSelfRel());
@@ -114,7 +114,7 @@ public class ProjetoService {
                 .orElseThrow(() -> new ObjectNotFoundException("Projeto de ID: " + data.getId() + " não encontrado."));
 
         Projeto updatedProjeto = new Projeto(data.getId(), data.getNome(), data.getDescricao(),
-                projetoExisting.getCreatedBy(), usuarioLogado.getUsername(), projetoExisting.getCreatedAt(), LocalDate.now(),
+                projetoExisting.getCreatedBy(), usuarioLogado.getUsername(), projetoExisting.getCreatedAt(), LocalDateTime.now(),
                 status);
 
         return mapper.apply(repository.save(updatedProjeto))
