@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 import {
   Box,
@@ -38,6 +39,7 @@ import { getToken } from "../../utils/localstorage";
 import { CreateButton } from "../../components/Button/CreateButton";
 import { UpdateButton } from "../../components/Button/UpdateButton";
 import { DeleteButton } from "../../components/Button/DeleteButton";
+import { ExcelButton } from "../../components/Button/ExcelButton";
 
 export const ListComputador = () => {
   const [page, setPage] = useState(0);
@@ -79,6 +81,7 @@ export const ListComputador = () => {
       return null;
     }
   };
+
   const getSetor = async () => {
     try {
       const request = await api.get(`/setor/v1/all`, {});
@@ -94,6 +97,7 @@ export const ListComputador = () => {
       return null;
     }
   };
+
   const handleSelectChange = (newEntity) => {
     handleSelectIsLoading(true);
     setComputador(newEntity._embedded.computadorDTOList);
@@ -118,7 +122,6 @@ export const ListComputador = () => {
   const handleSelectIsLoading = (loading) => {
     setIsLoading(loading);
   };
-
   useEffect(() => {
     getComputador();
     getSetor();
@@ -140,7 +143,12 @@ export const ListComputador = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/computador/new"} />}
+            ) && (
+              <>
+                <CreateButton endpoint={"/computador/new"} />
+                <ExcelButton endpoint={"/computador/v1/export"} />
+              </>
+            )}
         </Flex>
       ) : (
         <Flex mb="8" justify="space-between" align="center">
@@ -152,7 +160,12 @@ export const ListComputador = () => {
             userData.permissions &&
             userData.permissions.some(
               (p) => p.description === "ADMIN" || p.description === "MANAGER"
-            ) && <CreateButton endpoint={"/computador/new"} />}
+            ) && (
+              <Flex gap={10}>
+                <CreateButton endpoint={"/computador/new"} />
+                <ExcelButton endpoint={"/computador/v1/export"} />
+              </Flex>
+            )}
         </Flex>
       )}
       <Flex mb="8" justify="space-between" align="center" gap={50}>
